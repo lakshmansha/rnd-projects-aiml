@@ -3,7 +3,7 @@
 Date: 2026-10-10 · Location: `D:\Research\Source\rnd-projects-aiml` · Git: local repo, one commit per project.
 
 ## What this is
-A collection of 15 small Streamlit apps for YouTube demos on AI/ML. Each is a single `app.py` (project 02 also has `engine.py`, project 07 has `model.py`). Shared code is in `common/llm.py`.
+A collection of 16 small Streamlit apps for YouTube demos on AI/ML. Each is a single `app.py` (project 02 also has `engine.py`, project 07 has `model.py`). Shared code is in `common/llm.py`.
 
 ## How to run
 ```
@@ -32,6 +32,7 @@ Port = 8500 + project number.
 | 13 | Clustering Lab: K-means step-by-step + 4 algorithms x 5 datasets | classic ML | none |
 | 14 | Explainable Text AI: TF-IDF classifier highlighting the words behind each decision | classic ML | none |
 | 15 | Prompt Gym: 6 prompt-writing levels graded by Python checkers | LLM game | 1 call/attempt |
+| 16 | CNN X-ray: MobileNetV2 top-5 + Grad-CAM heatmap (sample/upload/webcam) | deep learning | none |
 
 Also: `hub/app.py` (landing page linking everything), `run_all.py`, `README.md`.
 
@@ -50,9 +51,6 @@ Also: `hub/app.py` (landing page linking everything), `run_all.py`, `README.md`.
 - 10: the Zig-zag level is hard and unsolved on some seeds (by design; the UI suggests more generations).
 - 02: GPT-4o is robust, so only level 1 (and sometimes 2) leaks. The red-team grid is mostly green, which is an honest result.
 - Nothing has been screen-recorded or run through a full manual click-through except 06.
-
-## In progress (not committed)
-`16-cnn-xray/`: upload a photo -> MobileNetV2 (ImageNet) top-5 + Grad-CAM heatmap. `torchvision` (CPU) and the weights download were started; only `samples/dog.jpg` may exist. No `app.py` yet.
 
 ## What we can do next
 1. **Finish 16 CNN X-ray** (Grad-CAM + webcam via `st.camera_input`).
