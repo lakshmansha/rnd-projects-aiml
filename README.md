@@ -22,6 +22,9 @@ Embeddings are computed locally with hashing n-grams (no embedding deployment re
 | 14 | `14-explainable-text-ai` | A TF-IDF classifier that highlights which words drove its decision (downloads 20 newsgroups once; no API calls) |
 
 ## Run
+Easiest: `python run_all.py` starts every app (ports 8501-8514) plus a hub page at http://localhost:8500. `python run_all.py 4 6` starts only those projects.
+
+Or one at a time:
 ```
 pip install -r requirements.txt
 pip install torch --index-url https://download.pytorch.org/whl/cpu   # only for 07
