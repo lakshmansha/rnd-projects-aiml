@@ -13,6 +13,7 @@ Embeddings are computed locally with hashing n-grams (no embedding deployment re
 | 5 | `05-spot-the-hallucination` | Game: GPT hides one subtle lie among 5 facts; can you spot it? |
 | 6 | `06-digit-classifier` | Draw a digit on a canvas; SVM, neural net, random forest and k-NN (trained live on sklearn digits) vote - no API calls |
 | 7 | `07-tiny-gpt` | Train a real transformer (0.8M params, PyTorch CPU) from scratch and watch gibberish turn into Shakespeare-ish text |
+| 8 | `08-twenty-questions` | AI 20 Questions: guess GPT's secret, or GPT tries to read your mind |
 
 ## Run
 ```
@@ -25,4 +26,5 @@ streamlit run 04-neural-playground/app.py
 streamlit run 05-spot-the-hallucination/app.py
 streamlit run 06-digit-classifier/app.py
 streamlit run 07-tiny-gpt/app.py
+streamlit run 08-twenty-questions/app.py
 ```
