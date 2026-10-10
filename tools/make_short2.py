@@ -12,6 +12,9 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import re
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import brand
 
 ROOT = Path(__file__).resolve().parent.parent
 VOICE_NAME = "en-US-AndrewNeural"
@@ -84,6 +87,9 @@ def main(num):
     tmp.mkdir(parents=True, exist_ok=True)
     voice_text = getattr(rec, "VOICE2", rec.VOICE)
     caps = getattr(rec, "CAPTIONS2", rec.CAPTIONS)
+    # the spoken follow call now lives only on the end card: drop it from the main clip
+    voice_text = re.sub(r"\s*(Built with Claude Code\.\s*)?Follow for more[^.]*\.?\s*$", "", voice_text.strip()).strip()
+    caps = [c for c in caps if "ollow" not in c[2]]
 
     meta = out / "raw.json"
     if meta.exists():
@@ -113,29 +119,33 @@ def main(num):
         "-vf", ",".join(filt), "-map", "0:v", "-map", "1:a", "-t", f"{dv + 0.4:.2f}", "-r", "30", "-c:v", "libx264",
         "-pix_fmt", "yuv420p", "-crf", "20", "-c:a", "aac", "-ar", "44100", "-ac", "2", str(main))
 
-    def card(path, lines, dur, audio=None):
-        """lines: [(text, fontsize, color, y_fraction)]"""
-        vf = []
-        for i, (text, size, color, y) in enumerate(lines):
-            tf = textfile(tmp / f"{path.stem}_{i}.txt", text)
-            vf.append(f"drawtext=fontfile='{FONT}':textfile='{tf}':fontsize={size}:fontcolor={color}:line_spacing=18:text_align=center:x=(w-text_w)/2:y=h*{y}")
-        vf.append(f"drawbox=x=(iw-760)/2:y=ih*0.40:w=760*min(t/0.6\\,1):h=10:color=0x39d98a:t=fill")
-        cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i", f"color=c=0x0b1020:s=1080x1920:r=30:d={dur}"]
-        cmd += ["-i", str(audio)] if audio else ["-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo"]
-        cmd += ["-vf", ",".join(vf), "-map", "0:v", "-map", "1:a", "-t", str(dur), "-c:v", "libx264", "-pix_fmt", "yuv420p",
-                "-c:a", "aac", "-ar", "44100", "-ac", "2", str(path)]
-        run(*cmd)
-
+    assets = ROOT / "content/_assets"
+    intro_base, outro, zap = assets / "intro_base.mp4", assets / "outro.mp4", assets / "zap.wav"
+    if not intro_base.exists():
+        brand.zap_wav(zap)
+        mixed = assets / "intro_audio.wav"
+        run("ffmpeg", "-y", "-loglevel", "error", "-i", str(zap), "-i", str(brand_mp3), "-filter_complex",
+            "[1:a]adelay=800|800,volume=1.4[v];[0:a][v]amix=inputs=2:normalize=0,aresample=44100[a]", "-map", "[a]", str(mixed))
+        brand.render(lambda i, n: brand.intro_frame(i, n, ["AI/ML builds", "in 30 seconds"], ""), 72, mixed, intro_base)
+    if not outro.exists():
+        cta = assets / "cta.mp3"
+        tts("Follow Watch It Learn for a new AI build every day.", cta)
+        n = int((probe(cta) + 0.7) * 30)
+        lines = [("Follow for daily", 72, brand.GREEN), ("AI builds", 72, brand.GREEN), ("New project every day", 46, (170, 190, 220))]
+        run("ffmpeg", "-y", "-loglevel", "error", "-i", str(cta), "-af", "adelay=300|300,apad", "-t", f"{n / 30:.2f}", str(assets / "cta.wav"))
+        brand.render(lambda i, n: brand.outro_frame(i, n, lines), n, assets / "cta.wav", outro)
     num_i = int(d.name[:2]) if d.name[:2].isdigit() else 0
     pretty = NAMES.get(num_i, d.name[3:].replace("-", " ").title())
-    intro, outro = tmp / "seg_intro.mp4", tmp / "seg_outro.mp4"
-    card(intro, [("WATCH IT|LEARN", 150, "white", 0.14), (TAGLINE.replace(" in", "|in"), 52, "0x9fb3d1", 0.44),
-                 (f"#{num_i:02d} {pretty}", 48, "0x39d98a", 0.60)], round(db + 0.6, 2), brand_mp3)
-    card(outro, [("WATCH IT|LEARN", 130, "white", 0.14), (END_LINE.replace(" AI", "|AI"), 60, "0x39d98a", 0.44),
-                 ("New project every day", 44, "0x9fb3d1", 0.60)], 2.2)
+    intro = tmp / "seg_intro.mp4"
+    tf = textfile(tmp / "tag.txt", f"#{num_i:02d} {pretty}")
+    run("ffmpeg", "-y", "-loglevel", "error", "-i", str(intro_base), "-vf",
+        f"drawtext=fontfile='{FONT}':textfile='{tf}':fontsize=54:fontcolor=0x39d98a:x=(w-text_w)/2:y=h*0.745:enable='gte(t,1.2)'",
+        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-c:a", "copy", str(intro))
+    outro_seg = tmp / "seg_outro.mp4"
+    run("ffmpeg", "-y", "-loglevel", "error", "-i", str(outro), "-c", "copy", str(outro_seg))
 
     lst = tmp / "concat.txt"
-    lst.write_text("".join(f"file '{p.name}'\n" for p in (intro, main, outro)))
+    lst.write_text("".join(f"file '{p.name}'" + chr(10) for p in (intro, main, outro_seg)))
     final = out / "short_v2.mp4"
     run("ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(final))
     print("wrote", final, f"{probe(final):.1f}s")
