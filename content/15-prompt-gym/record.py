@@ -9,6 +9,16 @@ VOICE = ("Can you make GPT reply with exactly ten words? Harder than it sounds. 
 CAPTIONS = [(0, 3.5, "EXACTLY|10 WORDS?"), (3.5, 11, "You prompt.|Python grades."),
             (11, 19, "Checker shows|the real word count"), (19, 27, "Specific prompt|= better odds"),
             (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Can you make GPT reply with exactly ten words? Harder than it sounds. "
+          "Level four: summarise a news item in exactly ten words. "
+          "First I write a lazy prompt, and Python counts the real words: twenty-one, so I fail. "
+          "No vibes, just pass or fail. "
+          "Then I make the prompt specific. "
+          "Now it passes, and I clear the level with two stars. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3.5, "EXACTLY|10 WORDS?"), (3.5, 8.5, "Level 4:|exact length"),
+             (9, 15, "Python counts|21 words, not 10"), (15.5, 19.5, "Specific prompt"),
+             (24, 40, "Follow for more AI/ML builds")]
 
 
 def actions(page, T):

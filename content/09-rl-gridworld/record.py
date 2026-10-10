@@ -9,6 +9,13 @@ VOICE = ("Two AI agents walk along a cliff. Only one learns to play it safe. "
 CAPTIONS = [(0, 3.5, "Which AI survives|the cliff?"), (3.5, 11, "No rules given.|Just trial and error."),
             (11, 16, "Q-learning: shortest path,|keeps falling"), (16, 21, "SARSA:|the safe route"),
             (21, 27, "Safe beats short"), (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Two AI agents walk along a cliff. Only one learns to play it safe. "
+          "I built this with Claude Code. Both start knowing nothing. "
+          "After a thousand episodes, SARSA takes the safe route along the top, far from the cliff. "
+          "Q-learning learns the shortest path right along the edge, so it keeps falling in while it explores. "
+          "Safe beats short. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3.5, "Which AI survives|the cliff?"), (4, 9.5, "Trial and error"), (10, 17, "SARSA: the safe route"), (17.5, 20.3, "Q-learning: shortest,|but risky"), (20.3, 40, "Follow for more AI/ML builds")]
 
 
 def _slider(page, key, n=1):

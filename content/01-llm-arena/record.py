@@ -8,6 +8,14 @@ VOICE = ("Which prompt style wins, pirate or expert? This is Prompt Arena. Same 
 CAPTIONS = [(0, 3.5, "Pirate vs Expert:|who wins?"), (3.5, 11, "Same model.|Different prompt style."),
             (11, 19, "Judge runs TWICE,|order swapped"), (19, 27, "Elo: +16 for a win|vs an equal"),
             (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Pirate or expert, which prompt style wins? Same model, two prompting styles. "
+          "Each battle is two answers plus two judge calls. I pick Pirate against Expert and press Fight. "
+          "A judge scores both answers twice, with the order swapped, so position bias cancels out. "
+          "Expert wins, but Elo moves the ratings only about fifteen points, so rankings need many battles. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3.3, "Pirate vs Expert"), (3.3, 9, "Same model,|two prompt styles"),
+             (9.3, 19, "Judge runs TWICE,|order swapped"), (19.5, 22, "Expert wins"),
+             (22, 24.5, "Elo: only ~15 points"), (26, 40, "Follow for more AI/ML builds")]
 
 
 def actions(page, T):

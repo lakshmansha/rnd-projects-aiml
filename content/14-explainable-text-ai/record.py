@@ -7,6 +7,14 @@ VOICE = ("Most AI can't tell you why it decided. This one highlights the exact w
 CAPTIONS = [(0, 3, "WHY did the AI|decide that?"), (3, 11, "Green = pushes|toward the answer"),
             (11, 19, "Red = pulls toward|the runner-up"), (19, 27, "84.8% accuracy|on unseen posts"),
             (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Most AI can't tell you why it decided. This one highlights the exact words. "
+          "A NASA sentence comes out as Space, and the green words push it there. "
+          "Now a trick sentence: rocket engine, hockey puck. It says Hockey, fifty-three percent. "
+          "Red words pull toward the runner-up, Cars, so I can watch it argue with itself. "
+          "Every word gets a score. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3.5, "WHY did the AI|decide that?"), (6, 10.5, "Green = pushes|toward the answer"),
+             (15.5, 18.5, "Red = pulls toward|the runner-up"), (25, 40, "Follow for more AI/ML builds")]
 
 
 def prepare(page):

@@ -9,6 +9,14 @@ VOICE = ("Two AIs argue about pineapple on pizza, and a third one judges. "
 CAPTIONS = [(0, 3.5, "AI vs AI:|pineapple on pizza"), (3.5, 10, "Pro vs Con,|60 words max"),
             (10, 19, "Judge scores|5 criteria"), (19, 27, "Did they change|YOUR mind?"),
             (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Two AIs argue about pineapple on pizza, and a third one judges. "
+          "First I rate how much I agree with the motion. "
+          "Then I hit start, and a pro bot and a con bot trade arguments. "
+          "The judge picks Pro, forty to thirty-five, and a radar chart shows why. "
+          "Then I rate my opinion again. Did the bots move me? Yes, by three points. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 4, "AI vs AI:|pineapple on pizza"), (4.2, 8, "Step 1:|rate your view"),
+             (8, 13.4, "Pro bot vs Con bot"), (25, 40, "Follow for more AI/ML builds")]
 
 
 def actions(page, T):

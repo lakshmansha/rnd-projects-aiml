@@ -72,6 +72,8 @@ def main(num):
         vid = Path(page.video.path())
         c.close()
         b.close()
+    import json
+    (out / "raw.json").write_text(json.dumps({"file": str(vid), "offset": offset}))
 
     filt = ["scale=1080:1920:flags=lanczos"]
     for i, (t0, t1, text) in enumerate(rec.CAPTIONS):

@@ -8,6 +8,13 @@ VOICE = ("This GPT starts out knowing nothing. Watch what it learns. "
 CAPTIONS = [(0, 3.5, "A GPT that|knows NOTHING"), (3.5, 11, "818,176 parameters"),
             (11, 19, "Gibberish -> words|-> a play"), (19, 27, "Just predicts the|next character"),
             (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("This GPT starts out knowing nothing. Watch what it learns. "
+          "I built it with Claude Code: a real transformer, 818 thousand parameters, trained on my CPU. "
+          "Step one is pure gibberish. "
+          "Then, as the loss falls from four point four to two, letters become words, and then something shaped like a play. "
+          "It only ever predicts the next character. Everything else emerges from that. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3.5, "A GPT that|knows NOTHING"), (3.5, 6, "818,176 parameters"), (21.5, 24, "Just predicts the|next character"), (24.4, 40, "Follow for more AI/ML builds")]
 SB = "[data-testid=stSidebar]"
 
 

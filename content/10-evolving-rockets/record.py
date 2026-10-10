@@ -8,6 +8,13 @@ VOICE = ("Generation one: a hundred rockets, and ninety-nine crash. "
 CAPTIONS = [(0, 3.5, "99 of 100 crash"), (3.5, 11, "DNA = a list of thrusts"),
             (11, 18, "Gen 6: first rocket|arrives"), (18, 27, "Nobody programmed|the route"),
             (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Generation one: a hundred rockets, and none reach the target. "
+          "I built this with Claude Code. Each rocket's DNA is a list of random thrusts, and the best ones breed. "
+          "Scrub forward, and by generation six, one rocket slips through the gap and hits the target. "
+          "Nobody programmed that route. "
+          "By generation eighty, seventy-eight of a hundred make it. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3.5, "Gen 1: none arrive"), (10.5, 14, "Gen 6: first arrival"), (19, 23, "Gen 80: 78/100 arrive"), (21.2, 40, "Follow for more AI/ML builds")]
 
 
 def _slider(page):

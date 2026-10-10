@@ -7,6 +7,14 @@ VOICE = ("Can a tiny network untangle this spiral? "
 CAPTIONS = [(0, 3, "Untangle the spiral"), (3, 11, "Backprop from scratch,|~30 lines of numpy"),
             (11, 19, "8,8 -> 98 pct|2 -> 57 pct"), (19, 27, "Capacity decides|what it can learn"),
             (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Can a tiny network untangle a spiral? A network I wrote from scratch in numpy, two hidden layers of eight. "
+          "I press Train and the boundary wraps around the spiral, with accuracy hitting ninety-eight percent. "
+          "Now I shrink it to just two neurons and train again with the same settings. "
+          "Accuracy stalls at fifty-seven percent, barely better than a coin flip, and the boundary stays almost straight. "
+          "Too little capacity, and training can't fix it. Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3, "Untangle the spiral"), (3, 9.5, "From scratch|in numpy"),
+             (9.5, 12, "98% accuracy"), (12, 19.5, "Shrink to 2 neurons"),
+             (19.5, 26, "57%: too little capacity"), (27, 40, "Follow for more AI/ML builds")]
 
 
 def _open_sidebar(page):

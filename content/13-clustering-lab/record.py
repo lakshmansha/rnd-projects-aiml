@@ -8,6 +8,15 @@ VOICE = ("Same data. Four algorithms. Only one gets it right. "
 CAPTIONS = [(0, 3, "SAME DATA.|4 ALGORITHMS."), (3, 11, "K-means:|assign, move, repeat"),
             (11, 15, "K-means cuts|the moons in half"), (15, 20, "DBSCAN gets it"),
             (20, 27, "Every algorithm|assumes a shape"), (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Same data. Four algorithms. Only one gets it right. "
+          "Drag the slider through K-means: points join the nearest cross, then the crosses move to the middle. It settles fast. "
+          "Now the showdown. "
+          "On the moons and circles, K-means slices the shapes in half. "
+          "DBSCAN follows the density and nails both. "
+          "No algorithm wins everywhere, only the right one for your data. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3, "SAME DATA.|4 ALGORITHMS."), (12.5, 16.5, "K-means cuts|the moons in half"),
+             (16.5, 19.5, "DBSCAN follows|density"), (24, 40, "Follow for more AI/ML builds")]
 
 
 def prepare(page):

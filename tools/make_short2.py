@@ -119,7 +119,7 @@ def main(num):
         for i, (text, size, color, y) in enumerate(lines):
             tf = textfile(tmp / f"{path.stem}_{i}.txt", text)
             vf.append(f"drawtext=fontfile='{FONT}':textfile='{tf}':fontsize={size}:fontcolor={color}:line_spacing=18:text_align=center:x=(w-text_w)/2:y=h*{y}")
-        vf.append(f"drawbox=x=(iw-760)/2:y=ih*0.40:w=760*min(t/0.6\,1):h=10:color=0x39d98a:t=fill")
+        vf.append(f"drawbox=x=(iw-760)/2:y=ih*0.40:w=760*min(t/0.6\\,1):h=10:color=0x39d98a:t=fill")
         cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i", f"color=c=0x0b1020:s=1080x1920:r=30:d={dur}"]
         cmd += ["-i", str(audio)] if audio else ["-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo"]
         cmd += ["-vf", ",".join(vf), "-map", "0:v", "-map", "1:a", "-t", str(dur), "-c:v", "libx264", "-pix_fmt", "yuv420p",

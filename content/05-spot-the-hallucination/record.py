@@ -7,6 +7,14 @@ VOICE = ("Can you spot the one lie an AI slipped in? GPT writes five short facts
 CAPTIONS = [(0, 3.5, "1 of these 5|is an AI LIE"), (3.5, 11, "GPT: 4 true,|1 subtly false"),
             (11, 19, "Which one is fake?"), (19, 27, "Confident != correct"),
             (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Can you spot the one lie an AI slipped in? GPT writes five short facts: four true, one subtly false. "
+          "I pick Space, then deal a new round. Five fresh statements about space. "
+          "Which one is fake? Sixty thousand spins a minute sounds off, so I pick it. "
+          "Caught it! The truth is thousands, not sixty thousand. "
+          "Models state falsehoods as confidently as facts, so always check the number. Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3.5, "1 of these 5|is an AI LIE"), (3.5, 9.5, "4 true,|1 subtly false"),
+             (10, 12.5, "Which one is fake?"), (13.5, 22, "Caught it!"),
+             (22, 40, "Confident != correct")]
 
 
 def prepare(page):

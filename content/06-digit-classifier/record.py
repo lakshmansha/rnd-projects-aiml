@@ -9,6 +9,13 @@ VOICE = ("Four AI models just voted on my handwriting. "
 CAPTIONS = [(0, 3, "4 models. 1 digit.|Vote."), (3, 11, "Trained live on|1,797 images"),
             (11, 19, "What the models see: 8x8"), (19, 27, "~98-99% on unseen data"),
             (27, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("Four AI models are about to vote on my handwriting. "
+          "Built with Claude Code: four models, tiny eight by eight digit images, and 98 to 99.8 percent on unseen test data. "
+          "Now I draw a seven. "
+          "The app shrinks it to eight by eight pixels, and that blur is all they see. "
+          "Three vote seven, the neural net says five. The majority wins. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3, "4 models. 1 digit.|Vote."), (11, 14.5, "Draw a 7"), (15, 19.5, "Models see 8x8 pixels"), (20, 23, "Majority wins"), (21.7, 40, "Follow for more AI/ML builds")]
 
 
 def prepare(page):

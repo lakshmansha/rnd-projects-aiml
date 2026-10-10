@@ -7,6 +7,14 @@ VOICE = ("This map shows how an AI understands meaning. "
 CAPTIONS = [(0, 3.5, "How AI sees meaning"), (3.5, 8, "60 sentences,|6 topics, 1 map"),
             (8, 15, "Ask: why does|bread rise?"), (15, 24, "Nearest neighbours|-> RAG answer"),
             (24, 40, "Follow for more AI/ML builds")]
+VOICE2 = ("This map shows how an AI understands meaning. Sixty sentences on six topics, each turned into a vector. "
+          "Now I ask: why does bread rise? A gold star lands on the map, with dotted lines to the closest sentences. "
+          "The best match is a sourdough sentence. "
+          "Feed those neighbours to the model and it answers from them: wild yeast and lactic acid bacteria. That's RAG. "
+          "Follow for more AI and ML builds.")
+CAPTIONS2 = [(0, 3.5, "How AI sees meaning"), (3.5, 8, "60 sentences,|6 topics"),
+             (8, 14, "Ask: why does|bread rise?"), (15, 17.5, "Top match: sourdough"),
+             (24, 40, "Follow for more AI/ML builds")]
 
 
 def prepare(page):
