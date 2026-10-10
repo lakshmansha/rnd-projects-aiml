@@ -30,5 +30,4 @@ def actions(page, T):
     T.at(17)
     T.scroll(300)
     T.at(19)
-    page.get_by_role("button", name="Open sidebar").click() if page.get_by_test_id("stExpandSidebarButton").count() else None
     T.at(27)

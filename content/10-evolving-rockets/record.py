@@ -30,11 +30,13 @@ def actions(page, T):
     for _ in range(5):             # 1 -> 6
         page.keyboard.press("ArrowRight")
         page.wait_for_timeout(500)
-    T.at(15)
-    page.keyboard.press("PageUp") if False else None
-    for _ in range(74):            # 6 -> 80
+    T.at(17)
+    for _ in range(6):             # 6 -> 12, then jump to the last generation
         page.keyboard.press("ArrowRight")
-        page.wait_for_timeout(120)
+        page.wait_for_timeout(300)
     T.at(22)
+    page.keyboard.press("End")     # generation 80
+    page.wait_for_timeout(800)
+    T.at(24)
     T.scroll(500)
-    T.at(26)
+    T.at(28)

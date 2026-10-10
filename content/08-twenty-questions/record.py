@@ -3,17 +3,17 @@ import time
 
 PORT = 8508
 VOICE = ("Can an AI read your mind in twenty questions? "
-         "I built this with Claude Code. I switch the sidebar to GPT guesses your secret, think of something, "
-         "and just answer Yes, No or Sometimes. "
-         "Watch the progress bar count down. Each question tries to split the possibilities in half, like a binary search. "
-         "Then it makes a guess, and I press Correct or Nope. The other mode flips it, and you grill GPT about its secret. "
+         "I built this with Claude Code. I think of something, and GPT asks the questions. "
+         "I just answer Yes, No or Sometimes. "
+         "Watch the counter drop from twenty. Each question tries to cut the possibilities in half, like a binary search. "
+         "There is also a reverse mode, where you grill GPT about its secret. "
          "Follow for more AI and ML builds.")
 CAPTIONS = [(0, 3, "Think of anything.|Can GPT read your mind?"), (3, 11, "Answer: Yes / No / Sometimes"),
-            (11, 19, "20 questions left,|counting down"), (19, 27, "Then it makes a guess"),
-            (27, 40, "Follow for more AI/ML builds")]
+            (11, 19, "20 questions left,|counting down"), (19, 26, "Each question halves|the options"),
+            (26, 40, "Follow for more AI/ML builds")]
 
 # my secret is an umbrella; answer GPT's questions with simple keyword rules
-RULES = [(r"living|alive|animal|breath|eat|edible|food|electr|battery|plug|screen|digital|vehicle|kitchen|bedroom|furniture|bigger than|larger|heavy|person|place|city", "No"),
+RULES = [(r"living|alive|animal|vehicle|transport|wheel|microwave|breath|eat|edible|food|electr|battery|plug|screen|digital|vehicle|kitchen|bedroom|furniture|bigger than|larger|heavy|person|place|city", "No"),
          (r"weather|rain|sun|protect|hand|carry|portable|household|everyday|outdoor|outside|fold|fabric|cover|wear|tool|common|use|object|man-made", "Yes")]
 
 
@@ -40,22 +40,14 @@ def actions(page, T):
     T.at(3)
     page.get_by_text("Start game").click()
     page.wait_for_selector("button:has-text('Yes'), button:has-text('Correct')", timeout=40000)
-    for _ in range(8):
-        if page.get_by_text("Correct!").count():
-            break
+    for _ in range(4):
         msgs = page.locator("[data-testid=stChatMessage]")
-        q = msgs.last.inner_text()
-        print("Q:", q.replace("\n", " "), flush=True)
+        q = [t for t in msgs.all_inner_texts() if t.split()[-1] not in ("Yes", "No", "Sometimes") or len(t.split()) > 3][-1]
+        print("Q:", q.replace(chr(10), " "), flush=True)
         T.at(min(time.time() - T.t0 + 1.5, 26))
-        a = answer(q)
-        page.get_by_role("button", name=a, exact=True).click()
+        page.get_by_role("button", name=answer(q), exact=True).click()
         page.wait_for_selector("button:has-text('Yes'), button:has-text('Correct')", timeout=40000)
         page.wait_for_timeout(500)
-        if time.time() - T.t0 > 24:
+        if page.get_by_text("Correct!").count():
             break
-    if page.get_by_text("Correct!").count():
-        print("GUESS:", page.locator("[data-testid=stChatMessage]").last.inner_text().replace("\n", " "), flush=True)
-        T.at(min(time.time() - T.t0 + 1.5, 26))
-        page.get_by_text("Correct!").first.click() if "umbrella" in page.locator("[data-testid=stChatMessage]").last.inner_text().lower() else page.get_by_text("Nope").first.click()
-        page.wait_for_timeout(2000)
-    T.at(28)
+    T.at(26.5)

@@ -7,3 +7,4 @@
 - **Docker/Ollama:** not needed; all non-LLM apps are free, so LLM-app recordings use a handful of Azure calls.
 - Sample images for project 16 are Wikimedia Commons (500px thumbnails; fetch needs a User-Agent).
 - SARSA/Q-learning numbers: the 28.6 vs 11.0 caption was a single noisy run; scripts use 10-seed averages (~27 vs ~2). Tiny GPT measured ~4 steps/s.
+- 2026-10-10 user feedback: NO avatar overlay on shorts (looked bad); captions go in the lower third. Avatar dropped for full videos too unless asked.

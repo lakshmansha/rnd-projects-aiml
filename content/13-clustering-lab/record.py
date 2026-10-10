@@ -11,9 +11,9 @@ CAPTIONS = [(0, 3, "SAME DATA.|4 ALGORITHMS."), (3, 11, "K-means:|assign, move, 
 
 
 def prepare(page):
-    page.wait_for_selector(".js-plotly-plot", timeout=60000)
+    page.wait_for_selector(".js-plotly-plot", state="attached", timeout=60000)
     page.get_by_role("tab", name="Algorithm showdown").click()
-    page.wait_for_selector(".js-plotly-plot", timeout=60000)
+    page.wait_for_selector(".js-plotly-plot", state="attached", timeout=60000)
     page.wait_for_timeout(4000)
     page.get_by_role("tab", name="K-means step by step").click()
     page.wait_for_timeout(2500)

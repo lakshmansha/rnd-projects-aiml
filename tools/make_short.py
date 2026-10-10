@@ -79,12 +79,11 @@ def main(num):
         tf.write_text(text.replace("|", chr(10)), encoding="utf-8")
         tfp = str(tf).replace("\\", "/").replace(":", r"\:")
         filt.append(f"drawtext=fontfile='{FONT}':textfile='{tfp}':fontsize=60:fontcolor=white:box=1:boxcolor=black@0.65:boxborderw=18:line_spacing=10"
-                    f":x=(w-text_w)/2:y=h*0.045:enable='between(t,{t0},{t1})'")
+                    f":x=(w-text_w)/2:y=h*0.74:enable='between(t,{t0},{t1})'")
     chain = ",".join(filt)
-    fc = f"[0:v]{chain}[v];[2:v]scale=300:300[av];[v][av]overlay=W-w-40:H-h-60[o]"
+    fc = f"[0:v]{chain}[o]"
     mp4 = out / "short.mp4"
-    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{offset:.2f}", "-i", str(vid), "-i", str(mp3),
-           "-i", str(AVATAR), "-filter_complex", fc.replace("[0:v]", "[0:v]tpad=stop_mode=clone:stop_duration=10,", 1),
+    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{offset:.2f}", "-i", str(vid), "-i", str(mp3), "-filter_complex", fc.replace("[0:v]", "[0:v]tpad=stop_mode=clone:stop_duration=10,", 1),
            "-map", "[o]", "-map", "1:a", "-t", f"{dur + 0.4:.2f}", "-r", "30", "-c:v", "libx264", "-pix_fmt", "yuv420p",
            "-crf", "20", "-c:a", "aac", "-b:a", "160k", str(mp4)]
     subprocess.run(cmd, check=True)

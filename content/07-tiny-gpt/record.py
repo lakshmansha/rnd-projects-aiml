@@ -1,7 +1,7 @@
 PORT = 8507
-VOICE = ("This GPT starts out knowing nothing. Watch it learn. "
-         "I built it with Claude Code: a real transformer, under a million parameters, training on Shakespeare on my CPU. "
-         "I press Train from scratch. Step one is pure gibberish. "
+VOICE = ("This GPT starts out knowing nothing. Watch what it learns. "
+         "I built it with Claude Code: a real transformer, under a million parameters, trained on Shakespeare on my CPU. "
+         "Step one is pure gibberish. "
          "As the loss falls, you see letters, then words, then something shaped like a play. "
          "It only ever predicts the next character. Everything else emerges from that. "
          "Follow for more AI and ML builds.")
@@ -29,26 +29,33 @@ def _slider(page, idx, key, presses=1):
 
 
 def prepare(page):
-    # not part of the clip: shorten the run so live training fits the narration (100 steps, sample every 25)
+    # not part of the clip: train 300 steps on CPU (~2-3 min), sample every 50; the clip replays the finished run
     page.wait_for_timeout(2500)
     _open_sidebar(page)
     _slider(page, 3, "Home")
+    page.keyboard.press("ArrowRight")
+    page.keyboard.press("ArrowRight")
     _slider(page, 5, "Home")
+    page.keyboard.press("ArrowRight")
     page.wait_for_timeout(800)
+    page.get_by_role("button", name="Train from scratch").click()
+    page.wait_for_selector("text=Done in", timeout=600000)
     _close_sidebar(page)
     page.wait_for_timeout(500)
+    T = page.evaluate("() => { const m = document.querySelector('[data-testid=stMain]'); m.scrollTo(0,0); }")
 
 
 def actions(page, T):
     T.at(1)
     T.scroll(0)
     T.at(4)
-    _open_sidebar(page)
-    page.get_by_role("button", name="Train from scratch").click()
-    page.wait_for_timeout(500)
-    _close_sidebar(page)
+    T.scroll(300)
     T.at(11)
-    T.scroll(500)
+    T.scroll(450)
+    T.at(15)
+    T.scroll(450)
     T.at(19)
-    T.scroll(700)
+    T.scroll(500)
+    T.at(23)
+    T.scroll(500)
     T.at(26)
