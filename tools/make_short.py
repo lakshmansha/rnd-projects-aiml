@@ -76,7 +76,7 @@ def main(num):
     filt = ["scale=1080:1920:flags=lanczos"]
     for i, (t0, t1, text) in enumerate(rec.CAPTIONS):
         tf = tmp / f"cap{i}.txt"
-        tf.write_text(text.replace("|", chr(10)), encoding="utf-8")
+        tf.write_bytes(text.replace("|", chr(10)).encode("utf-8"))
         tfp = str(tf).replace("\\", "/").replace(":", r"\:")
         filt.append(f"drawtext=fontfile='{FONT}':textfile='{tfp}':fontsize=60:fontcolor=white:box=1:boxcolor=black@0.65:boxborderw=18:line_spacing=10"
                     f":x=(w-text_w)/2:y=h*0.74:enable='between(t,{t0},{t1})'")
