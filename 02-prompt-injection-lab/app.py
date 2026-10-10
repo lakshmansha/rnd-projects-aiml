@@ -30,6 +30,7 @@ with tab_play:
 with tab_red:
     st.write(f"Fire {len(engine.ATTACKS)} known attacks at every level and see which defenses hold.")
     levels = st.multiselect("Levels", list(engine.LEVELS), default=list(engine.LEVELS))
+    st.caption("~1 tiny API call per attack per level (2 on level 5). Pick fewer levels to spend less.")
     if st.button("🚀 Run red team"):
         rows, bar = [], st.progress(0.0)
         total, done = len(levels) * len(engine.ATTACKS), 0

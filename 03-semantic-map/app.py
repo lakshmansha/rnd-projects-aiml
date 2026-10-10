@@ -75,7 +75,7 @@ if q:
             ans, secs = llm.chat(
                 [{"role": "system", "content": "Answer using ONLY the context. If it is not there, say you don't know. Be brief."},
                  {"role": "user", "content": "Context:\n- " + "\n- ".join(ctx) + f"\n\nQuestion: {q}"}],
-                model="qwen2.5:1.5b", temperature=0.2, max_tokens=150)
+                temperature=0.2, max_tokens=80)
         st.write(ans)
         st.caption(f"{secs:.1f}s")
 else:

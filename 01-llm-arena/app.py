@@ -1,4 +1,4 @@
-"""LLM Arena: pit two models against each other, let a judge pick winners, track Elo."""
+"""Prompt Arena: pit two prompting styles of the same LLM against each other, a judge picks winners, Elo tracks it."""
 import json
 import random
 import sys
@@ -23,6 +23,13 @@ PROMPTS = [
     "Is 91 a prime number? Explain briefly.",
 ]
 K = 32
+STYLES = {
+    "Concise": "Answer in the fewest words that are still correct.",
+    "Step-by-step": "Think step by step, briefly, then give the answer.",
+    "ELI5": "Explain like the reader is 5 years old, using a simple analogy.",
+    "Pirate": "Answer correctly, but talk like a pirate.",
+    "Expert": "Answer like a senior engineer: precise, technical, no fluff.",
+}
 
 
 def load():
@@ -46,7 +53,7 @@ def judge(judge_model, prompt, ans_1, ans_2):
             '{"winner": 1} or {"winner": 2} or {"winner": 0} for a tie.'},
            {"role": "user", "content": f"Question: {prompt}\n\n[Answer 1]\n{ans_1}\n\n[Answer 2]\n{ans_2}\n\n"
             "Which answer is more correct, clear and concise?"}]
-    text, _ = llm.chat(msg, model=judge_model, temperature=0, max_tokens=20, json_mode=True)
+    text, _ = llm.chat(msg, temperature=0, max_tokens=10, json_mode=True)
     try:
         return int(json.loads(text).get("winner", 0))
     except Exception:
@@ -54,8 +61,8 @@ def judge(judge_model, prompt, ans_1, ans_2):
 
 
 def battle(model_a, model_b, judge_model, prompt):
-    ans_a, ta = llm.chat([{"role": "user", "content": prompt}], model=model_a)
-    ans_b, tb = llm.chat([{"role": "user", "content": prompt}], model=model_b)
+    ans_a, ta = llm.chat([{"role": "system", "content": STYLES[model_a]}, {"role": "user", "content": prompt}], max_tokens=90)
+    ans_b, tb = llm.chat([{"role": "system", "content": STYLES[model_b]}, {"role": "user", "content": prompt}], max_tokens=90)
     # Judge twice with swapped positions to cancel position bias; disagreement = tie.
     v1 = judge(judge_model, prompt, ans_a, ans_b)
     v2 = judge(judge_model, prompt, ans_b, ans_a)
@@ -66,22 +73,20 @@ def battle(model_a, model_b, judge_model, prompt):
                 time_a=round(ta, 1), time_b=round(tb, 1), score_a=score_a)
 
 
-st.set_page_config(page_title="LLM Arena", page_icon="🥊", layout="wide")
-st.title("🥊 LLM Arena")
-st.caption("Two local models fight, a judge model scores both orderings, Elo does the rest.")
+st.set_page_config(page_title="Prompt Arena", page_icon="🥊", layout="wide")
+st.title("🥊 Prompt Arena")
+st.caption("Two prompting styles of GPT fight, a judge scores both orderings, Elo does the rest.")
 
-models = llm.available_models()
-if not models:
-    st.error("No models found. Is the Ollama container running? See the README.")
-    st.stop()
+models = list(STYLES)
 
 state = load()
 with st.sidebar:
-    st.header("Setup")
+    st.header("Setup (prompting styles)")
     a = st.selectbox("Fighter A", models, index=0)
     b = st.selectbox("Fighter B", models, index=min(1, len(models) - 1))
-    j = st.selectbox("Judge", models, index=min(1, len(models) - 1))
-    n = st.slider("Battles to run", 1, 8, 3)
+    j = None  # judge is the same gpt deployment
+    st.caption("Each battle = 2 answers + 2 judge calls (4 tiny API calls).")
+    n = st.slider("Battles to run", 1, 5, 2)
     if st.button("Reset leaderboard"):
         save({"elo": {}, "history": []})
         st.rerun()
