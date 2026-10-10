@@ -1,10 +1,12 @@
-# Progress (source of truth: PLAN.md)
-- [x] Phase 0: PROGRESS + DECISIONS created
-- [x] 1.1 Project 16 CNN X-ray built + tested + hub + README
-- [x] 1.2 HANDOFF update, commit
-- [x] 1.3 smoke_test.py
-- [x] Phase 2: scripts (16 short.md, 6 full.md, showcase) - reviewed numbers; 28.6 vs 11.0 replaced by 10-seed ~27 vs ~2
-- [x] Phase 3a: 16 shorts (v1 kept) + v2 with Watch It Learn intro, corrected voice (content/INDEX.md)
+# Progress (source of truth: PLAN.md; see HANDOFF.md "Session 2 handoff")
+- [x] Phase 0: PROGRESS + DECISIONS
+- [x] 1.1-1.3: project 16 CNN X-ray, HANDOFF update, smoke_test.py (all pass)
+- [x] Phase 2: scripts (16 short.md, 6 full.md, showcase full.md), numbers verified
+- [x] Phase 3a: 16 shorts v1 + v2 (Watch It Learn electric intro, end card, voice matched to screen); art in content/_brand; content/INDEX.md
+- [x] Upload plan (content/UPLOAD_PLAN.md), routine plan (content/ROUTINE_PLAN.md), batch staging tool; batch 1 staged (not uploaded)
+- [ ] Accounts + handles created by the user; batch 1 scheduled by the user
+- [ ] Routine build: screen-check gate, Task Scheduler, YouTube uploader (needs OAuth file), Instagram path, ideas.md, Stage B
 - [ ] Phase 3b: showcase video
-- [ ] Phase 3c: 6 flagship full videos (06, 07, 09, 10, 02, 16)
-- [ ] Phase 4: new project
+- [ ] Phase 3c: 6 flagship 10-minute videos (06, 07, 09, 10, 02, 16)
+- [ ] Phase 4: new catchy project + its short and full video
+- [ ] Optional: fix the known short flaws (03, 07, 09, 10)
