@@ -1,0 +1,7 @@
+100 rockets, zero programming: they evolve a route
+
+A genetic algorithm evolves rocket steering until they reach the target. I scrub through the generations.
+
+Project 10 of the Watch It Learn series. Narration is AI-generated. Built with Claude Code (Python, Streamlit). No personal data is shown.
+
+#GeneticAlgorithm #Evolution #MachineLearning #Python #AI #Shorts

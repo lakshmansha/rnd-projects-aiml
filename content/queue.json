@@ -1,0 +1,142 @@
+[
+ {
+  "n": 6,
+  "folder": "06-digit-classifier",
+  "title": "I drew a digit and 4 ML models voted on it",
+  "what": "Four classic ML models (SVM, neural net, random forest, k-NN) train on 8x8 digit images, then vote on the number I draw.",
+  "tags": "#MachineLearning #Python #Streamlit #sklearn #AI",
+  "status": "staged",
+  "batch": "batch_2026-10-12",
+  "publish_at": "2026-10-12T19:00:00"
+ },
+ {
+  "n": 9,
+  "folder": "09-rl-gridworld",
+  "title": "Two AIs, one cliff: only one plays it safe",
+  "what": "Q-learning and SARSA learn to cross a cliff by trial and error. One takes the risky edge, the other the safe route.",
+  "tags": "#ReinforcementLearning #MachineLearning #Python #AI #QLearning",
+  "status": "staged",
+  "batch": "batch_2026-10-12",
+  "publish_at": "2026-10-13T19:00:00"
+ },
+ {
+  "n": 7,
+  "folder": "07-tiny-gpt",
+  "title": "I trained a tiny GPT from scratch on my CPU",
+  "what": "A character-level transformer (818,176 parameters) goes from gibberish to Shakespeare-like text while training on a CPU.",
+  "tags": "#GPT #Transformer #PyTorch #DeepLearning #AI",
+  "status": "staged",
+  "batch": "batch_2026-10-12",
+  "publish_at": "2026-10-14T19:00:00"
+ },
+ {
+  "n": 10,
+  "folder": "10-evolving-rockets",
+  "title": "100 rockets, zero programming: they evolve a route",
+  "what": "A genetic algorithm evolves rocket steering until they reach the target. I scrub through the generations.",
+  "tags": "#GeneticAlgorithm #Evolution #MachineLearning #Python #AI",
+  "status": "staged",
+  "batch": "batch_2026-10-12",
+  "publish_at": "2026-10-15T19:00:00"
+ },
+ {
+  "n": 2,
+  "folder": "02-prompt-injection-lab",
+  "title": "I tried to hack an AI guarding a password",
+  "what": "A prompt-injection lab with five defense levels: the weakest bot leaks the secret, stronger setups hold.",
+  "tags": "#PromptInjection #AISecurity #LLM #Python #AI",
+  "status": "staged",
+  "batch": "batch_2026-10-12",
+  "publish_at": "2026-10-16T19:00:00"
+ },
+ {
+  "n": 16,
+  "folder": "16-cnn-xray",
+  "title": "What does an AI actually look at? Grad-CAM X-ray",
+  "what": "A real MobileNetV2 guesses the photo and Grad-CAM paints the pixels that drove its decision.",
+  "tags": "#DeepLearning #ComputerVision #GradCAM #PyTorch #AI",
+  "status": "staged",
+  "batch": "batch_2026-10-12",
+  "publish_at": "2026-10-17T19:00:00"
+ },
+ {
+  "n": 4,
+  "folder": "04-neural-playground",
+  "title": "Watch a neural net learn a spiral, live",
+  "what": "A numpy neural net learns the spiral dataset while the decision boundary bends. Capacity decides what it can learn.",
+  "tags": "#NeuralNetworks #MachineLearning #Python #Backprop #AI",
+  "status": "ready"
+ },
+ {
+  "n": 11,
+  "folder": "11-token-xray",
+  "title": "What ChatGPT actually reads (it isn't letters)",
+  "what": "Text is split into tokens, not letters. The same greeting costs 21 tokens in one vocabulary and 41 in another.",
+  "tags": "#LLM #Tokenization #ChatGPT #AI #Python",
+  "status": "ready"
+ },
+ {
+  "n": 13,
+  "folder": "13-clustering-lab",
+  "title": "K-means cuts this in half. This one doesn't.",
+  "what": "Same data, four clustering algorithms. Each one assumes a shape, so each wins on different data.",
+  "tags": "#MachineLearning #Clustering #KMeans #DBSCAN #Python",
+  "status": "ready"
+ },
+ {
+  "n": 14,
+  "folder": "14-explainable-text-ai",
+  "title": "Which words made the AI decide? It shows me.",
+  "what": "A text classifier highlights the words behind each decision, including a tricky sentence that it gets torn on.",
+  "tags": "#ExplainableAI #MachineLearning #NLP #Python #AI",
+  "status": "ready"
+ },
+ {
+  "n": 5,
+  "folder": "05-spot-the-hallucination",
+  "title": "Can YOU spot the AI lie? 1 of 5 facts is fake",
+  "what": "GPT writes five facts and one is false. Can you find it? LLMs state falsehoods as confidently as facts.",
+  "tags": "#AI #LLM #Hallucination #Streamlit #Python",
+  "status": "ready"
+ },
+ {
+  "n": 15,
+  "folder": "15-prompt-gym",
+  "title": "Can you make GPT write exactly 10 words?",
+  "what": "Prompt Gym grades prompts with strict Python checks. A lazy prompt fails, a specific one passes.",
+  "tags": "#PromptEngineering #GPT #LLM #Python #AI",
+  "status": "ready"
+ },
+ {
+  "n": 12,
+  "folder": "12-debate-arena",
+  "title": "I made two AIs debate pineapple on pizza",
+  "what": "A pro bot and a con bot debate, a judge scores them, and I see whether they changed my mind.",
+  "tags": "#AI #GPT4o #Debate #Streamlit #Python",
+  "status": "ready"
+ },
+ {
+  "n": 1,
+  "folder": "01-llm-arena",
+  "title": "Two AI prompts fight. A judge picks the winner.",
+  "what": "Pirate-style vs expert-style prompts battle. A judge scores both answer orders and Elo updates the ranking.",
+  "tags": "#PromptEngineering #LLM #GPT #Elo #AI",
+  "status": "ready"
+ },
+ {
+  "n": 3,
+  "folder": "03-semantic-map",
+  "title": "I turned 60 sentences into a map of meaning",
+  "what": "Sentences become points on a map, and a question retrieves the closest ones for a RAG answer.",
+  "tags": "#RAG #Embeddings #LLM #Python #AI",
+  "status": "ready"
+ },
+ {
+  "n": 8,
+  "folder": "08-twenty-questions",
+  "title": "Can GPT read my mind in 20 questions?",
+  "what": "GPT asks yes/no questions to narrow down what I am thinking of while the counter drops.",
+  "tags": "#AI #GPT #20Questions #Streamlit #Python",
+  "status": "ready"
+ }
+]

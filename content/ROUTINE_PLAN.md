@@ -1,6 +1,14 @@
-# Daily routine plan: make a new Short, you approve, it posts to YouTube and Instagram
+# Routine plan: build a BATCH of 5-6 Shorts in one run, you approve, then schedule them on YouTube and Instagram
 
 Decisions (2026-10-11, from the user): runs on **the user's PC (Windows Task Scheduler)**; posting mode **render -> user approves -> upload**. Nothing is ever posted without an approval.
+
+## UPDATE 2026-10-11: batch mode (replaces the daily loop below)
+The user wants **5-6 shorts built in one shot, then scheduled** (not one per day). So:
+- One run (e.g. every Sunday) builds/stages **6 shorts** and writes a `SCHEDULE.md` with one publish time per day (default 19:00 local, Mon-Sat).
+- You review the 6 previews once, approve the batch, and the posts are **scheduled** (YouTube "Schedule" / API `publishAt`; Instagram via Meta Business Suite scheduler or Graph API) so nothing else is needed for the week.
+- Built now: `tools/stage_batch.py [count] [start_date] [hour]` + `content/queue.json`. First batch (06, 09, 07, 10, 02, 16) is staged in `content/_outbox/batch_2026-10-12/`, all passing the quality gate (format, 20-35 s, audio, no long silence).
+- Stage B (new projects) becomes "build 6 new tiny projects in one run" weekly; the 16 existing shorts cover the first ~3 batches (6 + 6 + 4).
+- The remaining text below describes the per-item pieces; read "daily" as "per batch".
 
 ## The loop (one run per day)
 

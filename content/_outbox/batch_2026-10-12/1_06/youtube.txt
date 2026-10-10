@@ -1,0 +1,7 @@
+I drew a digit and 4 ML models voted on it
+
+Four classic ML models (SVM, neural net, random forest, k-NN) train on 8x8 digit images, then vote on the number I draw.
+
+Project 06 of the Watch It Learn series. Narration is AI-generated. Built with Claude Code (Python, Streamlit). No personal data is shown.
+
+#MachineLearning #Python #Streamlit #sklearn #AI #Shorts

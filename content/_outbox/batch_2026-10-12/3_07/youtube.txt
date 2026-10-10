@@ -1,0 +1,7 @@
+I trained a tiny GPT from scratch on my CPU
+
+A character-level transformer (818,176 parameters) goes from gibberish to Shakespeare-like text while training on a CPU.
+
+Project 07 of the Watch It Learn series. Narration is AI-generated. Built with Claude Code (Python, Streamlit). No personal data is shown.
+
+#GPT #Transformer #PyTorch #DeepLearning #AI #Shorts

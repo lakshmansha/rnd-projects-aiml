@@ -1,0 +1,7 @@
+I tried to hack an AI guarding a password
+
+A prompt-injection lab with five defense levels: the weakest bot leaks the secret, stronger setups hold.
+
+Project 02 of the Watch It Learn series. Narration is AI-generated. Built with Claude Code (Python, Streamlit). No personal data is shown.
+
+#PromptInjection #AISecurity #LLM #Python #AI #Shorts

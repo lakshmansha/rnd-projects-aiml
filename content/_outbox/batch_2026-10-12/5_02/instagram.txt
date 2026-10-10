@@ -1,0 +1,7 @@
+I tried to hack an AI guarding a password
+
+A prompt-injection lab with five defense levels: the weakest bot leaks the secret, stronger setups hold.
+
+Follow @watchitlearn for a new AI build every day.
+
+#PromptInjection #AISecurity #LLM #Python #AI

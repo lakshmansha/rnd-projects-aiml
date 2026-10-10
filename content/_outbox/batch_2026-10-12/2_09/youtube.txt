@@ -1,0 +1,7 @@
+Two AIs, one cliff: only one plays it safe
+
+Q-learning and SARSA learn to cross a cliff by trial and error. One takes the risky edge, the other the safe route.
+
+Project 09 of the Watch It Learn series. Narration is AI-generated. Built with Claude Code (Python, Streamlit). No personal data is shown.
+
+#ReinforcementLearning #MachineLearning #Python #AI #QLearning #Shorts
