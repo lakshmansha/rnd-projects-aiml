@@ -15,6 +15,7 @@ Embeddings are computed locally with hashing n-grams (no embedding deployment re
 | 7 | `07-tiny-gpt` | Train a real transformer (0.8M params, PyTorch CPU) from scratch and watch gibberish turn into Shakespeare-ish text |
 | 8 | `08-twenty-questions` | AI 20 Questions: guess GPT's secret, or GPT tries to read your mind |
 | 9 | `09-rl-gridworld` | Q-learning vs SARSA learn a cliff-walking world side by side; scrub through training (no API calls) |
+| 10 | `10-evolving-rockets` | A genetic algorithm evolves rockets that dodge obstacles to hit a target; scrub through generations (no API calls) |
 
 ## Run
 ```
@@ -29,4 +30,5 @@ streamlit run 06-digit-classifier/app.py
 streamlit run 07-tiny-gpt/app.py
 streamlit run 08-twenty-questions/app.py
 streamlit run 09-rl-gridworld/app.py
+streamlit run 10-evolving-rockets/app.py
 ```
