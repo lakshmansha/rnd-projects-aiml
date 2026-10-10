@@ -1,0 +1,302 @@
+[
+ {
+  "id": 0,
+  "topic": "Space",
+  "text": "The Sun contains about 99.8 percent of the mass in our solar system."
+ },
+ {
+  "id": 1,
+  "topic": "Space",
+  "text": "A day on Venus is longer than its year."
+ },
+ {
+  "id": 2,
+  "topic": "Space",
+  "text": "Neutron stars are so dense that a teaspoon would weigh billions of tons."
+ },
+ {
+  "id": 3,
+  "topic": "Space",
+  "text": "Jupiter's Great Red Spot is a storm larger than Earth."
+ },
+ {
+  "id": 4,
+  "topic": "Space",
+  "text": "Light from the Sun takes about eight minutes to reach Earth."
+ },
+ {
+  "id": 5,
+  "topic": "Space",
+  "text": "Black holes bend spacetime so strongly that not even light escapes."
+ },
+ {
+  "id": 6,
+  "topic": "Space",
+  "text": "The James Webb telescope observes the universe in infrared light."
+ },
+ {
+  "id": 7,
+  "topic": "Space",
+  "text": "Mars has the tallest volcano in the solar system, Olympus Mons."
+ },
+ {
+  "id": 8,
+  "topic": "Space",
+  "text": "Saturn's rings are made mostly of ice particles."
+ },
+ {
+  "id": 9,
+  "topic": "Space",
+  "text": "The Moon is slowly drifting away from Earth by a few centimetres a year."
+ },
+ {
+  "id": 10,
+  "topic": "Cooking",
+  "text": "Searing meat creates flavour through the Maillard reaction."
+ },
+ {
+  "id": 11,
+  "topic": "Cooking",
+  "text": "Sourdough bread rises thanks to wild yeast and lactic acid bacteria."
+ },
+ {
+  "id": 12,
+  "topic": "Cooking",
+  "text": "Salt draws moisture out of vegetables, which helps them caramelise."
+ },
+ {
+  "id": 13,
+  "topic": "Cooking",
+  "text": "Fresh pasta cooks in two to three minutes in boiling water."
+ },
+ {
+  "id": 14,
+  "topic": "Cooking",
+  "text": "A good risotto needs slow additions of warm stock and constant stirring."
+ },
+ {
+  "id": 15,
+  "topic": "Cooking",
+  "text": "Resting a steak lets the juices redistribute before slicing."
+ },
+ {
+  "id": 16,
+  "topic": "Cooking",
+  "text": "Toasting spices in a dry pan releases their aromatic oils."
+ },
+ {
+  "id": 17,
+  "topic": "Cooking",
+  "text": "Emulsifying oil and egg yolk makes mayonnaise."
+ },
+ {
+  "id": 18,
+  "topic": "Cooking",
+  "text": "Cast iron pans hold heat well and improve with seasoning."
+ },
+ {
+  "id": 19,
+  "topic": "Cooking",
+  "text": "Blanching green beans keeps them bright green and crisp."
+ },
+ {
+  "id": 20,
+  "topic": "Machine Learning",
+  "text": "Gradient descent updates model weights to minimise a loss function."
+ },
+ {
+  "id": 21,
+  "topic": "Machine Learning",
+  "text": "Transformers use self-attention to relate every token to every other token."
+ },
+ {
+  "id": 22,
+  "topic": "Machine Learning",
+  "text": "Overfitting happens when a model memorises training data instead of generalising."
+ },
+ {
+  "id": 23,
+  "topic": "Machine Learning",
+  "text": "Embeddings map words or images to vectors where similar items sit close together."
+ },
+ {
+  "id": 24,
+  "topic": "Machine Learning",
+  "text": "Dropout randomly disables neurons during training to reduce overfitting."
+ },
+ {
+  "id": 25,
+  "topic": "Machine Learning",
+  "text": "Reinforcement learning agents learn by maximising cumulative reward."
+ },
+ {
+  "id": 26,
+  "topic": "Machine Learning",
+  "text": "Retrieval-augmented generation grounds an LLM's answer in documents."
+ },
+ {
+  "id": 27,
+  "topic": "Machine Learning",
+  "text": "Batch normalisation stabilises and speeds up neural network training."
+ },
+ {
+  "id": 28,
+  "topic": "Machine Learning",
+  "text": "A confusion matrix shows true and false positives and negatives."
+ },
+ {
+  "id": 29,
+  "topic": "Machine Learning",
+  "text": "Fine-tuning adapts a pretrained model to a narrow task with little data."
+ },
+ {
+  "id": 30,
+  "topic": "Football",
+  "text": "A football match lasts ninety minutes plus stoppage time."
+ },
+ {
+  "id": 31,
+  "topic": "Football",
+  "text": "The offside rule stops attackers waiting next to the last defender."
+ },
+ {
+  "id": 32,
+  "topic": "Football",
+  "text": "A hat-trick is when one player scores three goals in a match."
+ },
+ {
+  "id": 33,
+  "topic": "Football",
+  "text": "Penalty kicks are taken from twelve yards out."
+ },
+ {
+  "id": 34,
+  "topic": "Football",
+  "text": "The World Cup is held every four years."
+ },
+ {
+  "id": 35,
+  "topic": "Football",
+  "text": "Goalkeepers are the only players allowed to handle the ball in the box."
+ },
+ {
+  "id": 36,
+  "topic": "Football",
+  "text": "A midfielder links defence and attack and controls the tempo."
+ },
+ {
+  "id": 37,
+  "topic": "Football",
+  "text": "VAR helps referees review goals, penalties and red cards."
+ },
+ {
+  "id": 38,
+  "topic": "Football",
+  "text": "Extra time is played if a knockout match is tied after ninety minutes."
+ },
+ {
+  "id": 39,
+  "topic": "Football",
+  "text": "The captain wears an armband and speaks to the referee."
+ },
+ {
+  "id": 40,
+  "topic": "Personal Finance",
+  "text": "Compound interest earns returns on both your principal and past interest."
+ },
+ {
+  "id": 41,
+  "topic": "Personal Finance",
+  "text": "An emergency fund should cover three to six months of expenses."
+ },
+ {
+  "id": 42,
+  "topic": "Personal Finance",
+  "text": "Index funds track a market index at low cost."
+ },
+ {
+  "id": 43,
+  "topic": "Personal Finance",
+  "text": "Diversification spreads risk across different assets."
+ },
+ {
+  "id": 44,
+  "topic": "Personal Finance",
+  "text": "Inflation reduces the purchasing power of money over time."
+ },
+ {
+  "id": 45,
+  "topic": "Personal Finance",
+  "text": "A credit score reflects how reliably you repay borrowed money."
+ },
+ {
+  "id": 46,
+  "topic": "Personal Finance",
+  "text": "Paying off high-interest debt first saves the most money."
+ },
+ {
+  "id": 47,
+  "topic": "Personal Finance",
+  "text": "A budget compares monthly income against planned spending."
+ },
+ {
+  "id": 48,
+  "topic": "Personal Finance",
+  "text": "Dollar-cost averaging invests a fixed amount at regular intervals."
+ },
+ {
+  "id": 49,
+  "topic": "Personal Finance",
+  "text": "Tax-advantaged retirement accounts let investments grow with lower tax."
+ },
+ {
+  "id": 50,
+  "topic": "Ocean Life",
+  "text": "Octopuses have three hearts and blue blood."
+ },
+ {
+  "id": 51,
+  "topic": "Ocean Life",
+  "text": "Coral reefs support about a quarter of all marine species."
+ },
+ {
+  "id": 52,
+  "topic": "Ocean Life",
+  "text": "Blue whales are the largest animals ever to have lived."
+ },
+ {
+  "id": 53,
+  "topic": "Ocean Life",
+  "text": "Deep sea anglerfish use a glowing lure to attract prey."
+ },
+ {
+  "id": 54,
+  "topic": "Ocean Life",
+  "text": "Sea turtles return to the beach where they were born to lay eggs."
+ },
+ {
+  "id": 55,
+  "topic": "Ocean Life",
+  "text": "Jellyfish have no brain, heart or bones."
+ },
+ {
+  "id": 56,
+  "topic": "Ocean Life",
+  "text": "Dolphins communicate with clicks and whistles."
+ },
+ {
+  "id": 57,
+  "topic": "Ocean Life",
+  "text": "The Mariana Trench is the deepest part of the ocean."
+ },
+ {
+  "id": 58,
+  "topic": "Ocean Life",
+  "text": "Clownfish live safely among the stinging tentacles of sea anemones."
+ },
+ {
+  "id": 59,
+  "topic": "Ocean Life",
+  "text": "Great white sharks can detect a drop of blood from far away."
+ }
+]

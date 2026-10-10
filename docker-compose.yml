@@ -1,0 +1,11 @@
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports: ["11434:11434"]
+    volumes: ["ollama_models:/root/.ollama"]
+    environment:
+      OLLAMA_MAX_LOADED_MODELS: "1"   # small Docker RAM budget: one model at a time
+      OLLAMA_KEEP_ALIVE: "2m"
+volumes:
+  ollama_models:
