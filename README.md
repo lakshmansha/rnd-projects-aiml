@@ -17,6 +17,7 @@ Embeddings are computed locally with hashing n-grams (no embedding deployment re
 | 9 | `09-rl-gridworld` | Q-learning vs SARSA learn a cliff-walking world side by side; scrub through training (no API calls) |
 | 10 | `10-evolving-rockets` | A genetic algorithm evolves rockets that dodge obstacles to hit a target; scrub through generations (no API calls) |
 | 11 | `11-token-xray` | See text as GPT sees it: colour-coded tokens, cost, and why LLMs can't count letters (no API calls) |
+| 12 | `12-debate-arena` | Two GPT debaters + a judge with a radar-chart verdict; measures whether they changed your mind |
 
 ## Run
 ```
@@ -33,4 +34,5 @@ streamlit run 08-twenty-questions/app.py
 streamlit run 09-rl-gridworld/app.py
 streamlit run 10-evolving-rockets/app.py
 streamlit run 11-token-xray/app.py
+streamlit run 12-debate-arena/app.py
 ```
