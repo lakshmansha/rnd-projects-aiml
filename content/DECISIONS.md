@@ -6,3 +6,4 @@
 - **Avatar:** Pillow circular crop of photo (face is in top ~40%), added as PiP via ffmpeg overlay.
 - **Docker/Ollama:** not needed; all non-LLM apps are free, so LLM-app recordings use a handful of Azure calls.
 - Sample images for project 16 are Wikimedia Commons (500px thumbnails; fetch needs a User-Agent).
+- SARSA/Q-learning numbers: the 28.6 vs 11.0 caption was a single noisy run; scripts use 10-seed averages (~27 vs ~2). Tiny GPT measured ~4 steps/s.
