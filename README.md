@@ -16,6 +16,7 @@ Embeddings are computed locally with hashing n-grams (no embedding deployment re
 | 8 | `08-twenty-questions` | AI 20 Questions: guess GPT's secret, or GPT tries to read your mind |
 | 9 | `09-rl-gridworld` | Q-learning vs SARSA learn a cliff-walking world side by side; scrub through training (no API calls) |
 | 10 | `10-evolving-rockets` | A genetic algorithm evolves rockets that dodge obstacles to hit a target; scrub through generations (no API calls) |
+| 11 | `11-token-xray` | See text as GPT sees it: colour-coded tokens, cost, and why LLMs can't count letters (no API calls) |
 
 ## Run
 ```
@@ -31,4 +32,5 @@ streamlit run 07-tiny-gpt/app.py
 streamlit run 08-twenty-questions/app.py
 streamlit run 09-rl-gridworld/app.py
 streamlit run 10-evolving-rockets/app.py
+streamlit run 11-token-xray/app.py
 ```
