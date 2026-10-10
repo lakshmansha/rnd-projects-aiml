@@ -59,7 +59,9 @@ names = sorted(p.name for p in SAMPLES.glob("*.jpg"))
 src = st.sidebar.radio("Source", ["Sample", "Upload", "Webcam"], horizontal=True)
 img = None
 if src == "Sample" and names:
-    img = Image.open(SAMPLES / st.sidebar.selectbox("Sample", names)).convert("RGB")
+    qs = st.query_params.get("sample")  # e.g. ?sample=cat.jpg (handy for screen recording)
+    idx = names.index(qs) if qs in names else 0
+    img = Image.open(SAMPLES / st.sidebar.selectbox("Sample", names, index=idx)).convert("RGB")
 elif src == "Upload":
     f = st.sidebar.file_uploader("Photo", type=["jpg", "jpeg", "png"])
     img = Image.open(f).convert("RGB") if f else None

@@ -9,3 +9,4 @@ content/**/out/
 *.wav
 *.webm
 photo/
+content/_assets/
