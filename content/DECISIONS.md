@@ -9,3 +9,4 @@
 - SARSA/Q-learning numbers: the 28.6 vs 11.0 caption was a single noisy run; scripts use 10-seed averages (~27 vs ~2). Tiny GPT measured ~4 steps/s.
 - 2026-10-10 user feedback: NO avatar overlay on shorts (looked bad); captions go in the lower third. Avatar dropped for full videos too unless asked.
 - 2026-10-10 user feedback on shorts: voice good, small voice corrections to match the screen; add a catchy intro + follow call. Channel name chosen: **Watch It Learn** (check handle availability: ideas @watchitlearn.ai / @watchitlearn). Intro style: 1.5s branded title card (spoken "Watch It Learn") + end card "Follow for daily AI builds". Originals (`out/short.mp4`) are KEPT; new renders are `out/short_v2.mp4`.
+- 2026-10-11 Routine decisions: runs on user's PC via Task Scheduler; render -> user approves -> post (never auto-post). See content/ROUTINE_PLAN.md.
