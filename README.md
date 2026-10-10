@@ -12,14 +12,17 @@ Embeddings are computed locally with hashing n-grams (no embedding deployment re
 | 4 | `04-neural-playground` | A neural net written from scratch in numpy; train it live and watch the decision boundary bend (no API calls) |
 | 5 | `05-spot-the-hallucination` | Game: GPT hides one subtle lie among 5 facts; can you spot it? |
 | 6 | `06-digit-classifier` | Draw a digit on a canvas; SVM, neural net, random forest and k-NN (trained live on sklearn digits) vote - no API calls |
+| 7 | `07-tiny-gpt` | Train a real transformer (0.8M params, PyTorch CPU) from scratch and watch gibberish turn into Shakespeare-ish text |
 
 ## Run
 ```
 pip install -r requirements.txt
+pip install torch --index-url https://download.pytorch.org/whl/cpu   # only for 07
 streamlit run 01-llm-arena/app.py
 streamlit run 02-prompt-injection-lab/app.py
 streamlit run 03-semantic-map/app.py
 streamlit run 04-neural-playground/app.py
 streamlit run 05-spot-the-hallucination/app.py
 streamlit run 06-digit-classifier/app.py
+streamlit run 07-tiny-gpt/app.py
 ```

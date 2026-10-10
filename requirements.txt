@@ -5,3 +5,4 @@ pandas
 plotly
 scikit-learn
 python-dotenv
+torch  # CPU build: pip install torch --index-url https://download.pytorch.org/whl/cpu (only project 07)
