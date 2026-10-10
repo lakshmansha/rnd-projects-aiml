@@ -2,3 +2,9 @@
 __pycache__/
 *.pyc
 01-llm-arena/elo.json
+
+# video output (large files)
+content/**/out/
+*.mp4
+*.wav
+*.webm
