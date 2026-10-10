@@ -4,5 +4,5 @@
 - [x] 1.2 HANDOFF update, commit
 - [x] 1.3 smoke_test.py
 - [ ] Phase 2: scripts (short.md x16, full.md x6, showcase)
-- [ ] Phase 3: videos
+- [ ] Phase 3: videos (spike passed: edge-tts + playwright + ffmpeg)
 - [ ] Phase 4: new project
