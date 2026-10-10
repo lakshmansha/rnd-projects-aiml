@@ -4,5 +4,7 @@
 - [x] 1.2 HANDOFF update, commit
 - [x] 1.3 smoke_test.py
 - [x] Phase 2: scripts (16 short.md, 6 full.md, showcase) - reviewed numbers; 28.6 vs 11.0 replaced by 10-seed ~27 vs ~2
-- [ ] Phase 3: videos (spike passed: edge-tts + playwright + ffmpeg)
+- [x] Phase 3a: all 16 shorts rendered (content/INDEX.md)
+- [ ] Phase 3b: showcase video
+- [ ] Phase 3c: 6 flagship full videos (06, 07, 09, 10, 02, 16)
 - [ ] Phase 4: new project
