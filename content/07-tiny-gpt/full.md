@@ -121,11 +121,19 @@ The training loop in the app is the standard four lines: get a batch, compute th
 ### 5:30 Live demo
 [SCREEN: app.] The sidebar: training text is Shakespeare, or you can upload your own text file. Model settings: four layers, embedding size one hundred and twenty-eight, context sixty-four. Training: six hundred steps, learning rate three e minus three. I press Train from scratch. [SCREEN: footage sped up.]
 
-First it reports the parameter count, vocabulary and the size of the text: over a million characters of Shakespeare. The progress bar shows the step, the loss, and steps per second. [Read the real values shown.] When I checked this on the build machine, the loss started around four point three, which is roughly what you'd expect from guessing among sixty-five characters at random, and fell to about two point five within the first sixty steps.
+First it reports the parameter count, vocabulary and the size of the text: over a million characters of Shakespeare. The progress bar shows the step, the loss, and steps per second. When I checked this on the build machine, the loss started around four point three, which is roughly what you'd expect from guessing among sixty-five characters at random, and fell to about two point five within the first sixty steps.
+
+[SCREEN]
 
 Now the part I love: the section called "What the model writes as it learns". Step one is noise. A few hundred steps in, there are real-looking words and line breaks and speaker names. It isn't coherent, but the shape is unmistakably a play.
 
-When training finishes, scroll down to generate. I type "ROMEO:" as the start, and keep temperature at zero point eight. [Click Generate.] Now low temperature, zero point two: the text gets calmer, and starts repeating itself. High, one point four: wilder words, more nonsense. Same model, same weights, only the sampling changes.
+[SCREEN]
+
+When training finishes, scroll down to generate. I type "ROMEO:" as the start, and keep temperature at zero point eight. [SCREEN]
+
+Now low temperature, zero point two: the text gets calmer, and starts repeating itself. [SCREEN]
+
+High, one point four: wilder words, more nonsense. Same model, same weights, only the sampling changes.
 
 ### 7:30 What surprised me
 First, how early the structure appears. Before the model gets the words right, it learns the layout: capital letters after line breaks, names followed by colons. Structure is cheap; meaning is expensive.

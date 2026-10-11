@@ -54,7 +54,7 @@ def font(size, bold=False):
 
 
 def parse(md):
-    body = md.split("## Voice-over")[1]
+    body = re.split(r"\n## ", md.split("## Voice-over")[1])[0]  # stop at the next top-level section
     secs = []
     for m in re.finditer(r"### ([\d:]+) (.+?)\n(.*?)(?=\n### |\Z)", body, re.S):
         raw = m.group(3)
@@ -123,11 +123,16 @@ def still_clip(png, frames, out):
        "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", out)
 
 
-def app_clip(scene, frames, out):
+def app_clip(scene, frames, out, fit=False):
     """Cut the recorded scene; slow down slightly or hold the last frame if the narration is longer."""
     src, t0, t1 = scene
     avail = t1 - t0
     need = frames / FPS
+    if fit:  # time-lapse (or slow-mo up to 2x) so the whole scene spans the narration
+        vf = f"setpts=PTS*{max(need / avail, 0.5):.4f},fps={FPS},tpad=stop_mode=clone:stop_duration=2,format=yuv420p"
+        sh("ffmpeg", "-y", "-ss", f"{t0:.2f}", "-t", f"{avail:.2f}", "-i", src, "-vf", vf, "-frames:v", frames,
+           "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", out)
+        return
     vf = f"fps={FPS},tpad=stop_mode=clone:stop_duration={max(need - avail, 0) + 1:.2f},format=yuv420p"
     sh("ffmpeg", "-y", "-ss", f"{t0:.2f}", "-t", f"{avail:.2f}", "-i", src, "-vf", vf, "-frames:v", frames,
        "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", out)
@@ -264,7 +269,7 @@ def main():
         o = out / f"v{i:03d}.mp4"
         kind, arg = v
         if kind == "app":
-            app_clip(scenes[arg], frames, o)
+            app_clip(scenes[arg], frames, o, fit=arg in getattr(rec, "FIT", ()))
         else:
             png = out / f"{kind}_{abs(hash(arg)) % 10**8 if kind == 'card' else arg}.png"
             if kind == "code":
