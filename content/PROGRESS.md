@@ -10,3 +10,4 @@
 - [x] Phase 3c: 6 flagship 10-minute videos (06, 07, 09, 10, 02, 16) built with tools/make_full.py; they run 7-11 min each; see content/FULL_VIDEOS.md
 - [x] Phase 4: project 17 Flappy Evolution (app, hub, README, smoke test), short v2, full video (6.3 min) all built; nothing uploaded
 - [ ] Optional: fix the known short flaws (03, 07, 09, 10)
+- [x] Phase 5 (session 4): full videos for the remaining 10 projects (01, 03, 04, 05, 08, 11, 12, 13, 14, 15); all 18 projects have a short and a long video; nothing uploaded
