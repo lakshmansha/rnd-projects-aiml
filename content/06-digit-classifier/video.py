@@ -11,7 +11,7 @@ SECTIONS = [
      ("card", "99% on the test split|is not|99% on YOUR handwriting")],       # why it matters
     [("card", "One file, ~120 lines|train - augment - convert - vote"), ("code", "train"), ("code", "augment"),
      ("code", "to8"), ("code", "vote")],                                       # build
-    [("app", "overview"), ("app", "overview"), ("app", "draw7"), ("app", "draw3"), ("app", "draw4")],   # demo
+    [("app", "overview"), ("app", "draw7"), ("app", "draw3"), ("app", "draw4")],   # demo
     [("code", "to8"), ("app", "table"), ("card", "A test score describes the test set,|not you")],        # surprises
     [("card", "Honest limits|8x8 pixels = a toy|no measured accuracy on my own drawings"), ("app", "draw4")],
     [("card", "Next: a CNN, or your own labelled drawings"), ("card", "Watch It Learn|follow for more AI/ML builds")],

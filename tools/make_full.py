@@ -59,26 +59,24 @@ def parse(md):
     for m in re.finditer(r"### ([\d:]+) (.+?)\n(.*?)(?=\n### |\Z)", body, re.S):
         raw = m.group(3)
         raw = re.sub(r":?\s*```.*?```", ". @C ", raw, flags=re.S)
+        raw = re.sub(r"\*\*\[CODE[^\]]*\]\*\*[^\n]*", " @C ", raw)
+        raw = re.sub(r"\*?\*?\[(?:SCREEN|AVATAR)[^\]]*\]\*?\*?", " @S ", raw)
         raw = re.sub(r"\[Draw[^\]]*\]", " @D ", raw)
-        raw = re.sub(r"\[SCREEN[^\]]*\]", " @S ", raw)
-        raw = raw.replace("**", "")
+        raw = raw.replace("`", "").replace("**", "")
         raw = re.sub(r"\s+", " ", raw)
-        sents, step = [], 0
-        for s in re.split(r"(?<=[.!?])\s+", raw):
-            s = s.strip()
-            if re.fullmatch(r"(@[CDS]\s*)+\.?", s):  # lone marker sentence: attach to the next one
-                s = s.rstrip(".")
-            toks = re.findall(r"@([CDS])", s)
-            s = re.sub(r"@[CDS]", "", s).strip(" .") + ("." if re.sub(r"@[CDS]", "", s).strip(" ").endswith(".") else "")
-            step += len(toks)
-            if not s.strip(" ."):
-                if toks and "C" in toks or "D" in toks:
-                    pending = True
+        sents, step, carry = [], 0, []
+        for chunk in re.split(r"(?<=[.!?])\s+", raw):
+            carry += re.findall(r"@([CDS])", chunk)
+            text = re.sub(r"@[CDS]", "", chunk).strip()
+            if not text.strip(" ."):
                 continue
-            if sents and ("C" in toks or "D" in toks):
-                sents[-1] = (sents[-1][0], step)  # the sentence that introduces the code/drawing switches too
-            sents.append((s, step))
-        secs.append((m.group(1), m.group(2).strip(), sents))
+            if sents and carry:  # leading markers (before the first sentence) do not advance
+                step += len(carry)
+                if "C" in carry or "D" in carry:  # the sentence that introduces the code/drawing switches too
+                    sents[-1] = (sents[-1][0], step)
+            carry = []
+            sents.append((text, step))
+        secs.append((m.group(1), re.sub(r"\s*\(.*?\)\s*$", "", m.group(2).strip()), sents))
     return secs
 
 
@@ -87,16 +85,20 @@ def code_png(rec, name, out):
     from pygments.formatters import ImageFormatter
     from pygments.lexers import PythonLexer
     f, a, b = rec.CODE[name]
-    lines = (Path(rec.APP_DIR) / f).read_text(encoding="utf-8").splitlines()[a - 1:b]
-    fmt = ImageFormatter(font_name="Consolas", font_size=30, style="monokai", line_numbers=True, line_number_start=a,
+    import textwrap
+    lines = []
+    for ln in (Path(rec.APP_DIR) / f).read_text(encoding="utf-8").splitlines()[a - 1:b]:
+        ind = len(ln) - len(ln.lstrip())
+        lines += textwrap.wrap(ln, 74, subsequent_indent=" " * (ind + 4), initial_indent="", drop_whitespace=False)             if len(ln) > 74 else [ln]
+    fmt = ImageFormatter(font_name="Consolas", font_size=34, style="monokai", line_numbers=True, line_number_start=a,
                          image_pad=24, line_pad=6)
     tmp = out.with_suffix(".raw.png")
     tmp.write_bytes(highlight("\n".join(lines), PythonLexer(), fmt))
     im = Image.open(tmp).convert("RGB")
-    s = min(VW / im.width, VH / im.height, 1.4)
+    s = min(VW / im.width, VH / im.height, 1.5)
     im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
     c = Image.new("RGB", (VW, VH), (39, 40, 34))
-    c.paste(im, (0, 0))
+    c.paste(im, ((VW - im.width) // 2, (VH - im.height) // 2))
     c.save(out)
     tmp.unlink()
 
@@ -105,7 +107,10 @@ def card_png(text, out):
     c = Image.new("RGB", (VW, VH), BG)
     d = ImageDraw.Draw(c)
     ls = text.split("|")
-    f = font(84, True)
+    size = 84
+    while size > 36 and max(d.textlength(l, font=font(size, True)) for l in ls) > VW - 120:
+        size -= 4
+    f = font(size, True)
     y = VH // 2 - len(ls) * 60
     for i, l in enumerate(ls):
         w = d.textlength(l, font=f)
@@ -139,7 +144,7 @@ def record_scenes(proj, rec, out_dir):
                           record_video_size={"width": VW, "height": VH}, device_scale_factor=1)
         page = c.new_page()
         t0 = time.time()
-        page.goto(f"http://localhost:{rec.PORT}/?embed=true")
+        page.goto(f"http://localhost:{rec.PORT}/{getattr(rec, 'QUERY', '?embed=true')}")
         page.wait_for_selector("[data-testid=stApp]")
         rec.prepare(page)
         rec.record(page, lambda n: marks.append((n, time.time() - t0)))
@@ -150,9 +155,36 @@ def record_scenes(proj, rec, out_dir):
     (out_dir / "scenes.json").write_text(json.dumps({"file": str(vid), "marks": marks}))
 
 
+def finish(proj):
+    """Electric intro + main + spoken end card (same brand cards as the shorts, portrait cards centred on a blurred landscape frame)."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    from make_short2 import NAMES, FONT, esc
+    assets = ROOT / "content/_assets"
+    n = int(proj.name[:2])
+    out = proj / "out" / "full"
+    tag = out / "tag.txt"
+    tag.write_bytes(f"#{n:02d} {NAMES.get(n, proj.name[3:].title())}".encode("utf-8"))
+    comp = ("[0:v]split[a][b];[a]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,boxblur=40:5,"
+            "eq=brightness=-0.3[bg];[b]scale=-2:1080[fg];[bg][fg]overlay=(W-w)/2:0,fps=25,format=yuv420p[v]")
+    sh("ffmpeg", "-y", "-i", assets / "intro_base.mp4", "-filter_complex",
+       f"[0:v]drawtext=fontfile='{FONT}':textfile='{esc(tag)}':fontsize=54:fontcolor=0x39d98a:x=(w-text_w)/2:y=h*0.745:enable='gte(t,1.2)'[t];"
+       + comp.replace("[0:v]", "[t]", 1), "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-crf", "20", "-preset", "veryfast",
+       "-c:a", "aac", "-ar", "44100", "-ac", "2", out / "intro_l.mp4")
+    sh("ffmpeg", "-y", "-i", assets / "outro.mp4", "-filter_complex", comp, "-map", "[v]", "-map", "0:a", "-c:v", "libx264",
+       "-crf", "20", "-preset", "veryfast", "-c:a", "aac", "-ar", "44100", "-ac", "2", out / "outro_l.mp4")
+    sh("ffmpeg", "-y", "-i", out / "intro_l.mp4", "-i", proj / "out/full_main.mp4", "-i", out / "outro_l.mp4", "-filter_complex",
+       "[0:a]aresample=44100,aformat=channel_layouts=stereo[a0];[1:a]aresample=44100,aformat=channel_layouts=stereo[a1];"
+       "[2:a]aresample=44100,aformat=channel_layouts=stereo[a2];[0:v][1:v][2:v]concat=n=3:v=1:a=0[v];[a0][a1][a2]concat=n=3:v=0:a=1[a]",
+       "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac",
+       "-b:a", "160k", proj / "out/full.mp4")
+    print("done", proj / "out/full.mp4")
+
+
 def main():
     proj_no = sys.argv[1]
     proj = next((ROOT / "content").glob(f"{proj_no}-*"))
+    if "--finish" in sys.argv:
+        return finish(proj)
     out = proj / "out" / "full"
     out.mkdir(parents=True, exist_ok=True)
     spec = importlib.util.spec_from_file_location("rec", proj / "video.py")
@@ -168,8 +200,9 @@ def main():
     secs = parse((proj / "full.md").read_text(encoding="utf-8"))
     flat = [s for _, _, ss in secs for s, _ in ss]
     for i, s in enumerate(flat):
-        mp3, wav = out / f"s{i:03d}.mp3", out / f"s{i:03d}.wav"
-        if not wav.exists():
+        mp3, wav, txt = out / f"s{i:03d}.mp3", out / f"s{i:03d}.wav", out / f"s{i:03d}.txt"
+        if not (wav.exists() and txt.exists() and txt.read_text(encoding="utf-8") == s):
+            wav.unlink(missing_ok=True)
             for attempt in range(5):
                 try:
                     asyncio.run(edge_tts.Communicate(s, VOICE).save(str(mp3)))
@@ -180,6 +213,7 @@ def main():
                     if attempt == 3:
                         s = s.rstrip(".") + " ."
             sh("ffmpeg", "-y", "-i", mp3, "-ar", "24000", "-ac", "1", wav)
+            txt.write_text(flat[i], encoding="utf-8")
     # timeline
     t, idx, sent_t, sec_t = 0.0, 0, [], []
     for title_t, title, ss in secs:
@@ -244,7 +278,7 @@ def main():
     # captions: bottom band
     ass = ["[Script Info]", "ScriptType: v4.00+", f"PlayResX: {W}", f"PlayResY: {H}", "WrapStyle: 0", "", "[V4+ Styles]",
            "Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding",
-           "Style: Cap,Arial,46,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,3,3,0,2,200,200,60,1",
+           "Style: Cap,Arial,40,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,3,3,0,2,110,110,28,1",
            "Style: Brand,Arial,30,&H00DDDDDD,&H00DDDDDD,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,0,9,40,40,16,1",
            "", "[Events]", "Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text"]
     for a, b, s, _ in sent_t:
@@ -259,8 +293,8 @@ def main():
     fc = (f"color=c=0x0e111a:s={W}x{H}:r={FPS}[bg];[0:v]scale={VW}:{VH}[fg];[bg][fg]overlay={VX}:{VY}:shortest=1,ass=p.ass[o]")
     sh("ffmpeg", "-y", "-i", "video.mp4", "-i", "voice.wav", "-filter_complex", fc, "-map", "[o]", "-map", "1:a",
        "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k",
-       "-t", f"{total:.2f}", "../full.mp4", cwd=out)
-    print("done", proj / "out/full.mp4")
+       "-t", f"{total:.2f}", "../full_main.mp4", cwd=out)
+    finish(proj)
 
 
 if __name__ == "__main__":

@@ -40,14 +40,14 @@ The world is a small grid. S is the start, G is the goal, the skull cells are th
 
 The agent's only knowledge is a table called Q. For every cell and each of the four moves, up, right, down, left, it stores a number: how good do I think this move is from here? It starts at all zeros. Learning is just nudging those numbers.
 
+**[SCREEN]**
+
 I also added three worlds. The classic Cliff walking, a Lava maze, and Two doors. We'll mostly use the cliff.
 
 ### 2:45 The code (2 min 15s)
 **[SCREEN: code editor, train() function, highlight lines as I speak.]**
 
 Here's the whole learning loop. I'll read it, because it's short enough to read.
-
-**[CODE: 09-rl-gridworld/app.py, lines 37-56, shown in full]**
 
 ```python
 def train(env, algo, episodes, alpha, gamma, eps, seed=0):
@@ -68,28 +68,48 @@ def train(env, algo, episodes, alpha, gamma, eps, seed=0):
         rewards.append(total)
 ```
 
+**[SCREEN]**
+
 First, the Q table, all zeros. Then this pick function: with probability epsilon, a random move; otherwise the best move the table knows. That's exploration versus exploitation in one line. Epsilon is a slider in the sidebar, default point one, so one move in ten is random.
+
+**[SCREEN]**
 
 Then the loop. Take a step. See the reward and the new cell. Choose the next action. And now the key line, the target. The target is the reward I just got, plus gamma, the discount, times how good I think the next position is.
 
-And here's the one tiny difference. For SARSA, "how good is the next position" means: the value of the action I'm actually going to take next, which might be a random clumsy one. For Q-learning it means: the value of the best action available there, as if I'd never be clumsy. Same line, a ternary, `Q[s2][a2]` versus `Q[s2].max()`.
+**[SCREEN]**
+
+And here's the one tiny difference. For SARSA, "how good is the next position" means: the value of the action I'm actually going to take next, which might be a random clumsy one. For Q-learning it means: the value of the best action available there, as if I'd never be clumsy. Same line, a ternary: the value of the next action I take, versus the maximum value in the next cell.
+
+**[SCREEN]**
 
 The last line nudges the table: move the old estimate a fraction alpha toward the target. That's it. That's the whole algorithm. Twelve lines and a table.
 
+**[SCREEN]**
+
 I also snapshot the table at about forty points, spaced on a log scale, so the UI can let you scrub through training without retraining. That was a small design choice I liked: training runs once, scrubbing is instant.
 
-One more helper: `greedy_path` follows the best move from the start until it reaches the goal, and that's the blue line you'll see.
+**[SCREEN]**
+
+One more helper: greedy path follows the best move from the start until it reaches the goal, and that's the blue line you'll see.
 
 ### 5:00 Live demo (2 min 15s)
 **[SCREEN: app, Cliff walking, ε = 0.1, 1000 episodes.]**
 
 Okay, live. Cliff walking, a thousand episodes, epsilon point one. Both agents train when the page loads. I'll drag the scrub slider back to the beginning. Episode one: the heatmap is empty, there are no arrows, the agents know nothing.
 
+**[SCREEN]**
+
 Now I scrub forward. Watch the arrows appear near the goal first, the values spread backwards from the goal, like a ripple. Green is good, red is bad.
+
+**[SCREEN]**
 
 At the end, look at the blue paths. Q-learning goes along the edge of the cliff, the shortest route. SARSA goes up and around, longer but away from the edge. In my run, Q-learning's path was fourteen cells and SARSA's was eighteen.
 
+**[SCREEN]**
+
 Now scroll down to the reward chart. This is reward during learning, not after. SARSA's line sits above Q-learning's. I checked this headlessly across ten random seeds, averaging the last fifth of a thousand episodes: SARSA averaged around twenty-seven, Q-learning around two. The little caption under each heatmap is noisier, because it only averages twenty episodes, so don't trust it for a single run.
+
+**[SCREEN]**
 
 Here's the check that proves the idea. Set epsilon to zero, no random moves at all. Now both agents, when evaluated, walk the edge happily. In my test, both scored the same, thirty-eight. The cliff-edge path really is the best path. The difference only exists because of exploration.
 
@@ -105,12 +125,20 @@ Second, this is a real lesson for real systems. If the thing you're training can
 ### 8:15 Honest limits (45s)
 **[SCREEN: Lava maze and Two doors worlds.]**
 
+**[SCREEN]**
+
 Let me be honest about the limits. This is a tiny grid with a lookup table. It doesn't scale to big worlds. That's why modern RL uses neural networks instead of a table.
 
-And not every world works with the default settings. On the Lava maze, Q-learning reached the goal in my test, but SARSA did not in a thousand episodes. On Two doors, neither agent got through with the defaults; they just wandered until the step limit. I haven't tuned those, so you may need more episodes or a different epsilon. Also, one training run with one random seed is a single sample, so results wobble. And yes, Claude Code wrote most of this, and I checked the numbers by running the app's own functions, not by trusting the text in the info box.
+**[SCREEN]**
+
+And not every world works with the default settings. On the Lava maze, Q-learning reached the goal in my test, but SARSA did not in a thousand episodes. **[SCREEN]**
+
+On Two doors, neither agent got through with the defaults; they just wandered until the step limit. I haven't tuned those, so you may need more episodes or a different epsilon. Also, one training run with one random seed is a single sample, so results wobble. And yes, Claude Code wrote most of this, and I checked the numbers by running the app's own functions, not by trusting the text in the info box.
 
 ### 9:00 What to build next + CTA (1 min)
 **[AVATAR, then the hub page with project tiles]**
+
+**[SCREEN]**
 
 What would I build next? A deep Q-network, where the table is replaced by a neural net, so it can handle images. Or let you draw your own cliff. Or add a wind that randomly pushes the agent.
 

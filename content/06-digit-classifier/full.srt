@@ -1,0 +1,367 @@
+1
+00:00:00,000 --> 00:00:04,968
+Four different AI models are about to look at my handwriting, and they are going to vote on what I wrote.
+
+2
+00:00:05,248 --> 00:00:10,192
+That blurry blob is what they actually see: an eight by eight grid of pixels.
+
+3
+00:00:10,472 --> 00:00:12,344
+Sixty-four numbers.
+
+4
+00:00:12,624 --> 00:00:20,448
+From that, a support vector machine, a small neural network, a random forest and a nearest-neighbour model each give an answer.
+
+5
+00:00:20,728 --> 00:00:22,600
+Most of the time they agree.
+
+6
+00:00:22,880 --> 00:00:25,832
+Sometimes they don't, and that is where it gets interesting.
+
+7
+00:00:26,112 --> 00:00:33,024
+I'm going to show you how I built this, and why a few lines of unglamorous preprocessing mattered more than the choice of model.
+
+8
+00:00:33,824 --> 00:00:40,232
+Quick honesty first: I built this with Claude Code, and the narration you're hearing is AI-generated.
+
+9
+00:00:40,512 --> 00:00:44,640
+The code, though, is real and short, and I'll show it.
+
+10
+00:00:44,920 --> 00:00:49,408
+Why does a digit classifier matter in a world of giant language models?
+
+11
+00:00:49,688 --> 00:00:54,128
+Because it is the cleanest place to understand what machine learning actually is.
+
+12
+00:00:54,408 --> 00:00:56,304
+You have examples with labels.
+
+13
+00:00:56,584 --> 00:00:58,456
+You pick a model.
+
+14
+00:00:58,736 --> 00:01:00,608
+You fit it.
+
+15
+00:01:00,888 --> 00:01:03,360
+You test it on data it has never seen.
+
+16
+00:01:03,640 --> 00:01:08,680
+That loop is the same for the biggest models in the world; it is just easier to see here.
+
+17
+00:01:08,960 --> 00:01:19,064
+The dataset is the scikit-learn digits set: one thousand seven hundred and ninety-seven images, each eight by eight pixels, with values from zero to sixteen.
+
+18
+00:01:19,344 --> 00:01:21,576
+That is tiny, which is the point.
+
+19
+00:01:21,856 --> 00:01:28,696
+The app trains four models when it starts, on a laptop CPU, with no GPU and no API calls.
+
+20
+00:01:28,976 --> 00:01:32,192
+There is also a trap hiding in benchmark numbers.
+
+21
+00:01:32,472 --> 00:01:37,920
+A model that scores ninety-nine percent on a test split can still stumble on your own handwriting.
+
+22
+00:01:38,200 --> 00:01:41,368
+Understanding why is the real lesson of this video.
+
+23
+00:01:42,167 --> 00:01:46,631
+The app is one file, about a hundred and twenty lines, in Streamlit.
+
+24
+00:01:46,911 --> 00:01:53,799
+Three pieces matter: training, a bit of augmentation, and converting your drawing into something the models can read.
+
+25
+00:01:54,079 --> 00:01:55,951
+First, training.
+
+26
+00:01:56,231 --> 00:01:59,807
+This is the function, cached so it only runs once.
+
+27
+00:02:00,087 --> 00:02:04,911
+We hold out a quarter of the images, four hundred and fifty of them, as a test set.
+
+28
+00:02:05,191 --> 00:02:09,871
+Stratify means each digit appears in the same proportion in both halves.
+
+29
+00:02:10,151 --> 00:02:14,759
+Then four models, all from scikit-learn, all trained on the same data.
+
+30
+00:02:15,039 --> 00:02:20,799
+The accuracy table in the app is computed on that held-out quarter, never on the training images.
+
+31
+00:02:21,079 --> 00:02:22,975
+Second, augmentation.
+
+32
+00:02:23,255 --> 00:02:30,167
+Hand-drawn digits are not perfectly centred, so I shift every training image by one pixel in four directions.
+
+33
+00:02:30,447 --> 00:02:37,239
+That turns one thousand three hundred and forty-seven training images into six thousand seven hundred and thirty-five.
+
+34
+00:02:37,519 --> 00:02:43,975
+Five times the data, for free, and the models become less sensitive to exactly where you put the digit.
+
+35
+00:02:44,255 --> 00:02:47,663
+Third, the bridge between your mouse and the model.
+
+36
+00:02:47,943 --> 00:02:54,951
+The browser canvas is downsampled to fifty-six by fifty-six, and then Python reduces that to eight by eight.
+
+37
+00:02:55,231 --> 00:02:57,103
+Read it top to bottom.
+
+38
+00:02:57,383 --> 00:02:59,255
+Find where the ink is.
+
+39
+00:02:59,535 --> 00:03:01,407
+Crop to the bounding box.
+
+40
+00:03:01,687 --> 00:03:04,567
+Scale so the longer side is eight pixels.
+
+41
+00:03:04,847 --> 00:03:07,151
+Centre it in an eight by eight box.
+
+42
+00:03:07,431 --> 00:03:11,535
+Then stretch the brightness to the dataset's zero to sixteen range.
+
+43
+00:03:11,815 --> 00:03:15,655
+Each step exists to make my drawing look like the training images.
+
+44
+00:03:15,935 --> 00:03:17,807
+Finally the vote.
+
+45
+00:03:18,087 --> 00:03:25,575
+Each model gives probabilities for the ten digits, we take each model's top pick, and the most common answer is the majority vote.
+
+46
+00:03:25,855 --> 00:03:27,727
+Three lines.
+
+47
+00:03:28,007 --> 00:03:29,879
+That's an ensemble.
+
+48
+00:03:30,159 --> 00:03:37,959
+The drawing canvas itself is a small inline Streamlit component written in JavaScript, so there is no extra package to install.
+
+49
+00:03:38,239 --> 00:03:41,839
+When you lift the mouse, it sends the pixels back to Python.
+
+50
+00:03:42,639 --> 00:03:44,511
+Here's the app.
+
+51
+00:03:44,791 --> 00:03:48,079
+On the left, the canvas and the accuracy table.
+
+52
+00:03:48,359 --> 00:04:03,959
+On unseen data, when I ran the same split and augmentation headlessly, the SVM scored ninety-nine point eight percent, k-nearest-neighbours ninety-eight point four, the random forest ninety-eight point two, and the neural net ninety-eight point zero.
+
+53
+00:04:04,239 --> 00:04:08,007
+So all four are in the ninety-eight to ninety-nine percent range.
+
+54
+00:04:08,287 --> 00:04:10,159
+Let me draw a seven.
+
+55
+00:04:10,439 --> 00:04:15,263
+Big, one digit, like a dot-matrix display, as the tip says.
+
+56
+00:04:15,543 --> 00:04:22,623
+There's the eight by eight view, the majority vote, and on the right a bar chart of each model's probability for each digit.
+
+57
+00:04:22,903 --> 00:04:30,823
+On this drawing the SVM and k-nearest-neighbours both said seven, while the neural net and the random forest both said five.
+
+58
+00:04:31,103 --> 00:04:34,223
+That is a two-two split, and the app showed seven.
+
+59
+00:04:34,503 --> 00:04:38,007
+Keep that in mind, because I come back to it in the limits.
+
+60
+00:04:38,287 --> 00:04:40,159
+Now a three.
+
+61
+00:04:40,439 --> 00:04:44,255
+The SVM, the forest and k-nearest-neighbours say three.
+
+62
+00:04:44,535 --> 00:04:47,631
+The neural net says eight, with near certainty.
+
+63
+00:04:47,911 --> 00:04:52,615
+The majority wins, but the dissenter was confident, and that is worth noticing.
+
+64
+00:04:52,895 --> 00:04:56,711
+Now let me be mean and draw a messy four with an open top.
+
+65
+00:04:56,991 --> 00:05:00,519
+The SVM, the neural net and the forest say four.
+
+66
+00:05:00,799 --> 00:05:02,719
+k-nearest-neighbours says one.
+
+67
+00:05:02,999 --> 00:05:08,255
+The majority vote gives one answer, but the chart tells you how confident each model was.
+
+68
+00:05:08,535 --> 00:05:12,519
+That's the difference between a prediction and a prediction you should trust.
+
+69
+00:05:12,799 --> 00:05:19,063
+The cropping step enlarges any digit to fill the box, so size matters little, but shape does.
+
+70
+00:05:19,863 --> 00:05:21,735
+Three things.
+
+71
+00:05:22,015 --> 00:05:25,327
+One: the preprocessing mattered more than the model.
+
+72
+00:05:25,607 --> 00:05:34,391
+A comment in the code says it directly: centring by centre of mass hurt top-heavy digits like seven, so I centre by the bounding box instead.
+
+73
+00:05:34,671 --> 00:05:39,447
+That's the kind of thing you only learn by drawing digits and watching them get misread.
+
+74
+00:05:39,727 --> 00:05:42,319
+Two: simple models are very good here.
+
+75
+00:05:42,599 --> 00:05:50,951
+A k-nearest-neighbours classifier, which essentially remembers the training images and looks for the closest ones, scores about ninety-eight percent.
+
+76
+00:05:51,231 --> 00:05:54,711
+A neural network is not better on a dataset this small.
+
+77
+00:05:54,991 --> 00:06:00,031
+Three: the accuracy table is a statement about the test set, not about you.
+
+78
+00:06:00,311 --> 00:06:06,527
+All four models score high on dataset images, but your hand-drawn digit comes from a different distribution.
+
+79
+00:06:06,807 --> 00:06:10,239
+Augmentation narrows that gap; it does not close it.
+
+80
+00:06:11,039 --> 00:06:13,247
+Let me be straight about what this is not.
+
+81
+00:06:13,527 --> 00:06:18,735
+It is eight by eight pixels, so it is a toy compared with real handwriting recognition.
+
+82
+00:06:19,015 --> 00:06:26,311
+Some drawings will be misread, especially digits with unusual shapes or strokes that blur together at that resolution.
+
+83
+00:06:26,591 --> 00:06:37,223
+I have not measured accuracy on my own drawings across many samples, so I won't claim a number for it; the ninety-eight to ninety-nine percent figure is for the held-out part of the dataset only.
+
+84
+00:06:37,503 --> 00:06:43,335
+The majority vote has no sophisticated tie-break, so a two-two split is close to arbitrary.
+
+85
+00:06:43,615 --> 00:06:48,751
+And the models use a fixed random seed, so you're seeing one run, not an average.
+
+86
+00:06:49,031 --> 00:06:51,575
+I also built this with an AI assistant.
+
+87
+00:06:51,855 --> 00:06:56,631
+I ran the code and checked the numbers, but you should read it yourself before trusting it.
+
+88
+00:06:57,431 --> 00:07:03,407
+If you want to take this further: swap the classic models for a small convolutional network and compare.
+
+89
+00:07:03,687 --> 00:07:06,831
+There is a CNN project in the same repository.
+
+90
+00:07:07,111 --> 00:07:14,335
+You could also collect your own drawings, label them, and measure real accuracy, which would be a more honest benchmark than the table.
+
+91
+00:07:14,615 --> 00:07:19,247
+All the code is in the repository linked below, no API key needed.
+
+92
+00:07:19,527 --> 00:07:26,055
+If this was useful, follow for more AI and ML builds, and tell me in the comments which digit fooled your models.

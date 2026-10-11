@@ -117,11 +117,13 @@ The drawing canvas itself is a small inline Streamlit component written in JavaS
 ### 5:00 Live demo
 [SCREEN: app.] Here's the app. On the left, the canvas and the accuracy table. On unseen data, when I ran the same split and augmentation headlessly, the SVM scored ninety-nine point eight percent, k-nearest-neighbours ninety-eight point four, the random forest ninety-eight point two, and the neural net ninety-eight point zero. So all four are in the ninety-eight to ninety-nine percent range.
 
-Let me draw a seven. Big, one digit, like a dot-matrix display, as the tip says. [Draw, release.] There's the eight by eight view, the majority vote, and on the right a bar chart of each model's probability for each digit. [Describe what actually appears: if all four agree, say so.]
+Let me draw a seven. Big, one digit, like a dot-matrix display, as the tip says. [Draw, release.] There's the eight by eight view, the majority vote, and on the right a bar chart of each model's probability for each digit. On this drawing the SVM and k-nearest-neighbours both said seven, while the neural net and the random forest both said five. That is a two-two split, and the app showed seven. Keep that in mind, because I come back to it in the limits.
 
-Now a three. [Draw.] Good. Now let me be mean and draw a messy four with an open top. [Draw.] This is where you can look for disagreement: if two models favour a different digit, the bars split. The majority vote still gives one answer, but the chart tells you how confident each model was. That's the difference between a prediction and a prediction you should trust.
+Now a three. [Draw.] The SVM, the forest and k-nearest-neighbours say three. The neural net says eight, with near certainty. The majority wins, but the dissenter was confident, and that is worth noticing.
 
-Clear it, and try a small, thin digit. The cropping step enlarges it to fill the box, so size matters little, but shape does.
+Now let me be mean and draw a messy four with an open top. [Draw.] The SVM, the neural net and the forest say four. k-nearest-neighbours says one. The majority vote gives one answer, but the chart tells you how confident each model was. That's the difference between a prediction and a prediction you should trust.
+
+The cropping step enlarges any digit to fill the box, so size matters little, but shape does.
 
 ### 7:00 What surprised me
 Three things.
