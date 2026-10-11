@@ -1,0 +1,8 @@
+0:00 Cold open
+0:30 What a decision boundary is
+1:06 The network
+1:47 Backpropagation
+2:35 Live demo
+3:43 What I take from it
+4:05 Honest limits
+4:34 What to build next

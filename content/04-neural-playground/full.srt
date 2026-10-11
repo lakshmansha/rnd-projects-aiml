@@ -1,0 +1,219 @@
+1
+00:00:02,415 --> 00:00:06,998
+Two spirals, one orange and one blue, wound around each other.
+
+2
+00:00:07,278 --> 00:00:11,262
+A neural network I wrote from scratch has to draw a line between them.
+
+3
+00:00:11,543 --> 00:00:21,215
+Watch the boundary: at first it is almost flat, then it starts to bend, and after fifteen hundred steps it wraps around the spiral with ninety-eight percent accuracy.
+
+4
+00:00:21,494 --> 00:00:25,382
+Then I'll shrink the network to two neurons and show you what happens.
+
+5
+00:00:25,662 --> 00:00:30,006
+I built this with Claude Code, and the narration is AI-generated.
+
+6
+00:00:30,806 --> 00:00:35,726
+A classifier takes a point and answers one question: orange or blue.
+
+7
+00:00:36,006 --> 00:00:39,750
+The decision boundary is the border between those two answers.
+
+8
+00:00:40,030 --> 00:00:46,655
+The coloured background in this chart is the network's opinion at every position, and the dots are the real data.
+
+9
+00:00:46,934 --> 00:00:49,574
+A straight line cannot separate a spiral.
+
+10
+00:00:49,854 --> 00:00:53,598
+To separate it, the boundary has to curve and curve again.
+
+11
+00:00:53,878 --> 00:00:58,918
+That curving comes from stacking layers, and it is the reason deep networks exist.
+
+12
+00:00:59,198 --> 00:01:04,119
+I wanted to watch that happen, step by step, with nothing hidden inside a library.
+
+13
+00:01:04,399 --> 00:01:06,295
+So the whole network is numpy.
+
+14
+00:01:07,094 --> 00:01:08,966
+Here is the forward pass..
+
+15
+00:01:09,246 --> 00:01:15,702
+Each layer multiplies its input by a weight matrix, adds a bias, and applies an activation function.
+
+16
+00:01:15,982 --> 00:01:22,606
+In the hidden layers the activation is tanh, which squashes numbers into a range from minus one to one.
+
+17
+00:01:22,886 --> 00:01:27,134
+That squashing is what makes the layers more than one big linear map.
+
+18
+00:01:27,415 --> 00:01:35,646
+The last layer uses a sigmoid, so the output is a probability between zero and one: how likely is this point to be orange.
+
+19
+00:01:35,927 --> 00:01:42,071
+With the default setting the shape is two inputs, two hidden layers of eight neurons, and one output.
+
+20
+00:01:42,351 --> 00:01:47,511
+The weights start as small random numbers, so at the start the network knows nothing.
+
+21
+00:01:48,311 --> 00:01:51,958
+Learning means nudging the weights so the answers get less wrong.
+
+22
+00:01:52,238 --> 00:01:54,110
+This is the backward pass..
+
+23
+00:01:54,390 --> 00:01:58,158
+First we run the forward pass and measure the error at the output.
+
+24
+00:01:58,439 --> 00:02:04,774
+With a sigmoid output and binary cross-entropy loss, that error is simply the prediction minus the label.
+
+25
+00:02:05,055 --> 00:02:07,431
+Then we walk backwards through the layers.
+
+26
+00:02:07,711 --> 00:02:15,294
+At each layer we work out how much each weight contributed to the error, which is the gradient, and we subtract a small multiple of it.
+
+27
+00:02:15,574 --> 00:02:17,614
+The multiple is the learning rate.
+
+28
+00:02:17,894 --> 00:02:24,446
+To pass the error further back, we multiply by the transposed weights and by the derivative of the activation.
+
+29
+00:02:24,726 --> 00:02:28,974
+That one line, repeated layer by layer, is backpropagation.
+
+30
+00:02:29,254 --> 00:02:35,302
+Every step uses all three hundred points at once, so this is plain full-batch gradient descent.
+
+31
+00:02:36,102 --> 00:02:44,406
+I pick the Spiral dataset, hidden layers eight comma eight, tanh, learning rate zero point three, and fifteen hundred epochs.
+
+32
+00:02:44,686 --> 00:02:46,559
+I press Train.
+
+33
+00:02:46,838 --> 00:02:53,174
+The chart redraws about forty times during training, so you can watch the boundary bend and the loss fall.
+
+34
+00:02:53,454 --> 00:03:01,758
+At the end the app reports fifteen hundred epochs, accuracy ninety-eight point zero percent, and a loss of zero point one one six.
+
+35
+00:03:02,038 --> 00:03:12,167
+The loss curve on the right fell from about zero point seven to about zero point one, with a few spikes along the way, and the boundary now follows both arms of the spiral.
+
+36
+00:03:12,446 --> 00:03:14,318
+Now the experiment.
+
+37
+00:03:14,598 --> 00:03:18,294
+I change the hidden layers from eight comma eight to just two.
+
+38
+00:03:18,574 --> 00:03:21,670
+That means a single hidden layer with two neurons.
+
+39
+00:03:21,950 --> 00:03:25,958
+Same data, same learning rate, same fifteen hundred epochs.
+
+40
+00:03:26,238 --> 00:03:32,502
+This time the result is fifty-seven percent accuracy, with a loss of zero point six five six.
+
+41
+00:03:32,782 --> 00:03:37,054
+That is barely better than guessing, and the boundary stays almost straight.
+
+42
+00:03:37,334 --> 00:03:43,286
+The loss curve dropped quickly at the start and then crawled, never getting anywhere near the other run.
+
+43
+00:03:44,086 --> 00:03:46,942
+More training would not rescue the small network.
+
+44
+00:03:47,222 --> 00:03:54,638
+Two neurons can only combine two straight lines into a gentle bend, and that shape simply cannot describe a spiral.
+
+45
+00:03:54,918 --> 00:03:57,390
+The limit is capacity, not effort.
+
+46
+00:03:57,671 --> 00:04:04,846
+On the other side, more layers and more neurons give the boundary the freedom to curve, which is what the bigger network used.
+
+47
+00:04:05,646 --> 00:04:07,519
+This is a toy.
+
+48
+00:04:07,798 --> 00:04:16,990
+The accuracy numbers are measured on the same three hundred points the network trained on, so they say how well it fitted the data, not how well it would do on new points.
+
+49
+00:04:17,270 --> 00:04:22,886
+I used one dataset, one random seed for the weights, and one learning rate for the comparison.
+
+50
+00:04:23,167 --> 00:04:28,975
+A different seed could land a few points away, and the two neuron result in particular could change.
+
+51
+00:04:29,255 --> 00:04:34,271
+I built this with Claude Code and I read and ran the code, but read it yourself too.
+
+52
+00:04:35,071 --> 00:04:43,135
+Next I'd add a held-out test set so you can watch overfitting happen, and show each neuron's own output so you can see what the hidden layers actually learn.
+
+53
+00:04:43,415 --> 00:04:46,535
+Dropout and weight decay would be good additions too.
+
+54
+00:04:46,814 --> 00:04:51,302
+The code is in the description, with no API key and no cost.
+
+55
+00:04:51,583 --> 00:04:58,159
+If you enjoyed watching a boundary bend, follow for more AI and ML builds, and tell me which dataset I should add.

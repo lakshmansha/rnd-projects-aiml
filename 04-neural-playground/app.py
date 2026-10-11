@@ -1,4 +1,6 @@
 """Neural Net Playground: a neural network written from scratch in numpy, trained live. No API calls."""
+import time
+
 import numpy as np
 import plotly.graph_objects as go
 import streamlit as st
@@ -98,7 +100,8 @@ if go_btn:
         l, a = net.step(X, y, lr)
         losses.append(l); accs.append(a)
         if e % max(1, epochs // 40) == 0 or e == epochs:
-            slot.plotly_chart(draw(net, losses, accs), use_container_width=True, key=f"c{e}")
+            slot.plotly_chart(draw(net, losses, accs), use_container_width=True)
+            time.sleep(0.12)  # give the browser time to paint each frame
             info.metric("Epoch / accuracy", f"{e} / {a:.1%}", f"loss {l:.3f}")
 else:
     net0 = MLP(sizes, act)
