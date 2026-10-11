@@ -23,6 +23,7 @@ APPS = [
     (8515, "🏋️ Prompt Gym", "Write prompts that pass strict automatic checks", "GPT, 1 call/attempt"),
     (8516, "🩻 CNN X-ray", "MobileNetV2 top-5 guesses + Grad-CAM heatmap of what it looked at", "none"),
     (8517, "🐦 Flappy Evolution", "Neural nets evolve to play a Flappy-style game: watch generations learn live", "none"),
+    (8518, "🔬 Attention X-ray", "See which earlier characters each attention head of a real tiny GPT looks at", "none"),
 ]
 cols = st.columns(3)
 for i, (port, name, blurb, cost) in enumerate(APPS):

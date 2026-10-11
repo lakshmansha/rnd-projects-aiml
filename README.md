@@ -23,9 +23,10 @@ Embeddings are computed locally with hashing n-grams (no embedding deployment re
 | 15 | `15-prompt-gym` | Game: write prompts that make GPT pass 6 strictly auto-checked challenges (JSON, exact word counts...) |
 | 16 | `16-cnn-xray` | MobileNetV2 (ImageNet) top-5 + Grad-CAM heatmap; sample, upload or webcam (no API calls) |
 | 17 | `17-flappy-evolution` | Neuroevolution: a population of tiny neural nets learns a Flappy-style game, shown live (no API calls) |
+| 18 | `18-attention-xray` | Attention heatmaps of a trained Tiny GPT (every layer and head) plus next-character predictions; weights from `train.py` (no API calls) |
 
 ## Run
-Easiest: `python run_all.py` starts every app (ports 8501-8517) plus a hub page at http://localhost:8500. `python run_all.py 4 6` starts only those projects.
+Easiest: `python run_all.py` starts every app (ports 8501-8518) plus a hub page at http://localhost:8500. `python run_all.py 4 6` starts only those projects.
 
 Or one at a time:
 ```

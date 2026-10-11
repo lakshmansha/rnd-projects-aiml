@@ -41,16 +41,17 @@ Suggested time: evening in your audience's time zone (for India, about 7-9 PM). 
 | 5 | 02 | I tried to hack an AI guarding a password (41) | `content/02-prompt-injection-lab/out/short_v2.mp4` |
 | 6 | 16 | What does an AI actually look at? Grad-CAM X-ray (48) | `content/16-cnn-xray/out/short_v2.mp4` |
 | 7 | 17 | 60 AI birds learn to fly with zero training (43) | `content/17-flappy-evolution/out/short_v2.mp4` |
-| 8 | 04 | Watch a neural net learn a spiral, live (39) | `content/04-neural-playground/out/short_v2.mp4` |
-| 9 | 11 | What ChatGPT actually reads (it isn't letters) (46) | `content/11-token-xray/out/short_v2.mp4` |
-| 10 | 13 | K-means cuts this in half. This one doesn't. (44) | `content/13-clustering-lab/out/short_v2.mp4` |
-| 11 | 14 | Which words made the AI decide? It shows me. (44) | `content/14-explainable-text-ai/out/short_v2.mp4` |
-| 12 | 05 | Can YOU spot the AI lie? 1 of 5 facts is fake (45) | `content/05-spot-the-hallucination/out/short_v2.mp4` |
-| 13 | 15 | Can you make GPT write exactly 10 words? (40) | `content/15-prompt-gym/out/short_v2.mp4` |
-| 14 | 12 | I made two AIs debate pineapple on pizza (40) | `content/12-debate-arena/out/short_v2.mp4` |
-| 15 | 01 | Two AI prompts fight. A judge picks the winner. (47) | `content/01-llm-arena/out/short_v2.mp4` |
-| 16 | 03 | I turned 60 sentences into a map of meaning (43) | `content/03-semantic-map/out/short_v2.mp4` |
-| 17 | 08 | Can GPT read my mind in 20 questions? (37) | `content/08-twenty-questions/out/short_v2.mp4` |
+| 8 | 18 | I looked inside a GPT: where does each head look? (49) | `content/18-attention-xray/out/short_v2.mp4` |
+| 9 | 04 | Watch a neural net learn a spiral, live (39) | `content/04-neural-playground/out/short_v2.mp4` |
+| 10 | 11 | What ChatGPT actually reads (it isn't letters) (46) | `content/11-token-xray/out/short_v2.mp4` |
+| 11 | 13 | K-means cuts this in half. This one doesn't. (44) | `content/13-clustering-lab/out/short_v2.mp4` |
+| 12 | 14 | Which words made the AI decide? It shows me. (44) | `content/14-explainable-text-ai/out/short_v2.mp4` |
+| 13 | 05 | Can YOU spot the AI lie? 1 of 5 facts is fake (45) | `content/05-spot-the-hallucination/out/short_v2.mp4` |
+| 14 | 15 | Can you make GPT write exactly 10 words? (40) | `content/15-prompt-gym/out/short_v2.mp4` |
+| 15 | 12 | I made two AIs debate pineapple on pizza (40) | `content/12-debate-arena/out/short_v2.mp4` |
+| 16 | 01 | Two AI prompts fight. A judge picks the winner. (47) | `content/01-llm-arena/out/short_v2.mp4` |
+| 17 | 03 | I turned 60 sentences into a map of meaning (43) | `content/03-semantic-map/out/short_v2.mp4` |
+| 18 | 08 | Can GPT read my mind in 20 questions? (37) | `content/08-twenty-questions/out/short_v2.mp4` |
 
 ## 4. Copy-paste text per video
 
@@ -250,7 +251,35 @@ Follow @watchitlearn for a new AI build every day.
 #NeuralNetwork #Evolution #MachineLearning #Python #AI
 ```
 
-### Day 8: #04 Watch a neural net learn a spiral, live
+### Day 8: #18 I looked inside a GPT: where does each head look?
+
+**YouTube title:**
+
+`I looked inside a GPT: where does each head look?`
+
+**YouTube description:**
+
+```
+A tiny GPT reads Shakespeare and every attention head is plotted: in layer 1 one head looks exactly one character back, another exactly two.
+
+Project 18 of the Watch It Learn series. Narration is AI-generated. Built with Claude Code (Python, Streamlit). No personal data is shown.
+
+#Transformer #Attention #GPT #MachineLearning #Python #Shorts
+```
+
+**Instagram caption:**
+
+```
+I looked inside a GPT: where does each head look?
+
+A tiny GPT reads Shakespeare and every attention head is plotted: in layer 1 one head looks exactly one character back, another exactly two.
+
+Follow @watchitlearn for a new AI build every day.
+
+#Transformer #Attention #GPT #MachineLearning #Python
+```
+
+### Day 9: #04 Watch a neural net learn a spiral, live
 
 **YouTube title:**
 
@@ -278,7 +307,7 @@ Follow @watchitlearn for a new AI build every day.
 #NeuralNetworks #MachineLearning #Python #Backprop #AI
 ```
 
-### Day 9: #11 What ChatGPT actually reads (it isn't letters)
+### Day 10: #11 What ChatGPT actually reads (it isn't letters)
 
 **YouTube title:**
 
@@ -306,7 +335,7 @@ Follow @watchitlearn for a new AI build every day.
 #LLM #Tokenization #ChatGPT #AI #Python
 ```
 
-### Day 10: #13 K-means cuts this in half. This one doesn't.
+### Day 11: #13 K-means cuts this in half. This one doesn't.
 
 **YouTube title:**
 
@@ -334,7 +363,7 @@ Follow @watchitlearn for a new AI build every day.
 #MachineLearning #Clustering #KMeans #DBSCAN #Python
 ```
 
-### Day 11: #14 Which words made the AI decide? It shows me.
+### Day 12: #14 Which words made the AI decide? It shows me.
 
 **YouTube title:**
 
@@ -362,7 +391,7 @@ Follow @watchitlearn for a new AI build every day.
 #ExplainableAI #MachineLearning #NLP #Python #AI
 ```
 
-### Day 12: #05 Can YOU spot the AI lie? 1 of 5 facts is fake
+### Day 13: #05 Can YOU spot the AI lie? 1 of 5 facts is fake
 
 **YouTube title:**
 
@@ -390,7 +419,7 @@ Follow @watchitlearn for a new AI build every day.
 #AI #LLM #Hallucination #Streamlit #Python
 ```
 
-### Day 13: #15 Can you make GPT write exactly 10 words?
+### Day 14: #15 Can you make GPT write exactly 10 words?
 
 **YouTube title:**
 
@@ -418,7 +447,7 @@ Follow @watchitlearn for a new AI build every day.
 #PromptEngineering #GPT #LLM #Python #AI
 ```
 
-### Day 14: #12 I made two AIs debate pineapple on pizza
+### Day 15: #12 I made two AIs debate pineapple on pizza
 
 **YouTube title:**
 
@@ -446,7 +475,7 @@ Follow @watchitlearn for a new AI build every day.
 #AI #GPT4o #Debate #Streamlit #Python
 ```
 
-### Day 15: #01 Two AI prompts fight. A judge picks the winner.
+### Day 16: #01 Two AI prompts fight. A judge picks the winner.
 
 **YouTube title:**
 
@@ -474,7 +503,7 @@ Follow @watchitlearn for a new AI build every day.
 #PromptEngineering #LLM #GPT #Elo #AI
 ```
 
-### Day 16: #03 I turned 60 sentences into a map of meaning
+### Day 17: #03 I turned 60 sentences into a map of meaning
 
 **YouTube title:**
 
@@ -502,7 +531,7 @@ Follow @watchitlearn for a new AI build every day.
 #RAG #Embeddings #LLM #Python #AI
 ```
 
-### Day 17: #08 Can GPT read my mind in 20 questions?
+### Day 18: #08 Can GPT read my mind in 20 questions?
 
 **YouTube title:**
 
