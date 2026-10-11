@@ -63,28 +63,84 @@ def gradcam(model, x, cls=None):
     return probs.detach().numpy(), cam, cls
 ```
 
-Let me walk through it. First, a forward hook on `model.features`. That's a little spy that grabs the output of the last convolutional block, the feature maps, while the image goes through.
+Let me walk through it. 
+
+[SCREEN]
+
+First, a forward hook on `model.features`. That's a little spy that grabs the output of the last convolutional block, the feature maps, while the image goes through.
+
+
+
+[SCREEN]
 
 Then I run the model and take the softmax, which gives the probabilities. If you didn't tell me which class to explain, I use the winner.
 
+
+
+[SCREEN]
+
 The key line is `torch.autograd.grad`. It asks: how does the score for my class change with respect to those feature maps? That is the gradient.
+
+
+
+[SCREEN]
 
 Next, `grads.mean` over the height and width: one weight per feature map. Multiply the weights into the maps, sum, and apply ReLU, because I only care about evidence in favour of the class. Interpolate up to two hundred and twenty-four pixels, and normalise to zero-to-one. And that's it. Roughly twenty lines.
 
+
+
+[SCREEN]
+
 Notice the `cls` argument. It lets me ask "show me where you looked for the second-best guess", which turns out to be the most fun part of the demo.
+
+
+
+[SCREEN]
 
 The rest of the app is small: a function that blends red-to-blue colour into the photo with a strength slider, a top-five list, and an input chooser for samples, uploads or the webcam.
 
 ### [5:00] Live demo (135 s)
 Let's run it. Sample: banana. The left image is what the network really sees: a two-hundred-twenty-four pixel centre crop, because that's what it was trained on. In the middle, the Grad-CAM overlay. Banana, ninety-five percent, and the red sits right on the fruit. That's what I hoped for.
 
+
+
+[SCREEN]
+
 I'll drag the heatmap strength slider to make the overlay stronger. Same evidence, easier to see.
 
-Now the cat. The top guess is tiger cat at twenty-two percent, and the next is tabby at thirteen. Not very confident, because ImageNet has several kinds of cat and they overlap. Watch what happens when I pick the second guess in "Explain which guess?". The heat moves. For tabby, it highlights different pixels than for tiger cat. Two answers, two different sets of evidence.
 
-Next, the dog. Labrador, around twenty percent. Again, much lower than the banana. I'll pick the runner-up and again the map changes.
 
-And the pizza. Pizza gets nineteen percent, and a frying pan gets eighteen. That is basically a coin flip. If I click on the frying pan, the heat map shows which pixels support that wrong-but-close answer (describe what you actually see on screen when recording). The point: a one-point gap means the model genuinely can't separate them.
+[SCREEN]
+
+Now the cat. The top guess is tiger cat at twenty-two percent, and the next is tabby at thirteen. Not very confident, because ImageNet has several kinds of cat and they overlap. 
+
+[SCREEN]
+
+Watch what happens when I pick the second guess in "Explain which guess?". The heat moves. For tabby, it highlights different pixels than for tiger cat. Two answers, two different sets of evidence.
+
+
+
+[SCREEN]
+
+Next, the dog. Labrador, around twenty percent. Again, much lower than the banana. 
+
+[SCREEN]
+
+I'll pick the runner-up and again the map changes.
+
+
+
+[SCREEN]
+
+And the pizza. Pizza gets nineteen percent, and a frying pan gets eighteen. That is basically a coin flip. 
+
+[SCREEN]
+
+If I click on the frying pan, the heat map shows which pixels support that wrong-but-close answer (describe what you actually see on screen when recording). The point: a one-point gap means the model genuinely can't separate them.
+
+
+
+[SCREEN]
 
 You can also upload your own photo, or use the webcam. I'd encourage you to try it with something weird.
 

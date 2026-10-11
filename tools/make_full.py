@@ -56,13 +56,13 @@ def font(size, bold=False):
 def parse(md):
     body = re.split(r"\n## ", md.split("## Voice-over")[1])[0]  # stop at the next top-level section
     secs = []
-    for m in re.finditer(r"### ([\d:]+) (.+?)\n(.*?)(?=\n### |\Z)", body, re.S):
+    for m in re.finditer(r"### \[?([\d:]+)\]? (.+?)\n(.*?)(?=\n### |\Z)", body, re.S):
         raw = m.group(3)
         raw = re.sub(r":?\s*```.*?```", ". @C ", raw, flags=re.S)
         raw = re.sub(r"\*\*\[CODE[^\]]*\]\*\*[^\n]*", " @C ", raw)
         raw = re.sub(r"\*?\*?\[(?:SCREEN|AVATAR)[^\]]*\]\*?\*?", " @S ", raw)
         raw = re.sub(r"\[Draw[^\]]*\]", " @D ", raw)
-        raw = raw.replace("`", "").replace("**", "")
+        raw = raw.replace("`", "").replace("**", "").replace("[pause]", " ")
         raw = re.sub(r"\s+", " ", raw)
         sents, step, carry = [], 0, []
         for chunk in re.split(r"(?<=[.!?])\s+", raw):
