@@ -5,7 +5,7 @@
 - [x] Phase 3a: 16 shorts v1 + v2 (Watch It Learn electric intro, end card, voice matched to screen); art in content/_brand; content/INDEX.md
 - [x] Upload plan (content/UPLOAD_PLAN.md), routine plan (content/ROUTINE_PLAN.md), batch staging tool; batch 1 staged (not uploaded)
 - [ ] Accounts: Instagram done (instagram.com/watchitlearn, handle matches captions); YouTube channel + batch 1 scheduling still the user's
-- [ ] Routine build: screen-check gate, Task Scheduler, YouTube uploader (needs OAuth file), Instagram path, ideas.md, Stage B
+- [ ] Routine build: ideas.md done (30 ideas); batch 2 staged (content/_outbox/batch_2026-10-18: 17, 18, 04, 11, 13, 14); still to do: screen-check gate, Task Scheduler, YouTube uploader (needs OAuth file), Instagram path, Stage B
 - [x] Phase 3b: showcase video (tools/make_showcase.py -> content/_showcase/out/showcase.mp4, 6.9 min, built from short footage + right-hand caption panel; user may want hub/terminal footage added)
 - [x] Phase 3c: 6 flagship 10-minute videos (06, 07, 09, 10, 02, 16) built with tools/make_full.py; they run 7-11 min each; see content/FULL_VIDEOS.md
 - [x] Phase 4: project 17 Flappy Evolution (app, hub, README, smoke test), short v2, full video (6.3 min) all built; nothing uploaded

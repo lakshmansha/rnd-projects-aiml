@@ -1,0 +1,7 @@
+Which words made the AI decide? It shows me.
+
+A text classifier highlights the words behind each decision, including a tricky sentence that it gets torn on.
+
+Project 14 of the Watch It Learn series. Narration is AI-generated. Built with Claude Code (Python, Streamlit). No personal data is shown.
+
+#ExplainableAI #MachineLearning #NLP #Python #AI #Shorts

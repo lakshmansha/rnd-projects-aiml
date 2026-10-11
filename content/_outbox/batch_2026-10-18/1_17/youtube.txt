@@ -1,0 +1,7 @@
+60 AI birds learn to fly with zero training
+
+Sixty tiny neural nets evolve to play a Flappy-style game: the best birds breed, children mutate, and by generation 8 one flies the course.
+
+Project 17 of the Watch It Learn series. Narration is AI-generated. Built with Claude Code (Python, Streamlit). No personal data is shown.
+
+#NeuralNetwork #Evolution #MachineLearning #Python #AI #Shorts

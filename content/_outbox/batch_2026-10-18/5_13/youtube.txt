@@ -1,0 +1,7 @@
+K-means cuts this in half. This one doesn't.
+
+Same data, four clustering algorithms. Each one assumes a shape, so each wins on different data.
+
+Project 13 of the Watch It Learn series. Narration is AI-generated. Built with Claude Code (Python, Streamlit). No personal data is shown.
+
+#MachineLearning #Clustering #KMeans #DBSCAN #Python #Shorts
