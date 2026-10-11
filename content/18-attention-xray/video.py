@@ -6,11 +6,11 @@ QUERY = ""
 APP_DIR = Path(__file__).resolve().parents[2] / "18-attention-xray"
 CODE = {"xray": ("app.py", 38, 52)}
 SECTIONS = [
-    [("app", "idle"), ("app", "l1")],
+    [("app", "idle"), ("app", "h2")],
     [("card", "The famous diagram|is usually drawn by hand"), ("card", "Here: a real model small enough to train on a CPU"),
      ("card", "Query x key match -> softmax -> heatmap|causal: only look backwards")],
     [("card", "Reuse the model from project 7|ask the attention layer for its weights"), ("code", "xray")],
-    [("app", "l1"), ("app", "l2"), ("app", "l4")],
+    [("app", "h2"), ("app", "l1"), ("app", "l1"), ("app", "l2"), ("app", "l4")],
     [("app", "pred0"), ("app", "pred5"), ("app", "pred22"), ("app", "pred20")],
     [("card", "An attention map is a clue, not an explanation"), ("card", "One model, one seed, a modest sample|treat the percentages as examples")],
     [("card", "Next: watch the heads form during training|knock out a head and measure"), ("card", "Watch It Learn|follow for more AI/ML builds")],
@@ -18,14 +18,22 @@ SECTIONS = [
 
 
 def prepare(page):
-    page.add_style_tag(content="header[data-testid=stHeader], [data-testid=stToolbar], [data-testid=stDecoration]{display:none!important} html{zoom:0.62}")
+    page.add_style_tag(content="header[data-testid=stHeader], [data-testid=stToolbar], [data-testid=stDecoration]{display:none!important} html{zoom:0.8}")
     page.wait_for_selector("text=Layer 1, head 1", timeout=90000)
     page.wait_for_timeout(3000)
 
 
+def _top(page, y):
+    page.evaluate("(y) => { const m = document.querySelector('[data-testid=stMain]'); m.scrollTo({top: y, behavior: 'smooth'}); }", y)
+
+
 def _layer(page, n):
+    _top(page, 0)
+    page.wait_for_timeout(800)
     page.locator("[data-testid=stRadio] label").nth(n).click()
-    page.wait_for_timeout(2500)
+    page.wait_for_timeout(2000)
+    _top(page, 330)
+    page.wait_for_timeout(1200)
 
 
 def _pos(page, pos):
@@ -41,8 +49,22 @@ def record(page, mark):
     mark("idle")
     page.wait_for_timeout(9000)
 
+    mark("h2")
+    labels = page.locator("[data-testid=stRadio] label")
+    labels.filter(has_text="One head, large").click()
+    page.wait_for_timeout(2500)
+    page.locator("[data-testid=stRadio] label").nth(10).click()      # head 2
+    page.wait_for_timeout(2500)
+    _top(page, 250)
+    page.wait_for_timeout(18000)
+
     mark("l1")
-    page.wait_for_timeout(26000)
+    _top(page, 0)
+    page.wait_for_timeout(800)
+    page.locator("[data-testid=stRadio] label").filter(has_text="All 4 heads").click()
+    page.wait_for_timeout(2500)
+    _top(page, 330)
+    page.wait_for_timeout(24000)
 
     mark("l2")
     _layer(page, 2)

@@ -53,7 +53,11 @@ It's the same forward pass as before, with two changes: need_weights is true, an
 The model itself was trained a bit longer than in project seven: two thousand steps with a decaying learning rate, saved to a three megabyte file, so the app loads instantly.
 
 ### [4:00] What the heads do
-[SCREEN: app, layer one, all heads.] Layer one. Head two: a sharp diagonal. Averaged over two hundred random windows of Shakespeare, it puts ninety-nine percent of its attention on the previous character. Head one does the same trick, two characters back, ninety-seven percent. Heads three and four are looser: they mostly look one back, fifty-nine and seventy-eight percent, and spread the rest over earlier text.
+[SCREEN: app, layer one, all heads.] Layer one. Head two: a sharp diagonal. Averaged over two hundred random windows of Shakespeare, it puts ninety-nine percent of its attention on the previous character. [SCREEN]
+
+Head one does the same trick, two characters back, ninety-seven percent. Heads three and four are looser: they mostly look one back, fifty-nine and seventy-eight percent, and spread the rest over earlier text.
+
+[SCREEN]
 
 So the very first thing this transformer learned is to build its own short window: for every position, it copies in what the one or two previous characters were. That's exactly the information a next-character predictor needs first.
 

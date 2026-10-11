@@ -1,0 +1,235 @@
+1
+00:00:02,415 --> 00:00:05,919
+This is a tiny GPT reading a line of Shakespeare.
+
+2
+00:00:06,198 --> 00:00:10,782
+And this grid shows where each of its attention heads is looking while it reads.
+
+3
+00:00:11,062 --> 00:00:15,119
+Look at this one: a perfect diagonal, just under the main one.
+
+4
+00:00:15,399 --> 00:00:18,639
+Every character is looking at the character right before it.
+
+5
+00:00:18,919 --> 00:00:21,847
+And this head looks exactly two characters back.
+
+6
+00:00:22,127 --> 00:00:23,999
+Nobody programmed that.
+
+7
+00:00:24,279 --> 00:00:27,855
+The model worked it out by itself from predicting the next letter.
+
+8
+00:00:28,135 --> 00:00:37,087
+In this video I'll show you how I pulled these maps out of a real transformer, what each layer turns out to do, and where this kind of picture stops being trustworthy.
+
+9
+00:00:37,367 --> 00:00:41,711
+I built this with Claude Code, and the narration is AI-generated.
+
+10
+00:00:42,511 --> 00:00:49,135
+You've probably seen the famous diagram: a sentence, with lines of different thickness connecting the words.
+
+11
+00:00:49,415 --> 00:00:51,287
+That's attention.
+
+12
+00:00:51,567 --> 00:00:56,559
+But most of those pictures are drawn by hand, or from huge models you can't run yourself.
+
+13
+00:00:56,839 --> 00:01:03,631
+Here the model is small enough to train in a few minutes on a laptop CPU, and we can look at every single head.
+
+14
+00:01:03,911 --> 00:01:14,639
+It's the same mechanism as the big models: every character produces a query, every earlier character offers a key, and the match between them decides how much information flows.
+
+15
+00:01:14,919 --> 00:01:19,983
+The heatmap is just that matching score, after softmax, for every pair.
+
+16
+00:01:20,263 --> 00:01:25,663
+One thing that makes it causal: a character may only look backwards, never forwards.
+
+17
+00:01:25,943 --> 00:01:28,343
+That's why every map is a triangle.
+
+18
+00:01:29,143 --> 00:01:34,591
+This project reuses the model from project seven, so there is no new architecture.
+
+19
+00:01:34,871 --> 00:01:41,711
+Its attention layer is PyTorch's MultiheadAttention, and by default the model asks it not to return the weights.
+
+20
+00:01:41,991 --> 00:01:45,855
+To look inside, I run the blocks myself and ask for them..
+
+21
+00:01:46,135 --> 00:01:57,919
+It's the same forward pass as before, with two changes: need_weights is true, and average_attn_weights is false, so I get one map per head instead of one averaged map.
+
+22
+00:01:58,199 --> 00:02:02,999
+For each of the four layers I keep an array of heads by positions by positions.
+
+23
+00:02:03,279 --> 00:02:08,895
+At the end, the same head layer gives me the probability of every possible next character.
+
+24
+00:02:09,175 --> 00:02:19,711
+The model itself was trained a bit longer than in project seven: two thousand steps with a decaying learning rate, saved to a three megabyte file, so the app loads instantly.
+
+25
+00:02:20,511 --> 00:02:22,383
+Layer one.
+
+26
+00:02:22,663 --> 00:02:24,895
+Head two: a sharp diagonal.
+
+27
+00:02:25,175 --> 00:02:32,735
+Averaged over two hundred random windows of Shakespeare, it puts ninety-nine percent of its attention on the previous character.
+
+28
+00:02:33,015 --> 00:02:37,647
+Head one does the same trick, two characters back, ninety-seven percent.
+
+29
+00:02:37,927 --> 00:02:46,591
+Heads three and four are looser: they mostly look one back, fifty-nine and seventy-eight percent, and spread the rest over earlier text.
+
+30
+00:02:46,871 --> 00:02:56,519
+So the very first thing this transformer learned is to build its own short window: for every position, it copies in what the one or two previous characters were.
+
+31
+00:02:56,799 --> 00:03:01,119
+That's exactly the information a next-character predictor needs first.
+
+32
+00:03:01,399 --> 00:03:03,366
+Layer two is less tidy.
+
+33
+00:03:03,646 --> 00:03:09,598
+Several heads still lean on the previous character, but they spread weight over the last few positions.
+
+34
+00:03:09,878 --> 00:03:19,119
+By layer four, the simple diagonals are gone, and some maps show bright vertical stripes: many characters looking at the same few earlier places.
+
+35
+00:03:19,399 --> 00:03:25,663
+No head puts more than about twenty-one percent on itself, the previous character, or the one before that.
+
+36
+00:03:25,943 --> 00:03:27,815
+That doesn't mean they're useless.
+
+37
+00:03:28,095 --> 00:03:34,646
+It means they're doing something that isn't a simple offset, and a heatmap can't tell me what those places have in common.
+
+38
+00:03:35,447 --> 00:03:38,591
+Below the map there's a slider for a character position.
+
+39
+00:03:38,871 --> 00:03:45,039
+For that character I show how much it attends to each earlier one, and what the model predicts comes next.
+
+40
+00:03:45,319 --> 00:03:50,503
+After "ROMEO:", the model predicts a newline with one hundred percent probability.
+
+41
+00:03:50,783 --> 00:03:53,927
+It has seen that speaker format thousands of times.
+
+42
+00:03:54,207 --> 00:03:59,511
+After "doth teac", it predicts the letter h, again at ninety-nine percent.
+
+43
+00:03:59,791 --> 00:04:02,383
+That's the model finishing a word it knows.
+
+44
+00:04:02,663 --> 00:04:04,895
+At other places it's honestly unsure.
+
+45
+00:04:05,175 --> 00:04:13,959
+After "he doth te", it says l at thirty-six percent and a at thirty-three percent: the real word, teach, starts with the second one.
+
+46
+00:04:14,239 --> 00:04:18,991
+This is a small model, and uncertainty like that is normal and visible.
+
+47
+00:04:19,791 --> 00:04:21,663
+Now the part that matters.
+
+48
+00:04:21,943 --> 00:04:25,303
+An attention map is a clue, not an explanation.
+
+49
+00:04:25,583 --> 00:04:32,614
+Later layers mix information from every head, and the weights don't tell you how much a value actually changes the output.
+
+50
+00:04:32,895 --> 00:04:37,143
+A head that attends strongly to a character may be doing little with it.
+
+51
+00:04:37,423 --> 00:04:43,903
+The numbers here are averages over a modest sample of Shakespeare windows, and one trained model with one seed.
+
+52
+00:04:44,183 --> 00:04:46,895
+A different training run would have different heads.
+
+53
+00:04:47,175 --> 00:04:53,295
+And the model only knows characters from the training text, so unusual characters get skipped in the app.
+
+54
+00:04:53,575 --> 00:05:01,063
+I built this with Claude Code, and I ran the measurements myself, but please treat the percentages as examples from this one model.
+
+55
+00:05:01,862 --> 00:05:07,502
+Next I'd like to track how these heads appear during training, so you can watch the previous-character head form.
+
+56
+00:05:07,782 --> 00:05:15,847
+I'd also like to try knocking one head out and measuring how much worse the predictions get, which is a much better test than just looking at a heatmap.
+
+57
+00:05:16,126 --> 00:05:18,119
+The code is in the description.
+
+58
+00:05:18,398 --> 00:05:20,798
+No API key, no cost.
+
+59
+00:05:21,078 --> 00:05:28,110
+If you enjoyed looking inside a GPT, follow for more AI and ML builds, and tell me which head to investigate next.

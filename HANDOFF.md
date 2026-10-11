@@ -107,3 +107,7 @@ Also: `hub/app.py` (landing page linking everything), `run_all.py`, `README.md`.
 - **Lessons:** mp3 duration from edge-tts headers is unreliable (decode to wav); Streamlit's sidebar select is `stSelectbox`, radio labels include the widget label as item 0; use `?embed=true` only when the sidebar is not needed; zoom the page (`html{zoom:.85}`) so tall plots fit 1600x860.
 - **Honesty notes:** 02's red-team numbers (L1 50%, L2 25%, L3-L5 0%) are from one recorded run and the script says so; that recording used ~55 Azure calls.
 - **Nothing is uploaded.** Next: user reviews the videos; then upload/schedule (see `content/ROUTINE_PLAN.md`, `content/INSTAGRAM_SETUP.md`), optional polish of blank Streamlit frames, more projects.
+
+## Project 18 Attention X-ray (added later on 2026-10-11)
+- `18-attention-xray/`: app (port 8518) shows every head of every layer of the Tiny GPT trained by `18-attention-xray/train.py` (2,000 steps, `weights.pt` 3.3 MB, committed). Measured on 200 random 64-char windows: L1H2 puts 99% on the previous char, L1H1 97% on the char two back, L1H4 78% / L1H3 59% on the previous; by layer 4 no head exceeds ~21% on itself/prev/prev-prev, and the maps show vertical stripes.
+- Short (`content/18-attention-xray/out/short_v2.mp4`, 27 s) and full video (5.6 min) built with the same tools; added to hub, README (ports 8501-8518) and `content/UPLOAD_PLAN.md`.
