@@ -1,0 +1,387 @@
+1
+00:00:00,000 --> 00:00:01,872
+A hundred rockets.
+
+2
+00:00:02,152 --> 00:00:05,320
+Generation one: ninety-nine of them crash.
+
+3
+00:00:05,600 --> 00:00:09,824
+They fly into walls, off the screen, nowhere near the target.
+
+4
+00:00:10,104 --> 00:00:11,976
+Now watch.
+
+5
+00:00:12,256 --> 00:00:16,936
+Generation six: the first rocket slips through the gap and hits the target.
+
+6
+00:00:17,216 --> 00:00:19,784
+Generation eighty: most of them make it.
+
+7
+00:00:20,064 --> 00:00:21,936
+And here's the part I love.
+
+8
+00:00:22,216 --> 00:00:24,088
+Nobody programmed this route.
+
+9
+00:00:24,368 --> 00:00:26,240
+There's no pathfinding.
+
+10
+00:00:26,520 --> 00:00:28,392
+No map.
+
+11
+00:00:28,672 --> 00:00:32,368
+Just random thrusts, a score, and a bit of evolution.
+
+12
+00:00:32,648 --> 00:00:38,336
+I built this with Claude Code, and in the next ten minutes I'll show you every line that makes it work.
+
+13
+00:00:39,136 --> 00:00:48,088
+Genetic algorithms are one of the oldest ideas in AI, and they are still used for things like designing antennas, scheduling, and tuning parameters.
+
+14
+00:00:48,368 --> 00:00:50,816
+The idea is borrowed from biology.
+
+15
+00:00:51,096 --> 00:00:53,040
+You don't need to understand a problem.
+
+16
+00:00:53,320 --> 00:00:55,336
+You just need a way to score a solution.
+
+17
+00:00:55,616 --> 00:01:00,464
+Then you keep the better ones, combine them, add random changes, and repeat.
+
+18
+00:01:00,744 --> 00:01:03,840
+Compare that with the neural networks we usually talk about.
+
+19
+00:01:04,120 --> 00:01:08,248
+They need gradients, which means a smooth, differentiable problem.
+
+20
+00:01:08,528 --> 00:01:11,120
+Evolution works on anything you can score.
+
+21
+00:01:11,400 --> 00:01:14,568
+Even a rocket flight path through a gap in a wall.
+
+22
+00:01:15,368 --> 00:01:17,624
+First, what is a rocket's DNA?
+
+23
+00:01:17,904 --> 00:01:22,680
+It's an array of shape, population by one hundred forty time steps by two.
+
+24
+00:01:22,960 --> 00:01:26,776
+At each tick, the rocket gets a little push in x and y.
+
+25
+00:01:27,056 --> 00:01:30,512
+That's the entire genome: a hundred and forty thrusts.
+
+26
+00:01:30,792 --> 00:01:33,408
+The physics is almost embarrassingly simple.
+
+27
+00:01:33,688 --> 00:01:37,792
+Add the thrust to velocity, cap the speed, move the rocket.
+
+28
+00:01:38,072 --> 00:01:42,128
+And because it's numpy, all hundred rockets are simulated at once.
+
+29
+00:01:42,408 --> 00:01:45,792
+There's no loop over rockets, just a loop over time.
+
+30
+00:01:46,072 --> 00:01:51,880
+A rocket dies if it leaves the box, enters an obstacle rectangle, or reaches the target.
+
+31
+00:01:52,160 --> 00:01:54,392
+Now the important part: fitness.
+
+32
+00:01:54,672 --> 00:01:56,688
+How do you score a rocket that crashed?.
+
+33
+00:01:56,968 --> 00:02:04,888
+The score is based on the closest the rocket ever got to the target, so rockets that crashed near the goal still beat rockets that wandered off.
+
+34
+00:02:05,168 --> 00:02:08,072
+Crashing costs sixty percent of the score.
+
+35
+00:02:08,352 --> 00:02:13,896
+And if you reach the target, you jump to over two hundred, plus a bonus for arriving earlier.
+
+36
+00:02:14,176 --> 00:02:18,688
+That bonus is why later generations get faster, not just successful.
+
+37
+00:02:19,488 --> 00:02:21,360
+Now the evolution step.
+
+38
+00:02:21,640 --> 00:02:25,720
+Each generation: simulate, score, sort by fitness.
+
+39
+00:02:26,000 --> 00:02:28,016
+Then build the next population..
+
+40
+00:02:28,296 --> 00:02:30,168
+Line by line.
+
+41
+00:02:30,448 --> 00:02:36,232
+Elitism: the top ten percent are copied unchanged, so we never lose our best rocket.
+
+42
+00:02:36,512 --> 00:02:40,232
+Selection: parents are drawn at random from the top half.
+
+43
+00:02:40,512 --> 00:02:47,832
+Crossover: pick a random cut point; the child takes its first thrusts from parent A and the rest from parent B.
+
+44
+00:02:48,112 --> 00:02:53,968
+That's the np.where line, with the cut point broadcast across the whole population at once.
+
+45
+00:02:54,248 --> 00:03:02,864
+Mutation: each thrust has a small chance, the mutation rate, default two percent, of being replaced with a fresh random direction.
+
+46
+00:03:03,144 --> 00:03:05,712
+Finally stick elites and children together.
+
+47
+00:03:05,992 --> 00:03:07,624
+That's the next generation.
+
+48
+00:03:07,904 --> 00:03:09,776
+That's the whole thing.
+
+49
+00:03:10,056 --> 00:03:16,584
+I also store every generation's paths, sorted best first, which is why the UI can scrub through them.
+
+50
+00:03:16,864 --> 00:03:25,936
+One detail I like: the initial DNA is random directions of length point three five, so the first generation is basically a random walk.
+
+51
+00:03:26,216 --> 00:03:31,111
+The first rocket to touch the target in my default run needs six generations.
+
+52
+00:03:31,912 --> 00:03:33,784
+Here's the app.
+
+53
+00:03:34,063 --> 00:03:35,936
+Level: Gap.
+
+54
+00:03:36,215 --> 00:03:41,855
+Population a hundred, eighty generations, mutation point oh two, seed one.
+
+55
+00:03:42,135 --> 00:03:45,279
+It evolves everything upfront, then I can scrub.
+
+56
+00:03:45,559 --> 00:03:47,431
+Generation one.
+
+57
+00:03:47,711 --> 00:03:49,583
+Ninety-nine crashed.
+
+58
+00:03:49,863 --> 00:03:54,687
+The faint blue lines are the population, the thick orange one is the best rocket.
+
+59
+00:03:54,967 --> 00:03:56,599
+It's going nowhere useful.
+
+60
+00:03:56,879 --> 00:03:58,943
+I drag the generation slider.
+
+61
+00:03:59,223 --> 00:04:01,191
+The cloud starts to lean upward.
+
+62
+00:04:01,471 --> 00:04:10,975
+Around generation six the blue info box says "First rocket reached the target in generation six." Keep going and the cloud funnels through the gap.
+
+63
+00:04:11,255 --> 00:04:22,631
+Generation eighty: seventy-eight reached the target, twenty-two crashed, and the fitness chart on the right shows the best score climbing to around two hundred ninety-eight while the average catches up behind it.
+
+64
+00:04:22,911 --> 00:04:24,783
+Now change the level.
+
+65
+00:04:25,063 --> 00:04:28,735
+Open sky: the first success is at generation two.
+
+66
+00:04:29,015 --> 00:04:30,887
+Wall: six.
+
+67
+00:04:31,167 --> 00:04:33,039
+Gap: six.
+
+68
+00:04:33,319 --> 00:04:43,111
+Zig-zag, the hard one with two staggered walls: first success is generation eleven, and by generation eighty only forty-one of a hundred reach it.
+
+69
+00:04:43,391 --> 00:04:47,231
+Those numbers are from my runs with the default settings and seed one.
+
+70
+00:04:47,511 --> 00:04:49,479
+Change the seed and they move.
+
+71
+00:04:50,279 --> 00:04:53,807
+What surprised me was how fast it goes from nothing to something.
+
+72
+00:04:54,087 --> 00:05:01,311
+The best fitness in generation one is below one, and then once a rocket reaches the target it jumps past two hundred.
+
+73
+00:05:01,591 --> 00:05:06,943
+That jump comes from the reach bonus, which makes success worth far more than getting close.
+
+74
+00:05:07,223 --> 00:05:13,103
+Second, the mutation rate matters in a way that's very visible, and not the way I expected.
+
+75
+00:05:13,383 --> 00:05:26,583
+On the Gap level, with three seeds each, point oh oh five had eighty-eight to ninety-two rockets arriving at generation eighty, the default point oh two had seventy to seventy-eight, and point one had only twenty-one to forty.
+
+76
+00:05:26,863 --> 00:05:29,911
+Too much mutation keeps scrambling a good route.
+
+77
+00:05:30,191 --> 00:05:38,471
+But on Zig-zag, the low rate got stuck on one seed, never reaching the target at all, so a little mutation helps when the problem is hard.
+
+78
+00:05:38,751 --> 00:05:41,199
+Play with that slider rather than trusting me.
+
+79
+00:05:41,479 --> 00:05:43,711
+Third: the rockets don't plan.
+
+80
+00:05:43,991 --> 00:05:46,583
+They just replay a fixed list of thrusts.
+
+81
+00:05:46,863 --> 00:05:52,455
+If I moved the wall by a few pixels, the DNA would be wrong and they'd need to evolve again.
+
+82
+00:05:53,255 --> 00:05:55,127
+Honest limits.
+
+83
+00:05:55,407 --> 00:05:57,279
+This is a toy.
+
+84
+00:05:57,559 --> 00:06:02,527
+The DNA is a fixed-length open-loop script, so the rocket doesn't sense anything.
+
+85
+00:06:02,807 --> 00:06:11,135
+The Zig-zag level is hard, and on some seeds it doesn't get solved in eighty generations; the app tells you to try more generations.
+
+86
+00:06:11,415 --> 00:06:17,679
+Everything is one run with one seed, so I'd treat my numbers as examples, not benchmarks.
+
+87
+00:06:17,959 --> 00:06:20,599
+And I haven't compared this to smarter methods.
+
+88
+00:06:20,879 --> 00:06:24,383
+A real controller would use sensors and a neural network.
+
+89
+00:06:24,663 --> 00:06:31,767
+Also, I built this with Claude Code, and I verified the generation numbers by running the app's own functions headlessly.
+
+90
+00:06:32,567 --> 00:06:38,903
+Next I want to evolve a neural network instead of a list of thrusts, so rockets can react to obstacles.
+
+91
+00:06:39,183 --> 00:06:40,983
+Or add moving obstacles.
+
+92
+00:06:41,263 --> 00:06:43,471
+Or let you draw the walls with the mouse.
+
+93
+00:06:43,751 --> 00:06:49,199
+The code is in the description, it needs no API key and costs nothing to run.
+
+94
+00:06:49,479 --> 00:06:54,759
+If you enjoyed this, subscribe, there are sixteen of these AI and ML builds.
+
+95
+00:06:55,039 --> 00:06:57,487
+And in the comments: what would you evolve?
+
+96
+00:06:57,767 --> 00:07:02,255
+The narration is AI-generated, and the app was built with Claude Code.
+
+97
+00:07:02,535 --> 00:07:04,407
+Thanks for watching.

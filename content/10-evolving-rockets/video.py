@@ -3,6 +3,7 @@ from pathlib import Path
 
 PORT = 8510
 QUERY = ""
+FIT = {"scrub"}      # time-lapse the slider sweep to the narration
 APP_DIR = Path(__file__).resolve().parents[2] / "10-evolving-rockets"
 CODE = {"phys": ("app.py", 27, 30), "fit": ("app.py", 43, 46), "all": ("app.py", 49, 71), "elite": ("app.py", 61, 63),
         "select": ("app.py", 63, 64), "cross": ("app.py", 65, 66), "mut": ("app.py", 67, 69), "concat": ("app.py", 70, 71),
@@ -21,7 +22,7 @@ SECTIONS = [
 
 
 def prepare(page):
-    page.add_style_tag(content="header[data-testid=stHeader], [data-testid=stToolbar], [data-testid=stDecoration]{display:none!important}")
+    page.add_style_tag(content="header[data-testid=stHeader], [data-testid=stToolbar], [data-testid=stDecoration]{display:none!important} html{zoom:0.8}")
     page.wait_for_selector("[data-testid=stMain] input[type=range]", timeout=90000)
     page.wait_for_timeout(3000)
 
