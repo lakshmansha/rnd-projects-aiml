@@ -1,0 +1,10 @@
+0:00 Cold open
+0:36 Black boxes and glass boxes
+1:16 Training
+2:00 Where the highlights come from
+2:28 Live demo
+3:29 What each topic's words are
+3:49 Where it gets confused
+4:20 What I take from it
+4:38 Honest limits
+5:12 What to build next

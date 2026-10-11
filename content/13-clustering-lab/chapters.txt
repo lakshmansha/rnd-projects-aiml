@@ -1,0 +1,10 @@
+0:00 Cold open
+0:33 Unsupervised learning
+1:05 K-means in code
+1:40 Live demo
+2:34 Choosing k
+3:00 The showdown
+3:20 Reading the grid
+4:31 What I take from it
+4:47 Honest limits
+5:14 What to build next

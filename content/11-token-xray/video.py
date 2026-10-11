@@ -21,7 +21,7 @@ SECTIONS = [
 
 
 def prepare(page):
-    page.add_style_tag(content="header[data-testid=stHeader], [data-testid=stToolbar], [data-testid=stDecoration]{display:none!important} html{zoom:0.8}")
+    page.add_style_tag(content="header[data-testid=stHeader], [data-testid=stToolbar], [data-testid=stDecoration]{display:none!important} html{zoom:1.2}")
     page.get_by_text("Chars per token").first.wait_for(timeout=60000)
     page.wait_for_timeout(2500)
 
@@ -65,5 +65,5 @@ def record(page, mark):
     page.wait_for_timeout(12000)
 
     mark("cost")
-    _top(page, 500)
+    _top(page, 700)
     page.wait_for_timeout(14000)

@@ -1,0 +1,243 @@
+1
+00:00:02,415 --> 00:00:06,206
+Here is a sentence about a shuttle, an orbit and a telescope.
+
+2
+00:00:06,487 --> 00:00:10,351
+A classifier says: Space, one hundred percent confident.
+
+3
+00:00:10,631 --> 00:00:12,791
+That alone isn't very useful.
+
+4
+00:00:13,071 --> 00:00:14,943
+What I want to know is why.
+
+5
+00:00:15,223 --> 00:00:21,247
+So the app highlights every word: green words push towards the answer, and red words push away.
+
+6
+00:00:21,527 --> 00:00:27,647
+Then I give it a sentence designed to confuse it, about a rocket engine, a car and a hockey puck.
+
+7
+00:00:27,927 --> 00:00:31,767
+Watch the prediction wobble, and watch which words are voting for what.
+
+8
+00:00:32,047 --> 00:00:36,390
+I built this with Claude Code, and the narration is AI-generated.
+
+9
+00:00:37,191 --> 00:00:42,591
+Deep neural networks are very good at text, but it is hard to say why they gave a particular answer.
+
+10
+00:00:42,871 --> 00:00:47,767
+This app uses an older technique on purpose, because it can be explained completely.
+
+11
+00:00:48,047 --> 00:00:49,919
+The pipeline has two parts.
+
+12
+00:00:50,199 --> 00:00:59,223
+TF-IDF turns a text into numbers: each word gets a score that is high when the word is frequent in this text and rare across the whole collection.
+
+13
+00:00:59,503 --> 00:01:03,895
+Then logistic regression learns one weight per word for each topic.
+
+14
+00:01:04,175 --> 00:01:07,655
+Positive weights mean the word is evidence for that topic.
+
+15
+00:01:07,935 --> 00:01:10,983
+To classify a text, add up the evidence.
+
+16
+00:01:11,263 --> 00:01:16,111
+Because the model is just a sum, you can read off every word's contribution.
+
+17
+00:01:16,911 --> 00:01:24,807
+The data is a real dataset called twenty newsgroups: old internet discussion posts, labelled by the group they were posted in.
+
+18
+00:01:25,087 --> 00:01:33,343
+I picked six groups: space, hockey, graphics, cars, medicine and politics, which here is the gun politics group..
+
+19
+00:01:33,623 --> 00:01:39,743
+Stop words like the and of are dropped, and words that appear in fewer than three posts are ignored.
+
+20
+00:01:40,023 --> 00:01:45,135
+The vectoriser learns the vocabulary and the weights on thirty-five hundred training posts.
+
+21
+00:01:45,415 --> 00:01:50,671
+Then the model predicts the separate test set of twenty-three hundred posts it has never seen.
+
+22
+00:01:50,951 --> 00:01:54,167
+The app caches all this, so it only trains once.
+
+23
+00:01:54,447 --> 00:02:00,207
+The accuracy on those unseen posts is shown in the sidebar: eighty-four point eight percent.
+
+24
+00:02:01,007 --> 00:02:03,191
+This is the explanation itself..
+
+25
+00:02:03,471 --> 00:02:06,063
+Take the top two topics for this text.
+
+26
+00:02:06,343 --> 00:02:15,511
+For every word that the model knows, look at the difference between its weight for the winner and for the runner-up, and multiply by the word's TF-IDF value in this text.
+
+27
+00:02:15,791 --> 00:02:22,246
+A positive number means the word pushed towards the winner, and a negative number means it pushed towards the runner-up.
+
+28
+00:02:22,526 --> 00:02:28,334
+That number sets the colour and the strength of each highlight, and the eight biggest go in the table.
+
+29
+00:02:29,134 --> 00:02:31,007
+The Space example.
+
+30
+00:02:31,286 --> 00:02:37,166
+The biggest pushes are orbit, moon, launch, NASA and shuttle, in that order.
+
+31
+00:02:37,446 --> 00:02:45,102
+The model is a hundred percent sure, and the reason is visible: five strong space words, and nothing pulling the other way.
+
+32
+00:02:45,382 --> 00:02:47,255
+I click the Hockey example.
+
+33
+00:02:47,534 --> 00:02:55,262
+Game, playoff, Bruins, win and scored carry it, and the prediction is Hockey with ninety-nine percent confidence.
+
+34
+00:02:55,542 --> 00:03:02,598
+Now the tricky one: the new rocket engine has more horsepower than any car and could hit a puck faster than a hockey player.
+
+35
+00:03:02,878 --> 00:03:08,279
+The model says Hockey, but only with fifty-three percent, and Cars has forty-six.
+
+36
+00:03:08,559 --> 00:03:10,431
+And now we can see why.
+
+37
+00:03:10,710 --> 00:03:16,830
+The word car pushes towards Cars with a strength of nearly three, and engine pushes the same way.
+
+38
+00:03:17,110 --> 00:03:22,559
+Against that, hockey pushes towards Hockey even harder, and puck and player add to it.
+
+39
+00:03:22,839 --> 00:03:25,839
+The model isn't confused in a mysterious way.
+
+40
+00:03:26,119 --> 00:03:29,311
+It is a close vote between two clusters of words.
+
+41
+00:03:30,111 --> 00:03:35,799
+The second tab shows the highest weighted words for each topic, which the model worked out on its own.
+
+42
+00:03:36,079 --> 00:03:43,207
+For Space: space, orbit, NASA, moon, launch, earth, spacecraft, shuttle.
+
+43
+00:03:43,487 --> 00:03:45,359
+Nobody told it that.
+
+44
+00:03:45,638 --> 00:03:48,951
+These come purely from which words show up in which group.
+
+45
+00:03:49,751 --> 00:03:54,599
+The confusion matrix shows, for each real topic, what the model predicted.
+
+46
+00:03:54,878 --> 00:03:57,566
+Bright diagonal cells are correct answers.
+
+47
+00:03:57,846 --> 00:04:05,790
+The app's own caption says mistakes are mostly between related topics like Space and Medicine, but in my run the biggest error cells are different.
+
+48
+00:04:06,070 --> 00:04:16,198
+The largest are Medicine posts labelled Cars, forty of them, then Space posts labelled Cars, thirty-eight, and Politics posts labelled Cars, thirty-two.
+
+49
+00:04:16,478 --> 00:04:20,366
+Why Cars absorbs so many mistakes, I haven't investigated.
+
+50
+00:04:21,166 --> 00:04:24,646
+Being able to see the reasons changes how you trust a model.
+
+51
+00:04:24,926 --> 00:04:28,550
+For the easy examples, the right words carry the decision.
+
+52
+00:04:28,830 --> 00:04:31,470
+For the tricky one, you can see the argument.
+
+53
+00:04:31,750 --> 00:04:38,158
+And when I looked at the errors, I found something I wouldn't have guessed: most of the biggest mistakes land on Cars.
+
+54
+00:04:38,958 --> 00:04:43,206
+Eighty-four point eight percent on six topics is decent, not great.
+
+55
+00:04:43,486 --> 00:04:49,630
+The data is old internet posts from the nineties, so the model knows that language, not modern text.
+
+56
+00:04:49,910 --> 00:05:02,054
+The word contributions explain this particular model, which is a simple linear one; they don't explain a neural network, and they ignore word order and negation, so not good would count the same as good.
+
+57
+00:05:02,334 --> 00:05:06,462
+The colours compare only the top two topics, not all six.
+
+58
+00:05:06,742 --> 00:05:11,806
+I built this with Claude Code, and I read and ran the code, but read it yourself too.
+
+59
+00:05:12,606 --> 00:05:21,294
+Next I'd let you train on your own labelled text, add a negation test, and put the same sentence through a neural model so you can compare the two explanations.
+
+60
+00:05:21,574 --> 00:05:26,062
+The code is in the description, with no API key and no cost.
+
+61
+00:05:26,342 --> 00:05:33,566
+If you enjoyed seeing inside the model, follow for more AI and ML builds, and tell me which sentence should try to fool it next.
