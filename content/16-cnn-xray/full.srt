@@ -1,0 +1,451 @@
+1
+00:00:02,415 --> 00:00:06,807
+This neural network is ninety-five percent sure this photo is a banana.
+
+2
+00:00:07,087 --> 00:00:08,959
+Nice.
+
+3
+00:00:09,239 --> 00:00:13,247
+But here is the question that bugged me: where did it look to decide that?
+
+4
+00:00:13,527 --> 00:00:15,399
+Was it the banana?
+
+5
+00:00:15,679 --> 00:00:17,551
+The background?
+
+6
+00:00:17,831 --> 00:00:19,703
+The table?
+
+7
+00:00:19,983 --> 00:00:27,951
+In the next ten minutes I will open the box, and you will see, pixel by pixel, what a real image classifier pays attention to.
+
+8
+00:00:28,231 --> 00:00:32,431
+And I will show you the exact twenty lines of code that make it possible.
+
+9
+00:00:32,711 --> 00:00:39,431
+I'm going to be upfront: I built this with Claude Code as my pair programmer, and the narration you hear is AI-generated.
+
+10
+00:00:39,711 --> 00:00:41,799
+Everything you see running is real.
+
+11
+00:00:42,599 --> 00:00:48,239
+Image models are everywhere: phone cameras, medical scans, self-driving cars.
+
+12
+00:00:48,519 --> 00:00:53,415
+And almost all of them give you the same kind of answer: a label and a confidence number.
+
+13
+00:00:53,695 --> 00:00:58,111
+"Banana, ninety-five percent." That number tells you nothing about why.
+
+14
+00:00:58,391 --> 00:01:00,263
+Why does that matter?
+
+15
+00:01:00,543 --> 00:01:03,111
+Because models can be right for the wrong reason.
+
+16
+00:01:03,391 --> 00:01:08,767
+A famous example is a classifier that learned to spot a husky by the snow in the background.
+
+17
+00:01:09,047 --> 00:01:12,647
+It looks accurate right up until you show it a husky on grass.
+
+18
+00:01:12,927 --> 00:01:16,239
+So before I trust a model, I want to see its evidence.
+
+19
+00:01:16,519 --> 00:01:19,159
+The technique I'm using is called Grad-CAM.
+
+20
+00:01:19,439 --> 00:01:25,703
+It takes the model's own gradients, the signal it uses to learn, and turns them into a heat map.
+
+21
+00:01:25,983 --> 00:01:29,055
+Red means "these pixels pushed the decision hard".
+
+22
+00:01:29,335 --> 00:01:31,207
+Blue means "barely mattered".
+
+23
+00:01:31,487 --> 00:01:36,767
+It does not need to retrain anything, and it works on almost any convolutional network.
+
+24
+00:01:37,567 --> 00:01:39,439
+Here's the whole idea.
+
+25
+00:01:39,719 --> 00:01:44,663
+A convolutional network, a CNN, slides small filters over the picture.
+
+26
+00:01:44,943 --> 00:01:46,815
+Early layers find edges.
+
+27
+00:01:47,095 --> 00:01:51,247
+Later layers find textures, then parts, then objects.
+
+28
+00:01:51,527 --> 00:02:01,079
+By the last convolutional layer you have a stack of feature maps, each one answering a question like "is there something curved and yellow here?" at every location.
+
+29
+00:02:01,359 --> 00:02:06,903
+Then the network collapses those maps into a score for each of its one thousand classes.
+
+30
+00:02:07,183 --> 00:02:14,791
+The question Grad-CAM asks is simple: for the class I care about, say banana, how much does each feature map contribute?
+
+31
+00:02:15,071 --> 00:02:16,943
+We find out with the gradient.
+
+32
+00:02:17,222 --> 00:02:23,726
+Take the banana score, ask how it changes if each feature map changes, and average that over the whole map.
+
+33
+00:02:24,006 --> 00:02:25,878
+That average is a weight.
+
+34
+00:02:26,158 --> 00:02:34,486
+Multiply each feature map by its weight, add them up, throw away the negative bits, and stretch the result back to the size of the photo.
+
+35
+00:02:34,766 --> 00:02:36,638
+That is your heat map.
+
+36
+00:02:36,918 --> 00:02:40,854
+The model here is MobileNetV2, trained on ImageNet.
+
+37
+00:02:41,134 --> 00:02:49,750
+It has about three and a half million parameters, small enough to run on my laptop CPU with no graphics card and no API calls at all.
+
+38
+00:02:50,550 --> 00:02:53,358
+The app is one Python file with Streamlit.
+
+39
+00:02:53,638 --> 00:03:01,366
+Loading the model is two lines: I ask torchvision for MobileNetV2 with the ImageNet weights, and put it in eval mode.
+
+40
+00:03:01,646 --> 00:03:04,430
+Streamlit caches it so it loads once.
+
+41
+00:03:04,710 --> 00:03:06,582
+Now the heart of it.
+
+42
+00:03:06,862 --> 00:03:08,734
+Here is the real function.
+
+43
+00:03:09,014 --> 00:03:10,886
+Let me walk through it.
+
+44
+00:03:11,166 --> 00:03:14,262
+First, a forward hook on model.features.
+
+45
+00:03:14,542 --> 00:03:21,526
+That's a little spy that grabs the output of the last convolutional block, the feature maps, while the image goes through.
+
+46
+00:03:21,806 --> 00:03:26,270
+Then I run the model and take the softmax, which gives the probabilities.
+
+47
+00:03:26,550 --> 00:03:30,078
+If you didn't tell me which class to explain, I use the winner.
+
+48
+00:03:30,358 --> 00:03:33,166
+The key line is torch.autograd.grad.
+
+49
+00:03:33,446 --> 00:03:38,318
+It asks: how does the score for my class change with respect to those feature maps?
+
+50
+00:03:38,598 --> 00:03:40,470
+That is the gradient.
+
+51
+00:03:40,750 --> 00:03:45,862
+Next, grads.mean over the height and width: one weight per feature map.
+
+52
+00:03:46,142 --> 00:03:53,894
+Multiply the weights into the maps, sum, and apply ReLU, because I only care about evidence in favour of the class.
+
+53
+00:03:54,174 --> 00:03:59,262
+Interpolate up to two hundred and twenty-four pixels, and normalise to zero-to-one.
+
+54
+00:03:59,542 --> 00:04:01,414
+And that's it.
+
+55
+00:04:01,694 --> 00:04:03,566
+Roughly twenty lines.
+
+56
+00:04:03,846 --> 00:04:05,862
+Notice the cls argument.
+
+57
+00:04:06,142 --> 00:04:12,454
+It lets me ask "show me where you looked for the second-best guess", which turns out to be the most fun part of the demo.
+
+58
+00:04:12,734 --> 00:04:24,038
+The rest of the app is small: a function that blends red-to-blue colour into the photo with a strength slider, a top-five list, and an input chooser for samples, uploads or the webcam.
+
+59
+00:04:24,838 --> 00:04:26,710
+Let's run it.
+
+60
+00:04:26,990 --> 00:04:28,862
+Sample: banana.
+
+61
+00:04:29,142 --> 00:04:36,366
+The left image is what the network really sees: a two-hundred-twenty-four pixel centre crop, because that's what it was trained on.
+
+62
+00:04:36,646 --> 00:04:39,262
+In the middle, the Grad-CAM overlay.
+
+63
+00:04:39,542 --> 00:04:43,694
+Banana, ninety-five percent, and the red sits right on the fruit.
+
+64
+00:04:43,974 --> 00:04:45,846
+That's what I hoped for.
+
+65
+00:04:46,126 --> 00:04:50,062
+I'll drag the heatmap strength slider to make the overlay stronger.
+
+66
+00:04:50,342 --> 00:04:52,598
+Same evidence, easier to see.
+
+67
+00:04:52,878 --> 00:04:54,750
+Now the cat.
+
+68
+00:04:55,030 --> 00:05:00,094
+The top guess is tiger cat at twenty-two percent, and the next is tabby at thirteen.
+
+69
+00:05:00,374 --> 00:05:05,606
+Not very confident, because ImageNet has several kinds of cat and they overlap.
+
+70
+00:05:05,886 --> 00:05:09,726
+Watch what happens when I pick the second guess in "Explain which guess?".
+
+71
+00:05:10,006 --> 00:05:11,878
+The heat moves.
+
+72
+00:05:12,158 --> 00:05:15,878
+For tabby, it highlights different pixels than for tiger cat.
+
+73
+00:05:16,158 --> 00:05:19,038
+Two answers, two different sets of evidence.
+
+74
+00:05:19,318 --> 00:05:21,190
+Next, the dog.
+
+75
+00:05:21,470 --> 00:05:23,798
+Labrador, around twenty percent.
+
+76
+00:05:24,078 --> 00:05:26,430
+Again, much lower than the banana.
+
+77
+00:05:26,710 --> 00:05:29,518
+I'll pick the runner-up and again the map changes.
+
+78
+00:05:29,798 --> 00:05:31,670
+And the pizza.
+
+79
+00:05:31,950 --> 00:05:35,718
+Pizza gets nineteen percent, and a frying pan gets eighteen.
+
+80
+00:05:35,998 --> 00:05:37,870
+That is basically a coin flip.
+
+81
+00:05:38,150 --> 00:05:43,742
+If I click on the frying pan, the heat map shows which pixels support that wrong-but-close answer.
+
+82
+00:05:44,022 --> 00:05:51,750
+In this recording the heat spreads over the round pie, strongest toward the lower left, rather than sitting on one object.
+
+83
+00:05:52,030 --> 00:05:56,686
+The point: a one-point gap means the model genuinely can't separate them.
+
+84
+00:05:56,966 --> 00:06:00,278
+You can also upload your own photo, or use the webcam.
+
+85
+00:06:00,558 --> 00:06:02,814
+I'd encourage you to try it with something weird.
+
+86
+00:06:03,614 --> 00:06:05,486
+Three things surprised me.
+
+87
+00:06:05,766 --> 00:06:09,246
+One: confidence is low in a lot of normal cases.
+
+88
+00:06:09,526 --> 00:06:12,166
+Only the banana was above ninety percent.
+
+89
+00:06:12,446 --> 00:06:17,174
+The cat, the Labrador and the pizza all came out under twenty-three percent.
+
+90
+00:06:17,454 --> 00:06:23,982
+Because ImageNet splits the world into very fine categories, probability gets shared among neighbours.
+
+91
+00:06:24,262 --> 00:06:29,038
+Low confidence does not mean wrong; it often means "several right answers".
+
+92
+00:06:29,318 --> 00:06:32,006
+Two: the runner-up has its own evidence.
+
+93
+00:06:32,286 --> 00:06:35,718
+The heat map for the second guess lives in different pixels.
+
+94
+00:06:35,998 --> 00:06:38,230
+A single number hides that completely.
+
+95
+00:06:38,510 --> 00:06:40,622
+Three: how little code it took.
+
+96
+00:06:40,902 --> 00:06:44,190
+The whole explanation technique is about twenty lines.
+
+97
+00:06:44,470 --> 00:06:49,678
+And a bonus I should be honest about: a heat map looks convincing, and that is a risk.
+
+98
+00:06:49,958 --> 00:06:57,134
+It looks like an explanation, but it's a coarse picture, because the last block's feature map is small and then stretched up.
+
+99
+00:06:57,934 --> 00:06:59,854
+Let me be straight about the limits.
+
+100
+00:07:00,134 --> 00:07:05,630
+Grad-CAM is low resolution; it tells you roughly where, not exactly which pixel.
+
+101
+00:07:05,910 --> 00:07:10,014
+It explains this model's gradients, not the model's "thoughts".
+
+102
+00:07:10,294 --> 00:07:13,846
+The network only knows one thousand ImageNet classes.
+
+103
+00:07:14,126 --> 00:07:22,982
+Show it something else, a drawing, a person, a spoon in a weird light, and it will still pick one of the thousand and sometimes sound sure about it.
+
+104
+00:07:23,262 --> 00:07:27,438
+The app says that in a caption, and I think it's the most important line in it.
+
+105
+00:07:27,718 --> 00:07:33,214
+Also, I only tried a handful of sample photos, so don't read my percentages as a benchmark.
+
+106
+00:07:33,494 --> 00:07:36,398
+They are what this model produced on these four images.
+
+107
+00:07:36,678 --> 00:07:39,222
+And yes, I wrote this with Claude Code.
+
+108
+00:07:39,502 --> 00:07:44,662
+I read and ran the code, but I would call myself the director, not the sole author.
+
+109
+00:07:45,462 --> 00:07:47,334
+What next?
+
+110
+00:07:47,614 --> 00:08:02,494
+Ideas on my list: an attention visualiser for the tiny GPT I built earlier, so we can do the same X-ray for language; swapping in a bigger network and comparing heat maps; and a bias demo showing the husky-on-snow failure on purpose.
+
+111
+00:08:02,774 --> 00:08:08,822
+If you enjoyed this, I built sixteen AI and ML projects like it and the code is in the description.
+
+112
+00:08:09,102 --> 00:08:12,702
+Subscribe, and tell me in the comments which photo I should feed it.
+
+113
+00:08:12,982 --> 00:08:14,854
+Thanks for watching.

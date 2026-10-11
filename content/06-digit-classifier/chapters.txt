@@ -1,7 +1,7 @@
 0:00 Cold open
-0:33 Why it matters
-1:42 Build walkthrough
-3:42 Live demo
-5:19 What surprised me
-6:11 Honest limits
-6:57 What to build next
+0:35 Why it matters
+1:44 Build walkthrough
+3:44 Live demo
+5:21 What surprised me
+6:13 Honest limits
+6:59 What to build next

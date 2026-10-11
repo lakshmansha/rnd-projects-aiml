@@ -1,347 +1,347 @@
 1
-00:00:00,000 --> 00:00:02,472
+00:00:02,415 --> 00:00:04,887
 This is a GPT that knows nothing.
 
 2
-00:00:02,751 --> 00:00:04,623
+00:00:05,166 --> 00:00:07,038
 Not a word of English.
 
 3
-00:00:04,903 --> 00:00:07,903
+00:00:07,318 --> 00:00:10,318
 Not even that letters exist in a particular order.
 
 4
-00:00:08,184 --> 00:00:11,712
+00:00:10,599 --> 00:00:14,127
 Step one: pure gibberish, random characters.
 
 5
-00:00:11,992 --> 00:00:14,968
+00:00:14,407 --> 00:00:17,383
 Now watch what happens as the loss number drops.
 
 6
-00:00:15,248 --> 00:00:17,408
+00:00:17,663 --> 00:00:19,823
 Letters start clumping into words.
 
 7
-00:00:17,688 --> 00:00:19,944
+00:00:20,103 --> 00:00:22,359
 Words start taking the shape of lines.
 
 8
-00:00:20,224 --> 00:00:23,560
+00:00:22,639 --> 00:00:25,975
 Character names with colons appear, then speeches.
 
 9
-00:00:23,840 --> 00:00:25,712
+00:00:26,255 --> 00:00:28,127
 It never read a grammar book.
 
 10
-00:00:25,992 --> 00:00:29,760
+00:00:28,407 --> 00:00:32,175
 It only ever practised one thing: guessing the next character.
 
 11
-00:00:30,040 --> 00:00:35,272
+00:00:32,455 --> 00:00:37,687
 I'll show you the roughly seventy lines of PyTorch behind it, and then we'll train one live.
 
 12
-00:00:36,072 --> 00:00:41,568
+00:00:38,487 --> 00:00:43,983
 Before anything else: I built this with Claude Code, and the narration is AI-generated.
 
 13
-00:00:41,848 --> 00:00:46,120
+00:00:44,263 --> 00:00:48,535
 The code and the training you'll see are real, and run on my own CPU.
 
 14
-00:00:46,400 --> 00:00:49,664
+00:00:48,815 --> 00:00:52,079
 Why build a tiny GPT when you can call a big one?
 
 15
-00:00:49,944 --> 00:00:55,968
+00:00:52,359 --> 00:00:58,383
 Because the big ones can feel like magic, and a magic trick stops being scary once you've watched it assembled.
 
 16
-00:00:56,248 --> 00:01:10,696
+00:00:58,663 --> 00:01:13,111
 The model in this app has the same ingredients as the systems behind chatbots: token embeddings, positional embeddings, stacked transformer blocks with self-attention, and a final layer that outputs a probability for every possible next token.
 
 17
-00:01:10,976 --> 00:01:12,848
+00:01:13,391 --> 00:01:15,263
 The difference is scale.
 
 18
-00:01:13,128 --> 00:01:19,416
+00:01:15,543 --> 00:01:21,831
 At the default settings this one has eight hundred and eighteen thousand, one hundred and seventy-six parameters.
 
 19
-00:01:19,696 --> 00:01:21,568
+00:01:22,111 --> 00:01:23,983
 That is under a million.
 
 20
-00:01:21,848 --> 00:01:23,720
+00:01:24,263 --> 00:01:26,135
 It is also character-level.
 
 21
-00:01:24,000 --> 00:01:29,496
+00:01:26,415 --> 00:01:31,911
 The vocabulary is just the sixty-five different characters that appear in the training text.
 
 22
-00:01:29,776 --> 00:01:32,008
+00:01:32,191 --> 00:01:34,423
 No words, no tokenizer.
 
 23
-00:01:32,288 --> 00:01:36,200
+00:01:34,703 --> 00:01:38,615
 That makes it simple, and it makes the learning stages easy to see.
 
 24
-00:01:37,000 --> 00:01:39,592
+00:01:39,415 --> 00:01:42,007
 Everything lives in model.py.
 
 25
-00:01:39,872 --> 00:01:43,400
+00:01:42,287 --> 00:01:45,815
 Start with the block, the repeating unit of a transformer.
 
 26
-00:01:43,680 --> 00:01:45,552
+00:01:46,095 --> 00:01:47,967
 Two things to notice.
 
 27
-00:01:45,832 --> 00:01:47,704
+00:01:48,247 --> 00:01:50,119
 First, the mask.
 
 28
-00:01:47,984 --> 00:01:53,192
+00:01:50,399 --> 00:01:55,607
 It's an upper-triangular matrix that blocks each position from looking at later positions.
 
 29
-00:01:53,472 --> 00:01:59,976
+00:01:55,887 --> 00:02:02,391
 That is what makes the model causal: when it predicts the next character, it can only use the characters before it.
 
 30
-00:02:00,256 --> 00:02:02,608
+00:02:02,671 --> 00:02:05,023
 Without that, training would be cheating.
 
 31
-00:02:02,888 --> 00:02:04,856
+00:02:05,303 --> 00:02:07,271
 Second, the plus signs.
 
 32
-00:02:05,136 --> 00:02:11,184
+00:02:07,551 --> 00:02:13,599
 The block adds its output to its input, a residual connection, which helps deep stacks train.
 
 33
-00:02:11,464 --> 00:02:13,336
+00:02:13,879 --> 00:02:15,751
 Now the full model.
 
 34
-00:02:13,616 --> 00:02:24,944
+00:02:16,031 --> 00:02:27,359
 Characters become vectors, the position of each character is added, the stack of blocks mixes information, and the head turns the result back into one score per character in the vocabulary.
 
 35
-00:02:25,224 --> 00:02:30,288
+00:02:27,639 --> 00:02:32,703
 The loss is cross-entropy: how surprised was the model by the true next character?
 
 36
-00:02:30,568 --> 00:02:33,664
+00:02:32,983 --> 00:02:36,079
 The training data is sliced in a very simple way.
 
 37
-00:02:33,944 --> 00:02:40,808
+00:02:36,359 --> 00:02:43,223
 Pick random starting points, take a window as the input, and take the same window shifted by one as the answer.
 
 38
-00:02:41,088 --> 00:02:47,712
+00:02:43,503 --> 00:02:50,127
 That is the whole supervision signal: every position is a tiny quiz where the answer is the next character.
 
 39
-00:02:47,992 --> 00:02:49,864
+00:02:50,407 --> 00:02:52,279
 And here is how it writes.
 
 40
-00:02:50,144 --> 00:02:59,551
+00:02:52,559 --> 00:03:01,966
 Take the scores for the last position, divide by temperature, optionally keep only the top k, turn them into probabilities, and sample one character.
 
 41
-00:02:59,831 --> 00:03:01,704
+00:03:02,246 --> 00:03:04,119
 Append it and repeat.
 
 42
-00:03:01,983 --> 00:03:08,727
+00:03:04,398 --> 00:03:11,142
 Temperature is the creativity knob: low means safe and repetitive, high means adventurous and messy.
 
 43
-00:03:09,007 --> 00:03:19,423
+00:03:11,422 --> 00:03:21,838
 The training loop in the app is the standard four lines: get a batch, compute the loss, zero the gradients, backward, step, using the AdamW optimiser.
 
 44
-00:03:19,703 --> 00:03:27,767
+00:03:22,118 --> 00:03:30,182
 The sidebar lets you change layers from one to six, the embedding size, the context length, the number of steps and the learning rate.
 
 45
-00:03:28,567 --> 00:03:33,463
+00:03:30,982 --> 00:03:35,878
 The sidebar: training text is Shakespeare, or you can upload your own text file.
 
 46
-00:03:33,743 --> 00:03:39,671
+00:03:36,158 --> 00:03:42,086
 Model settings: four layers, embedding size one hundred and twenty-eight, context sixty-four.
 
 47
-00:03:39,951 --> 00:03:44,727
+00:03:42,366 --> 00:03:47,142
 Training: six hundred steps, learning rate three e minus three.
 
 48
-00:03:45,007 --> 00:03:46,879
+00:03:47,422 --> 00:03:49,294
 I press Train from scratch.
 
 49
-00:03:47,159 --> 00:03:54,383
+00:03:49,574 --> 00:03:56,798
 First it reports the parameter count, vocabulary and the size of the text: over a million characters of Shakespeare.
 
 50
-00:03:54,663 --> 00:03:58,863
+00:03:57,078 --> 00:04:01,278
 The progress bar shows the step, the loss, and steps per second.
 
 51
-00:03:59,143 --> 00:04:10,279
+00:04:01,558 --> 00:04:12,694
 In this recording the loss started at four point three six, which is roughly what you'd expect from guessing among sixty-five characters at random, and had fallen to about two point three by step one hundred.
 
 52
-00:04:10,559 --> 00:04:13,463
+00:04:12,974 --> 00:04:15,878
 It ran at about four point four steps per second.
 
 53
-00:04:13,743 --> 00:04:18,591
+00:04:16,158 --> 00:04:21,006
 Now the part I love: the section called "What the model writes as it learns".
 
 54
-00:04:18,871 --> 00:04:20,743
+00:04:21,286 --> 00:04:23,158
 Step one is noise.
 
 55
-00:04:21,023 --> 00:04:25,967
+00:04:23,438 --> 00:04:28,382
 A few hundred steps in, there are real-looking words and line breaks and speaker names.
 
 56
-00:04:26,247 --> 00:04:30,183
+00:04:28,662 --> 00:04:32,598
 It isn't coherent, but the shape is unmistakably a play.
 
 57
-00:04:30,463 --> 00:04:33,583
+00:04:32,878 --> 00:04:35,998
 When training finishes, scroll down to generate.
 
 58
-00:04:33,863 --> 00:04:38,831
+00:04:36,278 --> 00:04:41,246
 I type "ROMEO:" as the start, and keep temperature at zero point eight.
 
 59
-00:04:39,111 --> 00:04:45,039
+00:04:41,526 --> 00:04:47,454
 Now low temperature, zero point two: the text gets calmer, and starts repeating itself.
 
 60
-00:04:45,319 --> 00:04:49,135
+00:04:47,734 --> 00:04:51,550
 High, one point four: wilder words, more nonsense.
 
 61
-00:04:49,415 --> 00:04:53,255
+00:04:51,830 --> 00:04:55,670
 Same model, same weights, only the sampling changes.
 
 62
-00:04:54,055 --> 00:04:56,887
+00:04:56,470 --> 00:04:59,302
 First, how early the structure appears.
 
 63
-00:04:57,167 --> 00:05:04,607
+00:04:59,582 --> 00:05:07,022
 Before the model gets the words right, it learns the layout: capital letters after line breaks, names followed by colons.
 
 64
-00:05:04,887 --> 00:05:07,935
+00:05:07,302 --> 00:05:10,350
 Structure is cheap; meaning is expensive.
 
 65
-00:05:08,215 --> 00:05:12,703
+00:05:10,630 --> 00:05:15,118
 Second, how much temperature changes the personality of the same model.
 
 66
-00:05:12,983 --> 00:05:18,071
+00:05:15,398 --> 00:05:20,486
 People often blame the model for being boring or erratic when it is the sampling setting.
 
 67
-00:05:18,351 --> 00:05:20,223
+00:05:20,766 --> 00:05:22,638
 Third, how small this is.
 
 68
-00:05:20,503 --> 00:05:26,407
+00:05:22,918 --> 00:05:28,822
 Under a million parameters, no GPU, a minute or two of training for a first impression.
 
 69
-00:05:26,687 --> 00:05:31,343
+00:05:29,102 --> 00:05:33,758
 Everything you need to understand the core mechanism fits in one short file.
 
 70
-00:05:32,143 --> 00:05:34,615
+00:05:34,558 --> 00:05:37,030
 Let me be clear about what this model is not.
 
 71
-00:05:34,895 --> 00:05:37,103
+00:05:37,310 --> 00:05:39,518
 It won't write coherent Shakespeare.
 
 72
-00:05:37,383 --> 00:05:43,551
+00:05:39,798 --> 00:05:45,966
 At this size and with this little training it produces text that looks like a play but doesn't make sense.
 
 73
-00:05:43,831 --> 00:05:50,383
+00:05:46,246 --> 00:05:52,798
 It only has a context window of up to a hundred and twenty-eight characters, so it can't remember anything earlier.
 
 74
-00:05:50,663 --> 00:05:54,743
+00:05:53,078 --> 00:05:57,158
 It is character-level, which is slower to learn than word-level models.
 
 75
-00:05:55,023 --> 00:06:03,495
+00:05:57,438 --> 00:06:05,910
 I haven't compared it against other architectures or tuned anything systematically, so don't read any particular loss number as a benchmark.
 
 76
-00:06:03,775 --> 00:06:10,183
+00:06:06,190 --> 00:06:12,598
 Speed depends on your CPU; I measured between roughly four and six steps per second on mine across runs.
 
 77
-00:06:10,463 --> 00:06:18,191
+00:06:12,878 --> 00:06:20,606
 And a language model trained on a single book will repeat that book's style and quirks, so if you upload text, expect it to echo it.
 
 78
-00:06:18,471 --> 00:06:21,495
+00:06:20,886 --> 00:06:23,910
 And again: I built this with an AI assistant.
 
 79
-00:06:21,775 --> 00:06:25,567
+00:06:24,190 --> 00:06:27,982
 I ran it and checked the figures, but read the code yourself.
 
 80
-00:06:26,367 --> 00:06:28,431
+00:06:28,782 --> 00:06:30,846
 Here are the obvious next steps.
 
 81
-00:06:28,711 --> 00:06:34,303
+00:06:31,126 --> 00:06:36,718
 Visualise the attention weights, so you can see which earlier characters each position looks at.
 
 82
-00:06:34,583 --> 00:06:36,455
+00:06:36,998 --> 00:06:38,870
 That's on my list.
 
 83
-00:06:36,735 --> 00:06:39,783
+00:06:39,150 --> 00:06:42,198
 Train on your own writing, using the upload option.
 
 84
-00:06:40,063 --> 00:06:42,127
+00:06:42,478 --> 00:06:44,542
 Try a word-level tokenizer.
 
 85
-00:06:42,407 --> 00:06:47,063
+00:06:44,822 --> 00:06:49,478
 Or scale layers and embedding size up and measure what changes in the loss.
 
 86
-00:06:47,343 --> 00:06:52,167
+00:06:49,758 --> 00:06:54,582
 All the code is in the repo linked in the description, no API key needed.
 
 87
-00:06:52,447 --> 00:07:01,063
+00:06:54,862 --> 00:07:03,478
 If you enjoyed watching a GPT go from gibberish to something play-shaped, follow for more AI and ML builds, and tell me what text you'd feed it.

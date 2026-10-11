@@ -43,7 +43,7 @@ def _snap(page, res, tag):
 
 
 def _second(page):
-    page.locator("[data-testid=stMain] [data-testid=stRadio] label").nth(1).click()
+    page.locator("[data-testid=stMain] [data-testid=stRadio] label").nth(2).click()
     page.wait_for_timeout(3500)
 
 

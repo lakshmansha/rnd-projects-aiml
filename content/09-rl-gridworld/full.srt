@@ -1,435 +1,435 @@
 1
-00:00:00,000 --> 00:00:01,872
+00:00:02,415 --> 00:00:04,287
 Two AI agents.
 
 2
-00:00:02,152 --> 00:00:04,024
+00:00:04,567 --> 00:00:06,439
 One cliff.
 
 3
-00:00:04,304 --> 00:00:09,968
+00:00:06,719 --> 00:00:12,383
 Every time they step off the edge, they lose a hundred points and get thrown back to the start.
 
 4
-00:00:10,248 --> 00:00:12,288
+00:00:12,663 --> 00:00:14,703
 Nobody told them where the cliff is.
 
 5
-00:00:12,568 --> 00:00:14,440
+00:00:14,983 --> 00:00:16,855
 Nobody told them the rules.
 
 6
-00:00:14,720 --> 00:00:16,592
+00:00:17,135 --> 00:00:19,007
 They only get a score.
 
 7
-00:00:16,872 --> 00:00:23,112
+00:00:19,287 --> 00:00:25,527
 And look at what happens: one of them learns the shortest path, right along the edge, and keeps falling in.
 
 8
-00:00:23,392 --> 00:00:27,256
+00:00:25,807 --> 00:00:29,671
 The other one takes a longer, safer road, and scores higher.
 
 9
-00:00:27,536 --> 00:00:29,408
+00:00:29,951 --> 00:00:31,823
 Same maths, almost.
 
 10
-00:00:29,688 --> 00:00:31,560
+00:00:32,103 --> 00:00:33,975
 One tiny difference.
 
 11
-00:00:31,840 --> 00:00:36,976
+00:00:34,255 --> 00:00:39,391
 By the end of this video you'll see exactly where it hides, in a single line of code.
 
 12
-00:00:37,256 --> 00:00:42,871
+00:00:39,671 --> 00:00:45,286
 I'm going to be upfront: I built this whole thing with Claude Code, and I'll show you what I learned from reading it.
 
 13
-00:00:43,672 --> 00:00:50,128
+00:00:46,087 --> 00:00:52,543
 Most machine learning you hear about is supervised: here are a million examples with the right answers, copy them.
 
 14
-00:00:50,408 --> 00:00:52,736
+00:00:52,823 --> 00:00:55,151
 Reinforcement learning is different.
 
 15
-00:00:53,015 --> 00:00:54,887
+00:00:55,430 --> 00:00:57,302
 There are no right answers.
 
 16
-00:00:55,167 --> 00:00:58,503
+00:00:57,582 --> 00:01:00,918
 There's an agent, a world, and a reward signal.
 
 17
-00:00:58,783 --> 00:01:03,655
+00:01:01,198 --> 00:01:06,070
 The agent tries something, sees what happens, and slowly figures out what works.
 
 18
-00:01:03,936 --> 00:01:12,384
+00:01:06,351 --> 00:01:14,799
 That's how game-playing agents are trained, how robots learn to walk, and it's a big part of how language models get tuned to follow instructions.
 
 19
-00:01:12,664 --> 00:01:14,944
+00:01:15,079 --> 00:01:17,359
 The tricky part is exploration.
 
 20
-00:01:15,224 --> 00:01:19,472
+00:01:17,639 --> 00:01:21,887
 To find good actions, the agent has to sometimes do random things.
 
 21
-00:01:19,752 --> 00:01:22,176
+00:01:22,167 --> 00:01:24,591
 But random things near a cliff are expensive.
 
 22
-00:01:22,456 --> 00:01:28,456
+00:01:24,871 --> 00:01:30,871
 And that tension, between trying new stuff and not dying, is exactly what this demo shows.
 
 23
-00:01:29,256 --> 00:01:30,959
+00:01:31,671 --> 00:01:33,374
 The world is a small grid.
 
 24
-00:01:31,239 --> 00:01:35,823
+00:01:33,654 --> 00:01:38,238
 S is the start, G is the goal, the skull cells are the cliff.
 
 25
-00:01:36,103 --> 00:01:39,968
+00:01:38,518 --> 00:01:42,383
 Every step costs minus one, so wandering is punished.
 
 26
-00:01:40,248 --> 00:01:42,168
+00:01:42,663 --> 00:01:44,583
 Reaching the goal pays fifty.
 
 27
-00:01:42,448 --> 00:01:46,264
+00:01:44,863 --> 00:01:48,679
 The cliff costs minus a hundred and sends you back to the start.
 
 28
-00:01:46,544 --> 00:01:52,784
+00:01:48,959 --> 00:01:55,199
 In the code that's literally one line of constants:  The agent's only knowledge is a table called Q.
 
 29
-00:01:53,064 --> 00:02:02,424
+00:01:55,479 --> 00:02:04,839
 For every cell and each of the four moves, up, right, down, left, it stores a number: how good do I think this move is from here?
 
 30
-00:02:02,704 --> 00:02:04,528
+00:02:05,119 --> 00:02:06,943
 It starts at all zeros.
 
 31
-00:02:04,808 --> 00:02:07,136
+00:02:07,223 --> 00:02:09,551
 Learning is just nudging those numbers.
 
 32
-00:02:07,416 --> 00:02:09,408
+00:02:09,831 --> 00:02:11,823
 I also added three worlds.
 
 33
-00:02:09,688 --> 00:02:13,456
+00:02:12,103 --> 00:02:15,871
 The classic Cliff walking, a Lava maze, and Two doors.
 
 34
-00:02:13,736 --> 00:02:15,608
+00:02:16,151 --> 00:02:18,023
 We'll mostly use the cliff.
 
 35
-00:02:16,408 --> 00:02:18,280
+00:02:18,823 --> 00:02:20,695
 Here's the whole learning loop.
 
 36
-00:02:18,560 --> 00:02:21,319
+00:02:20,975 --> 00:02:23,734
 I'll read it, because it's short enough to read..
 
 37
-00:02:21,599 --> 00:02:24,431
+00:02:24,014 --> 00:02:26,846
 First, the Q table, all zeros.
 
 38
-00:02:24,711 --> 00:02:32,055
+00:02:27,126 --> 00:02:34,470
 Then this pick function: with probability epsilon, a random move; otherwise the best move the table knows.
 
 39
-00:02:32,335 --> 00:02:36,031
+00:02:34,750 --> 00:02:38,446
 That's exploration versus exploitation in one line.
 
 40
-00:02:36,311 --> 00:02:42,191
+00:02:38,726 --> 00:02:44,606
 Epsilon is a slider in the sidebar, default point one, so one move in ten is random.
 
 41
-00:02:42,471 --> 00:02:44,343
+00:02:44,886 --> 00:02:46,758
 Then the loop.
 
 42
-00:02:44,623 --> 00:02:46,495
+00:02:47,038 --> 00:02:48,910
 Take a step.
 
 43
-00:02:46,775 --> 00:02:49,055
+00:02:49,190 --> 00:02:51,470
 See the reward and the new cell.
 
 44
-00:02:49,335 --> 00:02:51,207
+00:02:51,750 --> 00:02:53,622
 Choose the next action.
 
 45
-00:02:51,487 --> 00:02:53,719
+00:02:53,902 --> 00:02:56,134
 And now the key line, the target.
 
 46
-00:02:53,999 --> 00:03:00,671
+00:02:56,414 --> 00:03:03,086
 The target is the reward I just got, plus gamma, the discount, times how good I think the next position is.
 
 47
-00:03:00,951 --> 00:03:03,039
+00:03:03,366 --> 00:03:05,454
 And here's the one tiny difference.
 
 48
-00:03:03,319 --> 00:03:12,271
+00:03:05,734 --> 00:03:14,686
 For SARSA, "how good is the next position" means: the value of the action I'm actually going to take next, which might be a random clumsy one.
 
 49
-00:03:12,551 --> 00:03:18,791
+00:03:14,966 --> 00:03:21,206
 For Q-learning it means: the value of the best action available there, as if I'd never be clumsy.
 
 50
-00:03:19,071 --> 00:03:26,223
+00:03:21,486 --> 00:03:28,638
 Same line, a ternary: the value of the next action I take, versus the maximum value in the next cell.
 
 51
-00:03:26,503 --> 00:03:32,143
+00:03:28,918 --> 00:03:34,558
 The last line nudges the table: move the old estimate a fraction alpha toward the target.
 
 52
-00:03:32,423 --> 00:03:33,239
+00:03:34,838 --> 00:03:35,654
 That's it.
 
 53
-00:03:33,519 --> 00:03:35,391
+00:03:35,934 --> 00:03:37,806
 That's the whole algorithm.
 
 54
-00:03:35,671 --> 00:03:37,615
+00:03:38,086 --> 00:03:40,030
 Twelve lines and a table.
 
 55
-00:03:37,895 --> 00:03:46,079
+00:03:40,310 --> 00:03:48,494
 I also snapshot the table at about forty points, spaced on a log scale, so the UI can let you scrub through training without retraining.
 
 56
-00:03:46,359 --> 00:03:51,423
+00:03:48,774 --> 00:03:53,838
 That was a small design choice I liked: training runs once, scrubbing is instant.
 
 57
-00:03:51,703 --> 00:03:59,071
+00:03:54,118 --> 00:04:01,486
 One more helper: greedy path follows the best move from the start until it reaches the goal, and that's the blue line you'll see.
 
 58
-00:03:59,871 --> 00:04:01,743
+00:04:02,286 --> 00:04:04,158
 Okay, live.
 
 59
-00:04:02,023 --> 00:04:05,887
+00:04:04,438 --> 00:04:08,302
 Cliff walking, a thousand episodes, epsilon point one.
 
 60
-00:04:06,167 --> 00:04:08,807
+00:04:08,582 --> 00:04:11,222
 Both agents train when the page loads.
 
 61
-00:04:09,087 --> 00:04:11,799
+00:04:11,502 --> 00:04:14,214
 I'll drag the scrub slider back to the beginning.
 
 62
-00:04:12,079 --> 00:04:17,815
+00:04:14,494 --> 00:04:20,230
 Episode one: the heatmap is empty, there are no arrows, the agents know nothing.
 
 63
-00:04:18,095 --> 00:04:19,967
+00:04:20,510 --> 00:04:22,382
 Now I scrub forward.
 
 64
-00:04:20,247 --> 00:04:26,463
+00:04:22,662 --> 00:04:28,878
 Watch the arrows appear near the goal first, the values spread backwards from the goal, like a ripple.
 
 65
-00:04:26,743 --> 00:04:28,951
+00:04:29,158 --> 00:04:31,366
 Green is good, red is bad.
 
 66
-00:04:29,231 --> 00:04:31,679
+00:04:31,646 --> 00:04:34,094
 At the end, look at the blue paths.
 
 67
-00:04:31,959 --> 00:04:35,727
+00:04:34,374 --> 00:04:38,142
 Q-learning goes along the edge of the cliff, the shortest route.
 
 68
-00:04:36,007 --> 00:04:40,135
+00:04:38,422 --> 00:04:42,550
 SARSA goes up and around, longer but away from the edge.
 
 69
-00:04:40,415 --> 00:04:44,927
+00:04:42,830 --> 00:04:47,342
 In my run, Q-learning's path was fourteen cells and SARSA's was eighteen.
 
 70
-00:04:45,207 --> 00:04:47,463
+00:04:47,622 --> 00:04:49,878
 Now scroll down to the reward chart.
 
 71
-00:04:47,743 --> 00:04:50,719
+00:04:50,158 --> 00:04:53,134
 This is reward during learning, not after.
 
 72
-00:04:50,999 --> 00:04:53,591
+00:04:53,414 --> 00:04:56,006
 SARSA's line sits above Q-learning's.
 
 73
-00:04:53,871 --> 00:05:04,191
+00:04:56,286 --> 00:05:06,606
 I checked this headlessly across ten random seeds, averaging the last fifth of a thousand episodes: SARSA averaged around twenty-seven, Q-learning around two.
 
 74
-00:05:04,471 --> 00:05:12,511
+00:05:06,886 --> 00:05:14,926
 The little caption under each heatmap is noisier, because it only averages twenty episodes, so don't trust it for a single run.
 
 75
-00:05:12,791 --> 00:05:14,975
+00:05:15,206 --> 00:05:17,390
 Here's the check that proves the idea.
 
 76
-00:05:15,255 --> 00:05:18,567
+00:05:17,670 --> 00:05:20,982
 Set epsilon to zero, no random moves at all.
 
 77
-00:05:18,847 --> 00:05:23,119
+00:05:21,262 --> 00:05:25,534
 Now both agents, when evaluated, walk the edge happily.
 
 78
-00:05:23,399 --> 00:05:26,783
+00:05:25,814 --> 00:05:29,198
 In my test, both scored the same, thirty-eight.
 
 79
-00:05:27,063 --> 00:05:29,991
+00:05:29,478 --> 00:05:32,406
 The cliff-edge path really is the best path.
 
 80
-00:05:30,271 --> 00:05:33,511
+00:05:32,686 --> 00:05:35,926
 The difference only exists because of exploration.
 
 81
-00:05:34,311 --> 00:05:36,183
+00:05:36,726 --> 00:05:38,598
 Two things surprised me.
 
 82
-00:05:36,463 --> 00:05:39,463
+00:05:38,878 --> 00:05:41,878
 First, that Q-learning is not "worse".
 
 83
-00:05:39,743 --> 00:05:42,263
+00:05:42,158 --> 00:05:44,678
 It learns the genuinely optimal path.
 
 84
-00:05:42,543 --> 00:05:45,519
+00:05:44,958 --> 00:05:47,934
 If you turned off the random moves, it wins.
 
 85
-00:05:45,799 --> 00:05:49,687
+00:05:48,214 --> 00:05:52,102
 It's just that while it's still exploring, it pays for that optimism.
 
 86
-00:05:49,967 --> 00:05:53,351
+00:05:52,382 --> 00:05:55,766
 It's learning about a policy it isn't actually following.
 
 87
-00:05:53,631 --> 00:05:58,647
+00:05:56,046 --> 00:06:01,062
 SARSA learns the value of the policy it is really running, clumsiness included.
 
 88
-00:05:58,927 --> 00:06:05,359
+00:06:01,342 --> 00:06:07,774
 So when your behaviour is risky, SARSA says: given that I'll sometimes stumble, stay away from the edge.
 
 89
-00:06:05,639 --> 00:06:08,903
+00:06:08,054 --> 00:06:11,318
 Second, this is a real lesson for real systems.
 
 90
-00:06:09,183 --> 00:06:19,551
+00:06:11,598 --> 00:06:21,966
 If the thing you're training can't afford to fail while it learns, a robot, a trading bot, anything physical, the algorithm that accounts for its own mistakes might be the right choice.
 
 91
-00:06:20,351 --> 00:06:22,295
+00:06:22,766 --> 00:06:24,710
 Let me be honest about the limits.
 
 92
-00:06:22,575 --> 00:06:25,311
+00:06:24,990 --> 00:06:27,726
 This is a tiny grid with a lookup table.
 
 93
-00:06:25,591 --> 00:06:27,727
+00:06:28,006 --> 00:06:30,142
 It doesn't scale to big worlds.
 
 94
-00:06:28,007 --> 00:06:31,895
+00:06:30,422 --> 00:06:34,310
 That's why modern RL uses neural networks instead of a table.
 
 95
-00:06:32,175 --> 00:06:35,031
+00:06:34,590 --> 00:06:37,446
 And not every world works with the default settings.
 
 96
-00:06:35,311 --> 00:06:41,863
+00:06:37,726 --> 00:06:44,278
 On the Lava maze, Q-learning reached the goal in my test, but SARSA did not in a thousand episodes.
 
 97
-00:06:42,143 --> 00:06:47,879
+00:06:44,558 --> 00:06:50,294
 On Two doors, neither agent got through with the defaults; they just wandered until the step limit.
 
 98
-00:06:48,159 --> 00:06:52,551
+00:06:50,574 --> 00:06:54,966
 I haven't tuned those, so you may need more episodes or a different epsilon.
 
 99
-00:06:52,831 --> 00:06:58,615
+00:06:55,246 --> 00:07:01,030
 Also, one training run with one random seed is a single sample, so results wobble.
 
 100
-00:06:58,895 --> 00:07:07,271
+00:07:01,310 --> 00:07:09,686
 And yes, Claude Code wrote most of this, and I checked the numbers by running the app's own functions, not by trusting the text in the info box.
 
 101
-00:07:08,071 --> 00:07:09,943
+00:07:10,486 --> 00:07:12,358
 What would I build next?
 
 102
-00:07:10,223 --> 00:07:15,887
+00:07:12,638 --> 00:07:18,302
 A deep Q-network, where the table is replaced by a neural net, so it can handle images.
 
 103
-00:07:16,167 --> 00:07:18,039
+00:07:18,582 --> 00:07:20,454
 Or let you draw your own cliff.
 
 104
-00:07:18,319 --> 00:07:21,295
+00:07:20,734 --> 00:07:23,710
 Or add a wind that randomly pushes the agent.
 
 105
-00:07:21,575 --> 00:07:27,911
+00:07:23,990 --> 00:07:30,326
 If you want to try this, the code is in the description, it runs with no API keys, no cost.
 
 106
-00:07:28,191 --> 00:07:33,759
+00:07:30,606 --> 00:07:36,174
 If you enjoyed it, subscribe, because this is one of sixteen AI and ML builds I'm making.
 
 107
-00:07:34,039 --> 00:07:38,455
+00:07:36,454 --> 00:07:40,870
 And tell me in the comments: would you rather have the safe agent or the fast one?
 
 108
-00:07:38,735 --> 00:07:40,607
+00:07:41,150 --> 00:07:43,022
 Thanks for watching.
 
 109
-00:07:40,887 --> 00:07:46,167
+00:07:43,302 --> 00:07:48,582
 The narration in this video is AI-generated, and the code was built with Claude Code.

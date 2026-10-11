@@ -136,7 +136,7 @@ And the pizza. Pizza gets nineteen percent, and a frying pan gets eighteen. That
 
 [SCREEN]
 
-If I click on the frying pan, the heat map shows which pixels support that wrong-but-close answer (describe what you actually see on screen when recording). The point: a one-point gap means the model genuinely can't separate them.
+If I click on the frying pan, the heat map shows which pixels support that wrong-but-close answer. In this recording the heat spreads over the round pie, strongest toward the lower left, rather than sitting on one object. The point: a one-point gap means the model genuinely can't separate them.
 
 
 

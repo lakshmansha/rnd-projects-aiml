@@ -182,6 +182,24 @@ def finish(proj):
        "[2:a]aresample=44100,aformat=channel_layouts=stereo[a2];[0:v][1:v][2:v]concat=n=3:v=1:a=0[v];[a0][a1][a2]concat=n=3:v=0:a=1[a]",
        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac",
        "-b:a", "160k", proj / "out/full.mp4")
+    # committed copies of the chapter list and SRT, shifted by the intro length (the files in out/ are for the main part only)
+    off = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(out / "intro_l.mp4")],
+                               capture_output=True, text=True).stdout.strip())
+
+    def shift(t):
+        h, m, s = t.split(":")
+        x = int(h) * 3600 + int(m) * 60 + float(s.replace(",", ".")) + off
+        return f"{int(x // 3600):02d}:{int(x % 3600 // 60):02d}:{int(x % 60):02d},{int(x % 1 * 1000):03d}"
+    srt = (proj / "out/full.srt").read_text(encoding="utf-8")
+    (proj / "full.srt").write_text(re.sub(r"(\d\d:\d\d:\d\d,\d{3}) --> (\d\d:\d\d:\d\d,\d{3})",
+                                          lambda m: f"{shift(m[1])} --> {shift(m[2])}", srt), encoding="utf-8")
+    ch = []
+    for line in (proj / "out/chapters.txt").read_text(encoding="utf-8").splitlines():
+        m = re.match(r"(\d+):(\d+) (.*)", line)
+        t = int(m[1]) * 60 + int(m[2])
+        t = 0 if t == 0 else t + off
+        ch.append(f"{int(t // 60)}:{int(t % 60):02d} {m[3]}")
+    (proj / "chapters.txt").write_text("\n".join(ch), encoding="utf-8")
     print("done", proj / "out/full.mp4")
 
 

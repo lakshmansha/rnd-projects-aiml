@@ -1,8 +1,8 @@
 0:00 Cold open
-0:43 Why it matters
-1:29 The world
-2:16 The code
-3:59 Live demo
-5:34 What surprised me
-6:20 Honest limits
-7:08 What to build next + CTA
+0:45 Why it matters
+1:31 The world
+2:18 The code
+4:01 Live demo
+5:36 What surprised me
+6:22 Honest limits
+7:10 What to build next + CTA

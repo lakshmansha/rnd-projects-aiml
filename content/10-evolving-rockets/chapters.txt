@@ -1,8 +1,8 @@
 0:00 Cold open
-0:39 Why it matters
-1:15 DNA, physics and fitness
-2:19 Selection, crossover, mutation
-3:31 Live demo
-4:50 What surprised me
-5:53 Honest limits
-6:32 What to build next + CTA
+0:41 Why it matters
+1:17 DNA, physics and fitness
+2:21 Selection, crossover, mutation
+3:33 Live demo
+4:52 What surprised me
+5:55 Honest limits
+6:34 What to build next + CTA
