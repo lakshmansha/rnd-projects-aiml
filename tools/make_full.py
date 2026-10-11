@@ -123,22 +123,24 @@ def still_clip(png, frames, out):
        "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", out)
 
 
-def app_clip(scene, frames, out, fit=False):
-    """Cut the recorded scene; slow down slightly or hold the last frame if the narration is longer."""
+def app_clip(scene, frames, out, fit=False, crop=None, trim=None):
+    """Cut the recorded scene; slow down slightly or hold the last frame if the narration is longer.
+    crop = (x, y, w): zoom into that part of the 1600x860 picture (height follows the aspect ratio)."""
     src, t0, t1 = scene
-    avail = t1 - t0
+    avail = min(t1 - t0, trim) if trim else t1 - t0  # trim: only use the first N seconds of the scene
     need = frames / FPS
+    pre = f"crop={crop[2]}:{round(crop[2] * VH / VW)}:{crop[0]}:{crop[1]},scale={VW}:{VH}:flags=lanczos," if crop else ""
     if fit:  # time-lapse (or slow-mo up to 2x) so the whole scene spans the narration
-        vf = f"setpts=PTS*{max(need / avail, 0.5):.4f},fps={FPS},tpad=stop_mode=clone:stop_duration=2,format=yuv420p"
+        vf = f"{pre}setpts=PTS*{max(need / avail, 0.5):.4f},fps={FPS},tpad=stop_mode=clone:stop_duration=2,format=yuv420p"
         sh("ffmpeg", "-y", "-ss", f"{t0:.2f}", "-t", f"{avail:.2f}", "-i", src, "-vf", vf, "-frames:v", frames,
            "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", out)
         return
-    vf = f"fps={FPS},tpad=stop_mode=clone:stop_duration={max(need - avail, 0) + 1:.2f},format=yuv420p"
+    vf = f"{pre}fps={FPS},tpad=stop_mode=clone:stop_duration={max(need - avail, 0) + 1:.2f},format=yuv420p"
     sh("ffmpeg", "-y", "-ss", f"{t0:.2f}", "-t", f"{avail:.2f}", "-i", src, "-vf", vf, "-frames:v", frames,
        "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", out)
 
 
-def record_scenes(proj, rec, out_dir):
+def record_scenes(proj, rec, out_dir, tag=""):
     from playwright.sync_api import sync_playwright
     tmp = out_dir / "rec"
     tmp.mkdir(parents=True, exist_ok=True)
@@ -157,7 +159,7 @@ def record_scenes(proj, rec, out_dir):
         vid = Path(page.video.path())
         c.close()
         b.close()
-    (out_dir / "scenes.json").write_text(json.dumps({"file": str(vid), "marks": marks}))
+    (out_dir / (f"scenes_{tag}.json" if tag else "scenes.json")).write_text(json.dumps({"file": str(vid), "marks": marks}))
 
 
 def finish(proj):
@@ -213,12 +215,16 @@ def main():
     spec = importlib.util.spec_from_file_location("rec", proj / "video.py")
     rec = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(rec)
+    if "--record-as" in sys.argv:  # extra recording whose scenes override same-named ones: --record-as TAG
+        record_scenes(proj, rec, out, sys.argv[sys.argv.index("--record-as") + 1])
+        return
     if "--record" in sys.argv or not (out / "scenes.json").exists():
         record_scenes(proj, rec, out)
-    sc = json.loads((out / "scenes.json").read_text())
     scenes = {}
-    for (n, a), (_, b) in zip(sc["marks"], sc["marks"][1:]):
-        scenes[n] = (sc["file"], a, b)
+    for f in [out / "scenes.json"] + sorted(out.glob("scenes_*.json")):
+        sc = json.loads(f.read_text())
+        for (n, a), (_, b) in zip(sc["marks"], sc["marks"][1:]):
+            scenes[n] = (sc["file"], a, b)
 
     secs = parse((proj / "full.md").read_text(encoding="utf-8"))
     flat = [s for _, _, ss in secs for s, _ in ss]
@@ -287,7 +293,7 @@ def main():
         o = out / f"v{i:03d}.mp4"
         kind, arg = v
         if kind == "app":
-            app_clip(scenes[arg], frames, o, fit=arg in getattr(rec, "FIT", ()))
+            app_clip(scenes[arg], frames, o, fit=arg in getattr(rec, "FIT", ()), crop=getattr(rec, "CROPS", {}).get(arg), trim=getattr(rec, "TRIM", {}).get(arg))
         else:
             png = out / f"{kind}_{abs(hash(arg)) % 10**8 if kind == 'card' else arg}.png"
             if kind == "code":
