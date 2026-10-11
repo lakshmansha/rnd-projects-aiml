@@ -6,7 +6,7 @@
 - [x] Upload plan (content/UPLOAD_PLAN.md), routine plan (content/ROUTINE_PLAN.md), batch staging tool; batch 1 staged (not uploaded)
 - [ ] Accounts + handles created by the user; batch 1 scheduled by the user
 - [ ] Routine build: screen-check gate, Task Scheduler, YouTube uploader (needs OAuth file), Instagram path, ideas.md, Stage B
-- [ ] Phase 3b: showcase video
+- [x] Phase 3b: showcase video (tools/make_showcase.py -> content/_showcase/out/showcase.mp4, 6.9 min, built from short footage + right-hand caption panel; user may want hub/terminal footage added)
 - [ ] Phase 3c: 6 flagship 10-minute videos (06, 07, 09, 10, 02, 16)
 - [ ] Phase 4: new catchy project + its short and full video
 - [ ] Optional: fix the known short flaws (03, 07, 09, 10)
