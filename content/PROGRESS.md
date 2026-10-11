@@ -4,7 +4,7 @@
 - [x] Phase 2: scripts (16 short.md, 6 full.md, showcase full.md), numbers verified
 - [x] Phase 3a: 16 shorts v1 + v2 (Watch It Learn electric intro, end card, voice matched to screen); art in content/_brand; content/INDEX.md
 - [x] Upload plan (content/UPLOAD_PLAN.md), routine plan (content/ROUTINE_PLAN.md), batch staging tool; batch 1 staged (not uploaded)
-- [ ] Accounts + handles created by the user; batch 1 scheduled by the user
+- [ ] Accounts: Instagram done (instagram.com/watchitlearn, handle matches captions); YouTube channel + batch 1 scheduling still the user's
 - [ ] Routine build: screen-check gate, Task Scheduler, YouTube uploader (needs OAuth file), Instagram path, ideas.md, Stage B
 - [x] Phase 3b: showcase video (tools/make_showcase.py -> content/_showcase/out/showcase.mp4, 6.9 min, built from short footage + right-hand caption panel; user may want hub/terminal footage added)
 - [ ] Phase 3c: 6 flagship 10-minute videos (06, 07, 09, 10, 02, 16)
