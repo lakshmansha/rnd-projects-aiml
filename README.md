@@ -22,9 +22,10 @@ Embeddings are computed locally with hashing n-grams (no embedding deployment re
 | 14 | `14-explainable-text-ai` | A TF-IDF classifier that highlights which words drove its decision (downloads 20 newsgroups once; no API calls) |
 | 15 | `15-prompt-gym` | Game: write prompts that make GPT pass 6 strictly auto-checked challenges (JSON, exact word counts...) |
 | 16 | `16-cnn-xray` | MobileNetV2 (ImageNet) top-5 + Grad-CAM heatmap; sample, upload or webcam (no API calls) |
+| 17 | `17-flappy-evolution` | Neuroevolution: a population of tiny neural nets learns a Flappy-style game, shown live (no API calls) |
 
 ## Run
-Easiest: `python run_all.py` starts every app (ports 8501-8516) plus a hub page at http://localhost:8500. `python run_all.py 4 6` starts only those projects.
+Easiest: `python run_all.py` starts every app (ports 8501-8517) plus a hub page at http://localhost:8500. `python run_all.py 4 6` starts only those projects.
 
 Or one at a time:
 ```

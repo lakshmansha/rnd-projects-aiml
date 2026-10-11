@@ -8,5 +8,5 @@
 - [ ] Routine build: screen-check gate, Task Scheduler, YouTube uploader (needs OAuth file), Instagram path, ideas.md, Stage B
 - [x] Phase 3b: showcase video (tools/make_showcase.py -> content/_showcase/out/showcase.mp4, 6.9 min, built from short footage + right-hand caption panel; user may want hub/terminal footage added)
 - [x] Phase 3c: 6 flagship 10-minute videos (06, 07, 09, 10, 02, 16) built with tools/make_full.py; they run 7-11 min each; see content/FULL_VIDEOS.md
-- [ ] Phase 4: new catchy project + its short and full video
+- [ ] Phase 4: new project 17 Flappy Evolution built (app, README, hub, smoke test), short v2 rendered, full.md written; full video recording/render in progress
 - [ ] Optional: fix the known short flaws (03, 07, 09, 10)
