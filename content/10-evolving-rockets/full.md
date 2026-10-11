@@ -22,7 +22,11 @@
 ### 0:00 Cold open (30s)
 **[SCREEN: Gap level, generation 1: a tangle of blue lines, metric "Crashed 99". Then drag to generation 80.]**
 
-A hundred rockets. Generation one: ninety-nine of them crash. They fly into walls, off the screen, nowhere near the target. Now watch. Generation six: the first rocket slips through the gap and hits the target. Generation eighty: most of them make it. And here's the part I love. Nobody programmed this route. There's no pathfinding. No map. Just random thrusts, a score, and a bit of evolution. I built this with Claude Code, and in the next ten minutes I'll show you every line that makes it work.
+A hundred rockets. Generation one: ninety-nine of them crash. They fly into walls, off the screen, nowhere near the target. 
+
+[SCREEN]
+
+Now watch. Generation six: the first rocket slips through the gap and hits the target. Generation eighty: most of them make it. And here's the part I love. Nobody programmed this route. There's no pathfinding. No map. Just random thrusts, a score, and a bit of evolution. I built this with Claude Code, and in the next ten minutes I'll show you every line that makes it work.
 
 ### 0:30 Why it matters (1 min)
 **[AVATAR, then slide: "Try, score, keep the best, mix, mutate."]**
@@ -74,9 +78,33 @@ child[m] = (np.stack([np.cos(a), np.sin(a)], -1) * 0.35)[m]
 dna = np.concatenate(new + [child])
 ```
 
-Line by line. Elitism: the top ten percent are copied unchanged, so we never lose our best rocket. Selection: parents are drawn at random from the top half. Crossover: pick a random cut point; the child takes its first thrusts from parent A and the rest from parent B. That's the np.where line, with the cut point broadcast across the whole population at once. Mutation: each thrust has a small chance, the mutation rate, default two percent, of being replaced with a fresh random direction. Finally stick elites and children together. That's the next generation.
+Line by line. 
+
+[SCREEN]
+
+Elitism: the top ten percent are copied unchanged, so we never lose our best rocket. 
+
+[SCREEN]
+
+Selection: parents are drawn at random from the top half. 
+
+[SCREEN]
+
+Crossover: pick a random cut point; the child takes its first thrusts from parent A and the rest from parent B. That's the np.where line, with the cut point broadcast across the whole population at once. 
+
+[SCREEN]
+
+Mutation: each thrust has a small chance, the mutation rate, default two percent, of being replaced with a fresh random direction. 
+
+[SCREEN]
+
+Finally stick elites and children together. That's the next generation.
 
 That's the whole thing. I also store every generation's paths, sorted best first, which is why the UI can scrub through them.
+
+
+
+[SCREEN]
 
 One detail I like: the initial DNA is random directions of length point three five, so the first generation is basically a random walk. The first rocket to touch the target in my default run needs six generations.
 
@@ -85,11 +113,27 @@ One detail I like: the initial DNA is random directions of length point three fi
 
 Here's the app. Level: Gap. Population a hundred, eighty generations, mutation point oh two, seed one. It evolves everything upfront, then I can scrub.
 
+
+
+[SCREEN]
+
 Generation one. Ninety-nine crashed. The faint blue lines are the population, the thick orange one is the best rocket. It's going nowhere useful.
+
+
+
+[SCREEN]
 
 I drag the generation slider. The cloud starts to lean upward. Around generation six the blue info box says "First rocket reached the target in generation six." Keep going and the cloud funnels through the gap.
 
+
+
+[SCREEN]
+
 Generation eighty: seventy-eight reached the target, twenty-two crashed, and the fitness chart on the right shows the best score climbing to around two hundred ninety-eight while the average catches up behind it.
+
+
+
+[SCREEN]
 
 Now change the level. Open sky: the first success is at generation two. Wall: six. Gap: six. Zig-zag, the hard one with two staggered walls: first success is generation eleven, and by generation eighty only forty-one of a hundred reach it. Those numbers are from my runs with the default settings and seed one. Change the seed and they move.
 

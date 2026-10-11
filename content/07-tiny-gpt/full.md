@@ -121,7 +121,7 @@ The training loop in the app is the standard four lines: get a batch, compute th
 ### 5:30 Live demo
 [SCREEN: app.] The sidebar: training text is Shakespeare, or you can upload your own text file. Model settings: four layers, embedding size one hundred and twenty-eight, context sixty-four. Training: six hundred steps, learning rate three e minus three. I press Train from scratch. [SCREEN: footage sped up.]
 
-First it reports the parameter count, vocabulary and the size of the text: over a million characters of Shakespeare. The progress bar shows the step, the loss, and steps per second. When I checked this on the build machine, the loss started around four point three, which is roughly what you'd expect from guessing among sixty-five characters at random, and fell to about two point five within the first sixty steps.
+First it reports the parameter count, vocabulary and the size of the text: over a million characters of Shakespeare. The progress bar shows the step, the loss, and steps per second. In this recording the loss started at four point three six, which is roughly what you'd expect from guessing among sixty-five characters at random, and had fallen to about two point three by step one hundred. It ran at about four point four steps per second.
 
 [SCREEN]
 

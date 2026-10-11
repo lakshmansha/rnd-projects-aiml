@@ -1,0 +1,7 @@
+0:00 Cold open
+0:36 Why it matters
+1:37 The model, in code
+3:28 Live demo
+4:54 What surprised me
+5:32 Honest limits
+6:26 What to build next
