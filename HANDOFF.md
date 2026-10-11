@@ -98,3 +98,12 @@ Also: `hub/app.py` (landing page linking everything), `run_all.py`, `README.md`.
 3. Phase 3b/3c from `PLAN.md`: showcase video (`content/_showcase/full.md`) and the six 10-minute videos (06, 07, 09, 10, 02, 16). Reuse `tools/` (record at 1920x1080; no avatar).
 4. Phase 4: a new catchy project (ideas in PLAN.md and HANDOFF "What we can do next"), then the whole pipeline again.
 5. Optional: re-record/polish the flawed shorts above.
+
+---
+# Session 3 handoff (2026-10-11): long videos + project 17
+
+- **Long-video builders:** `tools/make_showcase.py` (showcase, 7.3 min) and `tools/make_full.py <NN>` (flagships). `make_full` reads `content/<proj>/full.md` (voice-over; `[SCREEN]`, ```code blocks and `[Draw]` markers advance the visuals) and `content/<proj>/video.py` (PORT, CODE crops, SECTIONS, `record()` scenes, optional `FIT`/`QUERY`). One edge-tts clip per sentence decoded to wav, so captions and voice stay in sync. Outputs `content/<proj>/out/full.mp4` + committed `chapters.txt` / `full.srt` (shifted for the intro). See `content/FULL_VIDEOS.md`.
+- **Built:** showcase, flagships 06, 07, 09, 10, 02, 16, and the new **17 Flappy Evolution** (neuroevolution, port 8517, hub + README + smoke test updated) with its short (`short_v2.mp4`) and full video. 17 is already in `content/UPLOAD_PLAN.md`, but not in the staged batch (`_outbox/batch_2026-10-12`).
+- **Lessons:** mp3 duration from edge-tts headers is unreliable (decode to wav); Streamlit's sidebar select is `stSelectbox`, radio labels include the widget label as item 0; use `?embed=true` only when the sidebar is not needed; zoom the page (`html{zoom:.85}`) so tall plots fit 1600x860.
+- **Honesty notes:** 02's red-team numbers (L1 50%, L2 25%, L3-L5 0%) are from one recorded run and the script says so; that recording used ~55 Azure calls.
+- **Nothing is uploaded.** Next: user reviews the videos; then upload/schedule (see `content/ROUTINE_PLAN.md`, `content/INSTAGRAM_SETUP.md`), optional polish of blank Streamlit frames, more projects.
