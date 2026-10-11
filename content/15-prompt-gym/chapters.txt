@@ -1,0 +1,13 @@
+0:00 Cold open
+0:35 Why a gym
+1:20 How the checking works
+1:55 Level one: one word
+2:32 Level two: sentiment
+3:14 Level three: strict JSON
+3:55 Level four: exactly ten words
+4:23 Level five: three short bullets
+5:05 Level six: Spanish with exclamation marks
+5:28 The scoreboard
+5:40 What I learned
+6:06 Honest limits
+6:54 What to build next

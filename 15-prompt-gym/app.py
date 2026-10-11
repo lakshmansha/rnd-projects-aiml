@@ -86,9 +86,9 @@ if st.button("Run", type="primary", disabled=not prompt.strip()):
         ss.last = (i, "", False, f"API error: {e}")
     st.rerun()
 
-if ss.last and ss.last[0] == i:
-    _, out, ok, note = ss.last
-    st.markdown("**Model output**")
+if ss.last and (ss.last[0] == i or ss.last[2]):  # a pass moves on to the next level, so keep showing it
+    li, out, ok, note = ss.last
+    st.markdown("**Model output**" + (f" (Level {li + 1})" if li != i else ""))
     st.code(out or "(none)", language=None)
     (st.success if ok else st.error)(("✅ Passed! " if ok else "❌ Not yet. ") + note)
-    st.caption(f"Attempts on this level: {ss.attempts.get(i, 0)} · stars: first try = ⭐⭐⭐, ≤3 tries = ⭐⭐, more = ⭐")
+    st.caption(f"Attempts on level {li + 1}: {ss.attempts.get(li, 0)} · stars: first try = ⭐⭐⭐, ≤3 tries = ⭐⭐, more = ⭐")

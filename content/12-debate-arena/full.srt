@@ -1,0 +1,251 @@
+1
+00:00:02,415 --> 00:00:06,495
+Two debaters, one motion: pineapple belongs on pizza.
+
+2
+00:00:06,775 --> 00:00:15,463
+The green side argues for it, and the red side argues against, each in a few punchy sentences, and each answering the other's last point.
+
+3
+00:00:15,742 --> 00:00:23,326
+Then a judge scores them on five criteria and picks a winner, and finally the app asks you one question: did that change your mind?
+
+4
+00:00:23,607 --> 00:00:27,951
+I built this with Claude Code, and the narration is AI-generated.
+
+5
+00:00:28,751 --> 00:00:31,919
+Models are good at producing a case for any side.
+
+6
+00:00:32,199 --> 00:00:38,463
+That's useful, and it is also a little worrying, because the argument sounds confident whether or not it's right.
+
+7
+00:00:38,743 --> 00:00:45,390
+A debate makes that visible: ask for both sides and you see two confident cases for opposite conclusions.
+
+8
+00:00:45,671 --> 00:00:50,375
+Then there's the second question, which matters more in practice: who judges?
+
+9
+00:00:50,655 --> 00:01:00,423
+Using a language model as a judge is a common way to evaluate other models, so I wanted a small, visible example of what that looks like, with all the scores on screen.
+
+10
+00:01:01,223 --> 00:01:03,359
+Each speech is one small call..
+
+11
+00:01:03,639 --> 00:01:11,199
+The system prompt gives the stance, asks for a new point plus a rebuttal of the opponent's last one, and bans pleasantries.
+
+12
+00:01:11,479 --> 00:01:16,591
+The user message carries the debate so far, so each side can answer what the other said.
+
+13
+00:01:16,871 --> 00:01:25,847
+Temperature is zero point nine, so the speeches vary from run to run, and the limit is a hundred and ten tokens, which keeps each speech short.
+
+14
+00:01:26,127 --> 00:01:29,415
+In a debate of two rounds, that is four speeches.
+
+15
+00:01:30,214 --> 00:01:41,927
+The judge gets the whole transcript and has to return JSON: a one to ten score for each side on logic, evidence, persuasion, clarity and rebuttal, a winner, and a one-sentence reason.
+
+16
+00:01:42,207 --> 00:01:45,927
+The temperature is zero, so the judge is as steady as it gets.
+
+17
+00:01:46,207 --> 00:01:49,134
+The app then draws the scores as a radar chart.
+
+18
+00:01:49,415 --> 00:01:56,494
+One more feature: before the debate you move a slider for how much you agree with the motion, and after the debate you move it again.
+
+19
+00:01:56,774 --> 00:01:58,646
+The app shows your shift.
+
+20
+00:01:59,446 --> 00:02:02,662
+The motion is: pineapple belongs on pizza.
+
+21
+00:02:02,942 --> 00:02:04,814
+Two rounds.
+
+22
+00:02:05,094 --> 00:02:09,990
+Before the debate I set my own opinion to four out of ten, slightly against.
+
+23
+00:02:10,270 --> 00:02:12,143
+Then I press Start.
+
+24
+00:02:12,422 --> 00:02:16,862
+Pro opens: the sweetness contrasts with salty toppings like ham.
+
+25
+00:02:17,142 --> 00:02:22,254
+And there is a clever move: tomatoes are a fruit, so why is pineapple out of bounds?
+
+26
+00:02:22,534 --> 00:02:30,766
+Con answers that tomato's acidity complements a pizza while pineapple overwhelms it, and asks: would chocolate syrup belong too?
+
+27
+00:02:31,046 --> 00:02:37,886
+In round two, Pro calls the chocolate syrup point a strawman, because ham pairs with pineapple and syrup doesn't.
+
+28
+00:02:38,166 --> 00:02:46,038
+Con replies that pineapple hijacks the palate, and calls it, in its words, a sugar tsunami in a savory ecosystem.
+
+29
+00:02:46,318 --> 00:02:50,494
+The judge scores Pro forty and Con thirty-six, and picks Pro.
+
+30
+00:02:50,774 --> 00:02:58,838
+The reason it gives: Pro made stronger arguments about the balance and evolution of flavors, and countered Con's points about disruption.
+
+31
+00:02:59,118 --> 00:03:00,990
+Did they change my mind?
+
+32
+00:03:01,270 --> 00:03:06,382
+I read the tomatoes point and thought it was good, even if it's a classic debating trick.
+
+33
+00:03:06,662 --> 00:03:08,846
+I move my slider from four to five.
+
+34
+00:03:09,126 --> 00:03:10,998
+Plus one point.
+
+35
+00:03:11,278 --> 00:03:13,150
+A tiny shift.
+
+36
+00:03:13,950 --> 00:03:19,806
+Second motion, one every programmer has an opinion on: tabs are better than spaces.
+
+37
+00:03:20,086 --> 00:03:23,830
+This time I set my opinion to seven: I lean towards tabs.
+
+38
+00:03:24,110 --> 00:03:24,974
+Start.
+
+39
+00:03:25,254 --> 00:03:30,846
+Pro argues that tabs save file size and let each person pick their own indentation width.
+
+40
+00:03:31,126 --> 00:03:38,686
+Con says that fractures collaboration, because code looks different in every editor, while spaces look the same everywhere.
+
+41
+00:03:38,966 --> 00:03:45,614
+In round two, Pro says consistency comes from agreeing on a standard, and tab widths are customizable.
+
+42
+00:03:45,894 --> 00:03:54,678
+Con replies that a custom width creates an illusion of alignment, and that spaces are a pixel-perfect standard that tabs can never guarantee.
+
+43
+00:03:54,958 --> 00:03:58,270
+The judge scores Con forty-four and Pro forty-two.
+
+44
+00:03:58,550 --> 00:04:00,446
+Con wins, narrowly.
+
+45
+00:04:00,726 --> 00:04:05,526
+The reason: stronger evidence and rebuttal about universal consistency.
+
+46
+00:04:05,806 --> 00:04:07,678
+Did it change my mind?
+
+47
+00:04:07,958 --> 00:04:10,502
+A bit: I move from seven to six.
+
+48
+00:04:10,782 --> 00:04:12,654
+Minus one point.
+
+49
+00:04:13,454 --> 00:04:18,398
+Both debates ended close: four points apart in one, two in the other.
+
+50
+00:04:18,678 --> 00:04:21,102
+The judge didn't give anyone a landslide.
+
+51
+00:04:21,382 --> 00:04:26,086
+And the judge's one-sentence reasons mostly echo the winning side's main argument.
+
+52
+00:04:26,366 --> 00:04:29,054
+Also, the radar charts overlap a lot.
+
+53
+00:04:29,334 --> 00:04:39,990
+With totals between thirty-six and forty-four out of fifty, every criterion averages between seven and nine, so the numbers look precise but say little about why one side won.
+
+54
+00:04:40,790 --> 00:04:44,126
+Two debates prove nothing about whether the judge is fair.
+
+55
+00:04:44,406 --> 00:04:49,470
+The same model plays Pro, Con and the judge, so it may favour its own style.
+
+56
+00:04:49,750 --> 00:04:57,958
+Pro always speaks first, which could matter, and I didn't test it: one debate went to each side, which is too little to say anything.
+
+57
+00:04:58,238 --> 00:05:03,782
+The scores are one sample at temperature zero from one prompt; a different wording could shift them.
+
+58
+00:05:04,062 --> 00:05:09,270
+And my opinion shifts, plus one and minus one, are just one person's reaction.
+
+59
+00:05:09,550 --> 00:05:14,614
+I built this with Claude Code, and I read and ran the code, but read it yourself too.
+
+60
+00:05:15,414 --> 00:05:24,726
+Next I'd swap the sides to test for position bias, use a different model as the judge, and run each motion many times to see how often the winner flips.
+
+61
+00:05:25,006 --> 00:05:28,198
+A human vote next to the AI judge would be good too.
+
+62
+00:05:28,478 --> 00:05:33,398
+The code is in the description, with no key needed beyond your own Azure setup.
+
+63
+00:05:33,678 --> 00:05:39,750
+If you liked this, follow for more AI and ML builds, and tell me which motion should be on trial next.

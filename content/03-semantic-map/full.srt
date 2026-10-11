@@ -1,0 +1,251 @@
+1
+00:00:02,415 --> 00:00:04,935
+Ask a question: why does bread rise?
+
+2
+00:00:05,214 --> 00:00:13,951
+The app finds the sentence in a small collection that matches best, hands only that to GPT, and the answer comes back, grounded in it.
+
+3
+00:00:14,230 --> 00:00:19,294
+Underneath you can see exactly which sentences were retrieved, and how similar they were.
+
+4
+00:00:19,575 --> 00:00:23,919
+I built this with Claude Code, and the narration is AI-generated.
+
+5
+00:00:24,198 --> 00:00:29,646
+It's also a good example of when retrieval works, and of when the right answer is: I don't know.
+
+6
+00:00:30,447 --> 00:00:34,767
+Retrieval-augmented generation, or RAG, has two steps.
+
+7
+00:00:35,046 --> 00:00:40,351
+First, retrieve: find the pieces of your own text that are relevant to the question.
+
+8
+00:00:40,631 --> 00:00:46,006
+Second, generate: give only those pieces to the model and ask it to answer from them.
+
+9
+00:00:46,286 --> 00:00:51,999
+The model doesn't have to know your documents; it only has to read the few sentences you hand over.
+
+10
+00:00:52,278 --> 00:00:55,422
+The first step depends on turning text into numbers.
+
+11
+00:00:55,702 --> 00:01:02,638
+An embedding is a list of numbers that represents a piece of text, built so that similar texts get similar lists.
+
+12
+00:01:02,918 --> 00:01:06,758
+Then finding relevant text becomes finding the closest points.
+
+13
+00:01:07,558 --> 00:01:09,430
+Here is the honest part.
+
+14
+00:01:09,710 --> 00:01:14,318
+A proper embedding model has been trained to put similar meanings close together.
+
+15
+00:01:14,598 --> 00:01:18,103
+I don't have one deployed in this project, only a chat model.
+
+16
+00:01:18,383 --> 00:01:21,574
+So the vectors here come from a simpler, free method..
+
+17
+00:01:21,854 --> 00:01:30,086
+Each text is chopped into overlapping chunks of three to five characters, which are hashed into a vector of a thousand and twenty-four numbers.
+
+18
+00:01:30,366 --> 00:01:34,734
+Two sentences that share words or word pieces get similar vectors.
+
+19
+00:01:35,014 --> 00:01:39,142
+That's useful, but it is not meaning: it measures shared spelling.
+
+20
+00:01:39,422 --> 00:01:42,158
+Keep that in mind for everything that follows.
+
+21
+00:01:42,958 --> 00:01:45,023
+The question gets the same treatment.
+
+22
+00:01:45,302 --> 00:01:53,654
+Then one matrix multiplication gives its similarity to all sixty sentences, and the top k, three by default, are taken.
+
+23
+00:01:53,934 --> 00:02:00,510
+The star on the map is placed at the similarity-weighted centre of those neighbours, so you can see where the question lands..
+
+24
+00:02:00,790 --> 00:02:03,406
+And the generation step is a single call.
+
+25
+00:02:03,686 --> 00:02:10,334
+The system prompt is the important part: answer using only the context, and if it isn't there, say you don't know.
+
+26
+00:02:10,614 --> 00:02:13,734
+The retrieved sentences go in as the context.
+
+27
+00:02:14,535 --> 00:02:27,662
+These are sixty sentences, ten each on space, cooking, machine learning, football, personal finance and ocean life, projected down to two dimensions with t-SNE, which keeps close points close.
+
+28
+00:02:27,942 --> 00:02:29,815
+The colours are the topics.
+
+29
+00:02:30,094 --> 00:02:39,118
+And you can see the limitation straight away: the colours form loose neighbourhoods, not clean islands, because the vectors capture wording, not meaning.
+
+30
+00:02:39,398 --> 00:02:45,158
+Switching to PCA, a simpler projection, gives a different picture, and a more squashed one.
+
+31
+00:02:45,438 --> 00:02:52,158
+The projection is only a drawing; the retrieval itself happens in the original thousand-dimensional space.
+
+32
+00:02:52,958 --> 00:02:55,094
+I ask: why does bread rise?
+
+33
+00:02:55,374 --> 00:03:00,150
+A star appears on the map, with dotted lines to the three nearest sentences.
+
+34
+00:03:00,430 --> 00:03:10,463
+The best match is the sourdough sentence, with a similarity of zero point two eight: sourdough bread rises thanks to wild yeast and lactic acid bacteria.
+
+35
+00:03:10,743 --> 00:03:17,703
+The other two are unrelated: one about diversification, one about overfitting, at zero point one seven.
+
+36
+00:03:17,983 --> 00:03:20,335
+They are only there because I asked for three.
+
+37
+00:03:20,615 --> 00:03:28,247
+The answer: bread rises because of wild yeast and lactic acid bacteria, which produce gases during fermentation.
+
+38
+00:03:28,527 --> 00:03:36,831
+The last part, about gases, was not in the retrieved sentence, so even with a strict prompt the model added something from its own knowledge.
+
+39
+00:03:37,631 --> 00:03:41,495
+Next: how do I stop my savings losing value over time?
+
+40
+00:03:41,775 --> 00:03:49,575
+The top result is the right sentence: inflation reduces the purchasing power of money over time, at zero point two nine.
+
+41
+00:03:49,855 --> 00:03:52,063
+But the model answers: I don't know.
+
+42
+00:03:52,343 --> 00:03:54,215
+And I think that's correct.
+
+43
+00:03:54,495 --> 00:04:00,375
+The sentence explains the problem, not the solution, and the prompt said to use only the context.
+
+44
+00:04:01,175 --> 00:04:03,575
+Which team won the most World Cups?
+
+45
+00:04:03,855 --> 00:04:09,831
+The closest sentence is: the World Cup is held every four years, at zero point three five.
+
+46
+00:04:10,111 --> 00:04:15,367
+It's about the right topic, but it doesn't contain the answer, so the model says: I don't know.
+
+47
+00:04:15,647 --> 00:04:20,351
+And a question that has nothing to do with the collection: who painted the Mona Lisa?
+
+48
+00:04:20,631 --> 00:04:27,951
+The retrieved sentences are about paying off debt, the Mariana Trench and goalkeepers, and the answer is again: I don't know.
+
+49
+00:04:28,231 --> 00:04:37,303
+Without the instruction to stay in the context, GPT would likely just answer from memory, and you wouldn't know whether the answer came from your documents.
+
+50
+00:04:38,103 --> 00:04:43,023
+Three of four answers were I don't know, and I found that reassuring rather than disappointing.
+
+51
+00:04:43,303 --> 00:04:50,119
+Retrieval returned plausible but insufficient text, and the prompt made the model say so instead of guessing.
+
+52
+00:04:50,399 --> 00:04:56,807
+The bread example also shows the opposite risk: a correct answer that leaks a bit of outside knowledge.
+
+53
+00:04:57,087 --> 00:05:05,967
+And the similarity scores are low even for a good match, zero point two eight, because character n-grams share little between a question and a statement.
+
+54
+00:05:06,767 --> 00:05:13,319
+Sixty sentences is tiny; real systems retrieve from thousands or millions of passages.
+
+55
+00:05:13,599 --> 00:05:24,519
+The embeddings are character hashes, not a semantic model, so a question that doesn't share words with the right sentence can miss it entirely, and the map clusters by wording, not meaning.
+
+56
+00:05:24,799 --> 00:05:29,335
+The top k is fixed, so weak matches get passed to the model as noise.
+
+57
+00:05:29,614 --> 00:05:33,742
+I tried four questions, which says nothing about accuracy in general.
+
+58
+00:05:34,023 --> 00:05:39,638
+And only the answer is generated by the model; the retrieval can't be better than the embeddings.
+
+59
+00:05:39,919 --> 00:05:44,983
+I built this with Claude Code, and I read and ran the code, but read it yourself too.
+
+60
+00:05:45,782 --> 00:05:57,446
+Next I'd switch to a real embedding model and compare the maps, add a similarity cut-off so weak matches are dropped, show which retrieved sentence the answer used, and let you upload longer documents.
+
+61
+00:05:57,727 --> 00:05:59,719
+The code is in the description.
+
+62
+00:05:59,999 --> 00:06:04,463
+The map costs nothing to run, and the answer costs one small call.
+
+63
+00:06:04,743 --> 00:06:11,799
+If you want to see the same app with real embeddings, follow for more AI and ML builds, and tell me what question I should ask it.

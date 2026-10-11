@@ -1,0 +1,287 @@
+1
+00:00:02,415 --> 00:00:06,111
+The same question, answered in two different prompting styles.
+
+2
+00:00:06,391 --> 00:00:08,359
+On the left: concise.
+
+3
+00:00:08,639 --> 00:00:10,511
+On the right: expert.
+
+4
+00:00:10,791 --> 00:00:14,919
+Same model, same question; only the system prompt differs.
+
+5
+00:00:15,199 --> 00:00:22,807
+A judge decides which answer is better, twice, with the order swapped, and an Elo rating keeps score, like in chess.
+
+6
+00:00:23,087 --> 00:00:27,431
+I built this with Claude Code, and the narration is AI-generated.
+
+7
+00:00:28,231 --> 00:00:36,271
+When people argue about prompts, they usually argue about taste: be concise, think step by step, explain it like I'm five.
+
+8
+00:00:36,551 --> 00:00:38,831
+This app turns that into a tournament.
+
+9
+00:00:39,111 --> 00:00:43,599
+Each fighter is not a different model but a different instruction to the same model.
+
+10
+00:00:43,879 --> 00:00:50,335
+Five styles are available: concise, step by step, ELI5, pirate and expert.
+
+11
+00:00:50,615 --> 00:00:53,279
+The scoring is also not a human's opinion.
+
+12
+00:00:53,559 --> 00:00:56,751
+A second call to the same model acts as the judge.
+
+13
+00:00:57,031 --> 00:01:00,871
+That's convenient, and it's also a trap, which I'll come back to.
+
+14
+00:01:01,671 --> 00:01:03,687
+Each battle is four small calls..
+
+15
+00:01:03,967 --> 00:01:10,327
+The two answers come from the same question with two different system prompts, each limited to ninety tokens.
+
+16
+00:01:10,607 --> 00:01:12,647
+Then the judge is called twice.
+
+17
+00:01:12,927 --> 00:01:18,999
+Language-model judges tend to prefer whichever answer comes first, so the second call swaps the order.
+
+18
+00:01:19,279 --> 00:01:23,839
+If the judge picks the same fighter both times, that fighter wins the battle.
+
+19
+00:01:24,119 --> 00:01:27,623
+If its choice flips with the order, the battle is a draw..
+
+20
+00:01:27,903 --> 00:01:32,703
+The judge sees only the question and the two answers, not which style wrote them.
+
+21
+00:01:32,983 --> 00:01:35,815
+It must reply with a tiny JSON object.
+
+22
+00:01:36,095 --> 00:01:42,191
+Notice the last line: the judge is asked for the answer that is more correct, clear and concise.
+
+23
+00:01:42,471 --> 00:01:45,519
+So conciseness is part of the rules from the start.
+
+24
+00:01:46,319 --> 00:01:48,287
+Everyone starts at one thousand.
+
+25
+00:01:48,567 --> 00:01:54,471
+Before a battle the formula computes how likely each side was to win, based on the rating gap.
+
+26
+00:01:54,751 --> 00:02:01,567
+After the battle, each rating moves by thirty-two times the difference between the actual result and that expectation.
+
+27
+00:02:01,847 --> 00:02:04,607
+Beating an equal is worth sixteen points.
+
+28
+00:02:04,887 --> 00:02:07,479
+A draw between equals changes nothing.
+
+29
+00:02:07,759 --> 00:02:10,087
+An upset moves the ratings further.
+
+30
+00:02:10,887 --> 00:02:17,439
+Fighter A is concise, fighter B is expert, three battles, starting from an empty leaderboard.
+
+31
+00:02:17,719 --> 00:02:19,591
+I press Fight.
+
+32
+00:02:19,871 --> 00:02:21,983
+Each battle takes a few seconds.
+
+33
+00:02:22,263 --> 00:02:24,135
+Three results.
+
+34
+00:02:24,415 --> 00:02:27,655
+The leaderboard is still empty, but the rows are in.
+
+35
+00:02:27,935 --> 00:02:32,255
+Battle one: write a one-line Python function that reverses a string.
+
+36
+00:02:32,535 --> 00:02:38,847
+Both fighters give the same code, a lambda with a slice, so the judge can't separate them and it's a draw.
+
+37
+00:02:39,127 --> 00:02:41,359
+Concise and expert are the same here.
+
+38
+00:02:41,639 --> 00:02:43,967
+Battle two: is ninety-one prime?
+
+39
+00:02:44,247 --> 00:02:49,095
+Concise answers in twenty-one words: not prime, seven times thirteen.
+
+40
+00:02:49,375 --> 00:02:53,983
+Expert gives fifty words, with a definition of a prime number first.
+
+41
+00:02:54,263 --> 00:02:57,287
+Both are correct, and the judge picks concise.
+
+42
+00:02:57,567 --> 00:03:01,815
+Battle three: summarise a neural network in two sentences.
+
+43
+00:03:02,095 --> 00:03:08,671
+Both do, but the expert version is longer, fifty-two words against forty, with more technical terms.
+
+44
+00:03:08,951 --> 00:03:10,823
+Concise wins again.
+
+45
+00:03:11,103 --> 00:03:18,231
+Final ratings: concise one thousand and thirty and a half, expert nine hundred and sixty-nine and a half.
+
+46
+00:03:18,511 --> 00:03:20,383
+A draw and two wins.
+
+47
+00:03:21,183 --> 00:03:25,311
+Second fight: pirate against step-by-step, two battles.
+
+48
+00:03:25,590 --> 00:03:27,463
+Press Fight again.
+
+49
+00:03:27,742 --> 00:03:29,614
+Two results.
+
+50
+00:03:29,894 --> 00:03:33,998
+Battle one: why is the sky blue, in under fifty words.
+
+51
+00:03:34,278 --> 00:03:42,246
+The pirate says: arrr, matey, the sky be blue because of sunlight scatterin', and ends with: science be magic.
+
+52
+00:03:42,526 --> 00:03:46,918
+Step-by-step gives a clean explanation with the word Rayleigh scattering.
+
+53
+00:03:47,198 --> 00:03:49,070
+Step-by-step wins.
+
+54
+00:03:49,350 --> 00:03:52,470
+Battle two: the string-reversing function again.
+
+55
+00:03:52,750 --> 00:03:59,014
+The pirate's answer wraps the code in pirate talk, and step-by-step adds a sentence explaining the slice.
+
+56
+00:03:59,294 --> 00:04:01,166
+Step-by-step wins again.
+
+57
+00:04:01,446 --> 00:04:03,750
+The leaderboard now shows four bars.
+
+58
+00:04:04,030 --> 00:04:10,438
+Step-by-step at one thousand thirty and a half, pirate at nine hundred sixty-nine and a half.
+
+59
+00:04:11,238 --> 00:04:17,430
+In every battle that wasn't a draw, the shorter or cleaner answer won, even when both were correct.
+
+60
+00:04:17,710 --> 00:04:23,638
+That's not surprising once you've read the judge prompt: it asks for correct, clear and concise.
+
+61
+00:04:23,918 --> 00:04:31,238
+So what this arena measures is not which style is best, but which style this judge, with this instruction, likes.
+
+62
+00:04:31,518 --> 00:04:36,798
+If I changed the judge's last line to ask for the most detailed answer, the ranking could flip.
+
+63
+00:04:37,078 --> 00:04:38,951
+The other thing is the draw.
+
+64
+00:04:39,230 --> 00:04:44,846
+The first battle shows that when the question is simple, the styles collapse into the same answer.
+
+65
+00:04:45,646 --> 00:04:55,102
+Five battles is far too few to rank anything: the ratings are one sample each, and the prompts are drawn at random, so another run gives different questions.
+
+66
+00:04:55,382 --> 00:05:08,750
+The two fights never put the same pair together, so concise at one thousand thirty and a half and step-by-step at one thousand thirty and a half were never compared, and the numbers on the shared leaderboard are not comparable across fights.
+
+67
+00:05:09,030 --> 00:05:13,182
+The same model answers and judges, so it may favour its own style.
+
+68
+00:05:13,463 --> 00:05:18,862
+The ninety token limit can also cut a long answer off, and I haven't checked whether it did here.
+
+69
+00:05:19,143 --> 00:05:24,207
+I built this with Claude Code, and I read and ran the code, but read it yourself too.
+
+70
+00:05:25,006 --> 00:05:34,415
+Next I'd run every pair against each other, use a different model as the judge, let you edit the judge's instruction, and add a human vote next to the AI's.
+
+71
+00:05:34,694 --> 00:05:39,614
+The code is in the description, with no key needed beyond your own Azure setup.
+
+72
+00:05:39,894 --> 00:05:45,582
+If you enjoyed this, follow for more AI and ML builds, and tell me which style should enter next.

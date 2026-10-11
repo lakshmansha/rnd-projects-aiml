@@ -1,0 +1,371 @@
+1
+00:00:02,415 --> 00:00:06,039
+The goal: make the model reply with the single word banana.
+
+2
+00:00:06,318 --> 00:00:09,535
+Lowercase, no punctuation, nothing else.
+
+3
+00:00:09,815 --> 00:00:12,383
+I type the obvious prompt: say banana.
+
+4
+00:00:12,663 --> 00:00:18,615
+And the model replies: capital B, banana, exclamation mark, and a banana emoji.
+
+5
+00:00:18,895 --> 00:00:20,863
+A person would call that a pass.
+
+6
+00:00:21,143 --> 00:00:23,015
+A program would not.
+
+7
+00:00:23,295 --> 00:00:30,615
+In this video I go through six levels like that, where Python, not a human, decides whether the answer is acceptable.
+
+8
+00:00:30,895 --> 00:00:35,239
+I built this with Claude Code, and the narration is AI-generated.
+
+9
+00:00:36,039 --> 00:00:43,239
+Writing a prompt feels like writing a message to a person, but when the output feeds into other code, the rules change.
+
+10
+00:00:43,519 --> 00:00:45,535
+A parser needs valid JSON.
+
+11
+00:00:45,815 --> 00:00:47,879
+A form field needs one word.
+
+12
+00:00:48,159 --> 00:00:50,823
+A layout needs exactly three lines.
+
+13
+00:00:51,103 --> 00:00:53,335
+And then good enough is not good enough.
+
+14
+00:00:53,615 --> 00:00:57,695
+So this app turns prompt writing into something you can practise and score.
+
+15
+00:00:57,975 --> 00:01:04,983
+Each level has a goal, a piece of input text that's added to your prompt automatically, and a checker written in Python.
+
+16
+00:01:05,263 --> 00:01:13,495
+You write a prompt, GPT answers at temperature zero, so the answers are as repeatable as it gets, and the checker says pass or fail.
+
+17
+00:01:13,775 --> 00:01:20,183
+You get stars: three for passing on the first try, two for up to three tries, and one after that.
+
+18
+00:01:20,983 --> 00:01:23,287
+Each level has a small checking function.
+
+19
+00:01:23,567 --> 00:01:25,919
+Here is the one for the JSON level..
+
+20
+00:01:26,199 --> 00:01:33,255
+It parses the output as JSON, then checks the exact keys, the exact people, the city and the date.
+
+21
+00:01:33,535 --> 00:01:38,383
+If the text isn't valid JSON, the parser fails, and the attempt fails..
+
+22
+00:01:38,663 --> 00:01:44,471
+When you press Run, your prompt and the level's input go to the model with a generic system message.
+
+23
+00:01:44,751 --> 00:01:47,439
+The output goes straight to the level's checker.
+
+24
+00:01:47,719 --> 00:01:49,591
+Nothing in between helps you.
+
+25
+00:01:49,871 --> 00:01:54,815
+And the answer is capped at a hundred and twenty tokens, which matters for the later levels.
+
+26
+00:01:55,615 --> 00:01:57,775
+The goal is the single word banana.
+
+27
+00:01:58,055 --> 00:02:00,311
+My first prompt was: say banana.
+
+28
+00:02:00,591 --> 00:02:04,983
+The model said: Banana, exclamation mark, banana emoji.
+
+29
+00:02:05,263 --> 00:02:07,135
+Not yet.
+
+30
+00:02:07,415 --> 00:02:10,007
+The checker shows exactly what it received.
+
+31
+00:02:10,287 --> 00:02:12,159
+So I get strict.
+
+32
+00:02:12,439 --> 00:02:15,174
+Reply with exactly one word, banana.
+
+33
+00:02:15,454 --> 00:02:20,086
+Lowercase only, no punctuation, no emoji, nothing else.
+
+34
+00:02:20,366 --> 00:02:22,286
+That passes on the second try.
+
+35
+00:02:22,566 --> 00:02:24,439
+Two stars.
+
+36
+00:02:24,718 --> 00:02:32,398
+Every constraint I add maps to one thing the first answer got wrong: the capital letter, the exclamation mark and the emoji.
+
+37
+00:02:33,198 --> 00:02:39,318
+Classify a review as positive, negative or mixed, and reply with one lowercase word.
+
+38
+00:02:39,598 --> 00:02:43,366
+The review loves the movie but hates the popcorn and the seats.
+
+39
+00:02:43,646 --> 00:02:46,911
+My first prompt: what is the sentiment of this review?
+
+40
+00:02:47,191 --> 00:02:49,063
+The model got it right.
+
+41
+00:02:49,342 --> 00:02:52,631
+It said the sentiment is mixed, and then explained why.
+
+42
+00:02:52,911 --> 00:02:57,759
+And the checker still says no, because I asked for a single word and got a paragraph.
+
+43
+00:02:58,039 --> 00:03:00,055
+Right answer, wrong format.
+
+44
+00:03:00,335 --> 00:03:07,991
+Second try: classify the sentiment as positive, negative or mixed, and answer with only that one lowercase word.
+
+45
+00:03:08,271 --> 00:03:10,143
+Passed.
+
+46
+00:03:10,423 --> 00:03:13,830
+The fix was to list the allowed labels and to say only.
+
+47
+00:03:14,631 --> 00:03:21,591
+Extract a person list, a city and a date from a sentence, as valid JSON with no markdown fences.
+
+48
+00:03:21,871 --> 00:03:26,239
+My first prompt asked for JSON with keys person, city and date.
+
+49
+00:03:26,519 --> 00:03:32,902
+The JSON is correct, but it's wrapped in markdown code fences, three backticks and the word json.
+
+50
+00:03:33,183 --> 00:03:35,055
+Humans like that.
+
+51
+00:03:35,334 --> 00:03:39,054
+A parser doesn't, and the checker tells me to remove the fences.
+
+52
+00:03:39,334 --> 00:03:46,870
+Second prompt: return only valid JSON, say that person is a list, and don't use code fences or commentary.
+
+53
+00:03:47,150 --> 00:03:49,023
+Passed.
+
+54
+00:03:49,302 --> 00:03:55,446
+Notice that I never had to tell the model what the right answer was; I only had to describe the shape of the output.
+
+55
+00:03:56,246 --> 00:04:00,470
+Summarise a sentence about a bicycle path in exactly ten words.
+
+56
+00:04:00,750 --> 00:04:04,782
+My prompt was: summarise the text in exactly ten words.
+
+57
+00:04:05,062 --> 00:04:10,463
+The model wrote: City council approves river bike path to reduce traffic, pollution.
+
+58
+00:04:10,743 --> 00:04:14,270
+That is ten words, and the level passes on the first try.
+
+59
+00:04:14,550 --> 00:04:23,095
+I want to be careful here: language models are known to be unreliable at counting, and one lucky pass doesn't show that this prompt works in general.
+
+60
+00:04:23,894 --> 00:04:29,174
+Three bullets, each at most six words, with no intro and no outro.
+
+61
+00:04:29,454 --> 00:04:32,166
+The topic is why sleep matters for students.
+
+62
+00:04:32,446 --> 00:04:36,646
+My first prompt: write three short bullet points about the topic below.
+
+63
+00:04:36,927 --> 00:04:43,647
+The model gave three bullets, but each was a full sentence with a bold heading, much longer than six words.
+
+64
+00:04:43,927 --> 00:04:47,143
+The checker counts words per line, so that fails.
+
+65
+00:04:47,422 --> 00:04:56,038
+Second prompt: exactly three markdown bullets starting with a dash, each at most six words, no introduction and no closing line.
+
+66
+00:04:56,318 --> 00:04:58,191
+Passed.
+
+67
+00:04:58,470 --> 00:05:02,886
+The word short in my first prompt meant something to me, but not to the checker.
+
+68
+00:05:03,167 --> 00:05:05,039
+The fix was to give a number.
+
+69
+00:05:05,838 --> 00:05:11,166
+Translate a greeting into Spanish, and end every sentence with an exclamation mark.
+
+70
+00:05:11,446 --> 00:05:17,230
+My prompt: translate the text into Spanish and end every sentence with an exclamation mark.
+
+71
+00:05:17,511 --> 00:05:25,335
+The model gave: Buenos días, and then, I would like a coffee please, with Spanish exclamation marks around both sentences.
+
+72
+00:05:25,614 --> 00:05:28,422
+It passed on the first try, three stars.
+
+73
+00:05:29,222 --> 00:05:32,078
+All six levels cleared, in ten attempts.
+
+74
+00:05:32,359 --> 00:05:34,351
+Fourteen stars out of eighteen.
+
+75
+00:05:34,631 --> 00:05:40,246
+Four levels needed a second try, and in each case the first failure told me exactly what to add.
+
+76
+00:05:41,047 --> 00:05:43,183
+The pattern was the same each time.
+
+77
+00:05:43,463 --> 00:05:48,623
+A short, natural prompt gets a helpful, human answer, with a friendly extra bit.
+
+78
+00:05:48,902 --> 00:05:51,063
+And the checker wants the machine answer.
+
+79
+00:05:51,342 --> 00:05:53,311
+The fix was never a clever trick.
+
+80
+00:05:53,590 --> 00:05:58,583
+It was to name the format, the allowed values, the limits, and what to leave out.
+
+81
+00:05:58,862 --> 00:06:05,894
+Failures were also my best feedback: the checker prints what it received, so each failed attempt tells you what to change.
+
+82
+00:06:06,694 --> 00:06:10,534
+This is one person's prompts, on one model, once.
+
+83
+00:06:10,814 --> 00:06:17,750
+A different model, or even a different day, could pass the first try on levels where I failed, or the other way round.
+
+84
+00:06:18,030 --> 00:06:22,254
+Level four passed on the first try, which tells us little about counting.
+
+85
+00:06:22,535 --> 00:06:28,102
+The checkers are my own, and they accept some answers a human would reject and the other way round.
+
+86
+00:06:28,383 --> 00:06:34,023
+For example, the Spanish check looks for the word buen and exclamation marks, nothing deeper.
+
+87
+00:06:34,303 --> 00:06:37,495
+The model also gets only a hundred and twenty tokens.
+
+88
+00:06:37,775 --> 00:06:48,479
+And the footage in this video is a second, identical run of the same ten prompts, so the verdicts stay on screen; each attempt had the same pass or fail result in both runs.
+
+89
+00:06:48,758 --> 00:06:53,823
+I built this with Claude Code, and I read and ran the code, but read it yourself too.
+
+90
+00:06:54,622 --> 00:07:02,374
+Next I'd add levels with few-shot examples, a level where the model has to refuse something, and a leaderboard with the fewest attempts.
+
+91
+00:07:02,654 --> 00:07:08,054
+And I'd run the same prompts against several models to see which ones need fewer constraints.
+
+92
+00:07:08,334 --> 00:07:13,254
+The code is in the description, with no key needed beyond your own Azure setup.
+
+93
+00:07:13,534 --> 00:07:19,198
+If you want to try a level, follow for more AI and ML builds, and tell me what the next one should be.
