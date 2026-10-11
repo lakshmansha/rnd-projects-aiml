@@ -34,6 +34,20 @@ CLIPS = {  # section index -> project numbers shown
 }
 
 
+def wav_of(i):
+    """Decode each sentence to wav once; durations come from the decoded samples (mp3 headers from edge-tts are unreliable)."""
+    w = TMP / f"s{i:03d}.wav"
+    if not w.exists():
+        sh("ffmpeg", "-y", "-i", TMP / f"s{i:03d}.mp3", "-ar", "24000", "-ac", "1", w)
+    return w
+
+
+def wdur(w):
+    import wave
+    with wave.open(str(w)) as f:
+        return f.getnframes() / f.getframerate()
+
+
 def dur(p):
     return float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(p)],
                                 capture_output=True, text=True).stdout.strip())
@@ -82,7 +96,7 @@ def main():
     for si, (title, ss) in enumerate(secs):
         t0 = t
         for s in ss:
-            d = dur(TMP / f"s{idx:03d}.mp3")
+            d = wdur(wav_of(idx))
             sent_t.append((t, t + d, s))
             t += d + GAP
             idx += 1
@@ -96,7 +110,7 @@ def main():
     lst, idx = [], 0
     for title, ss in secs:
         for k, _ in enumerate(ss):
-            lst.append(TMP / f"s{idx:03d}.mp3")
+            lst.append(wav_of(idx))
             lst.append(TMP / ("secgap.wav" if k == len(ss) - 1 else "gap.wav"))
             idx += 1
     (TMP / "a.txt").write_text("".join(f"file '{p.as_posix()}'\n" for p in lst), encoding="utf-8")
@@ -105,15 +119,16 @@ def main():
     segs = []
     for si, (title, a, b) in enumerate(sec_t):
         nums = CLIPS[si]
-        per = (b - a) / len(nums)
+        fb = [round((a + (b - a) * j / len(nums)) * 25) for j in range(len(nums) + 1)]
         for k, n in enumerate(nums):
+            per = (fb[k + 1] - fb[k]) / 25
             src = next((ROOT / "content").glob(f"{n:02d}-*/out/short_v2.mp4"))
             avail = dur(src) - TRIM_HEAD - TRIM_TAIL
             seg = TMP / f"v{si}_{k}.mp4"
             start = TRIM_HEAD + (0 if per >= avail else (avail - per) / 2 * 0)
             vf = ("[0:v]split[a][b];[a]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,"
                   "boxblur=40:5,eq=brightness=-0.25[bg];[b]scale=-2:980[fg];[bg][fg]overlay=110:50,fps=25,format=yuv420p")
-            sh("ffmpeg", "-y", "-stream_loop", "-1", "-ss", f"{start:.2f}", "-i", src, "-t", f"{per:.3f}",
+            sh("ffmpeg", "-y", "-stream_loop", "-1", "-ss", f"{start:.2f}", "-i", src, "-frames:v", str(fb[k + 1] - fb[k]),
                "-filter_complex", vf, "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", seg)
             segs.append(seg)
     (TMP / "v.txt").write_text("".join(f"file '{p.as_posix()}'\n" for p in segs), encoding="utf-8")
@@ -140,7 +155,7 @@ def main():
         "\n".join(f"{int(a // 60)}:{int(a % 60):02d} {title}" for title, a, _ in sec_t), encoding="utf-8")
     # final mux (run inside TMP so the ass path has no drive colon)
     subprocess.run(["ffmpeg", "-y", "-i", "video.mp4", "-i", "voice.wav", "-vf", "ass=p.ass", "-c:v", "libx264",
-                    "-preset", "veryfast", "-crf", "22", "-c:a", "aac", "-b:a", "128k", "-shortest", "../showcase.mp4"],
+                    "-preset", "veryfast", "-crf", "22", "-c:a", "aac", "-b:a", "128k", "-t", f"{total:.2f}", "../showcase.mp4"],
                    cwd=TMP, check=True, capture_output=True)
     print("done", OUT / "showcase.mp4", f"{dur(OUT / 'showcase.mp4') / 60:.1f} min")
 
