@@ -5,12 +5,13 @@ SCRATCH/req_N.json and the recorder waits for SCRATCH/choice_N.txt (0-4), so the
 """
 import json
 import time
+import tempfile
 from pathlib import Path
 
 PORT = 8505
 QUERY = ""
 APP_DIR = Path(__file__).resolve().parents[2] / "05-spot-the-hallucination"
-SCRATCH = Path(r"C:\Users\user\AppData\Local\Temp\claude\D--Research-Source-rnd-projects-aiml\ea7fa4bc-504b-41ae-882d-1a0e2d599e14\scratchpad\g05")
+SCRATCH = Path(tempfile.gettempdir()) / "wil_scratch" / "g05"
 TOPICS = ["Space", "Programming", "Human body", "Geography"]
 CROPS = {f"{k}{n}": (470, 140, 960) for k in ("r", "pick") for n in range(1, 5)}
 TRIM = {f"pick{n}": 8.6 for n in range(1, 5)}  # after ~9 s the recorder moves on to the next round

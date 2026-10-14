@@ -5,12 +5,13 @@ and waits for SCRATCH/prompt_<n>.txt (the prompt I write; the single word STOP e
 """
 import json
 import time
+import tempfile
 from pathlib import Path
 
 PORT = 8515
 QUERY = ""
 APP_DIR = Path(__file__).resolve().parents[2] / "15-prompt-gym"
-SCRATCH = Path(r"C:\Users\user\AppData\Local\Temp\claude\D--Research-Source-rnd-projects-aiml\ea7fa4bc-504b-41ae-882d-1a0e2d599e14\scratchpad\g15")
+SCRATCH = Path(tempfile.gettempdir()) / "wil_scratch" / "g15"
 PROMPTS = [  # the ten prompts I wrote in the first (interactive) recording; replayed so the verdict is in view
     "Say banana.",
     "Reply with exactly one word: banana. Lowercase only, no punctuation, no emoji, nothing else.",

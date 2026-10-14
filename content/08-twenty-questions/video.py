@@ -6,12 +6,13 @@ SCRATCH/req_<mode>_<n>.json and waits for SCRATCH/ans_<mode>_<n>.txt (my next qu
 import json
 import os
 import time
+import tempfile
 from pathlib import Path
 
 PORT = 8508
 QUERY = ""
 APP_DIR = Path(__file__).resolve().parents[2] / "08-twenty-questions"
-SCRATCH = Path(r"C:\Users\user\AppData\Local\Temp\claude\D--Research-Source-rnd-projects-aiml\ea7fa4bc-504b-41ae-882d-1a0e2d599e14\scratchpad\g08")
+SCRATCH = Path(tempfile.gettempdir()) / "wil_scratch" / "g08"
 CODE = {"ask": ("app.py", 32, 35), "host": ("app.py", 55, 57), "turn": ("app.py", 74, 77)}
 SECTIONS = [
     [("app", "a_q3"), ("app", "a_end"), ("app", "b_q4"), ("app", "b_q18")],

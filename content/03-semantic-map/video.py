@@ -3,12 +3,13 @@
 Four real questions against Azure (1 small call each). The retrieved sentences and answers are saved to SCRATCH/q_<n>.txt for the script.
 """
 import re
+import tempfile
 from pathlib import Path
 
 PORT = 8503
 QUERY = ""
 APP_DIR = Path(__file__).resolve().parents[2] / "03-semantic-map"
-SCRATCH = Path(r"C:\Users\user\AppData\Local\Temp\claude\D--Research-Source-rnd-projects-aiml\ea7fa4bc-504b-41ae-882d-1a0e2d599e14\scratchpad\g03")
+SCRATCH = Path(tempfile.gettempdir()) / "wil_scratch" / "g03"
 QUESTIONS = ["Why does bread rise?", "How do I stop my savings losing value over time?", "Which team won the most World Cups?", "Who painted the Mona Lisa?"]
 TRIM = {"pca": 8.5}
 for _n, _q in enumerate(QUESTIONS, 1):  # typing scene = typed question only; result scenes end before the recorder scrolls

@@ -5,12 +5,13 @@ Two real debates against Azure (2 rounds each = 5 small calls per debate). After
 """
 import json
 import time
+import tempfile
 from pathlib import Path
 
 PORT = 8512
 QUERY = ""
 APP_DIR = Path(__file__).resolve().parents[2] / "12-debate-arena"
-SCRATCH = Path(r"C:\Users\user\AppData\Local\Temp\claude\D--Research-Source-rnd-projects-aiml\ea7fa4bc-504b-41ae-882d-1a0e2d599e14\scratchpad\g12")
+SCRATCH = Path(tempfile.gettempdir()) / "wil_scratch" / "g12"
 DEBATES = [("Pineapple belongs on pizza.", 4), ("Tabs are better than spaces.", 7)]   # (motion, my opinion before, 0-10)
 TRIM = {}
 for _n in (1, 2):  # keep only the static part of each scene (the recorder scrolls near the end of most of them)

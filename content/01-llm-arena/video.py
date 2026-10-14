@@ -5,12 +5,13 @@ After the recording, SCRATCH/result_*.json holds the on-screen texts and the app
 """
 import json
 import shutil
+import tempfile
 from pathlib import Path
 
 PORT = 8501
 QUERY = ""
 APP_DIR = Path(__file__).resolve().parents[2] / "01-llm-arena"
-SCRATCH = Path(r"C:\Users\user\AppData\Local\Temp\claude\D--Research-Source-rnd-projects-aiml\ea7fa4bc-504b-41ae-882d-1a0e2d599e14\scratchpad\g01")
+SCRATCH = Path(tempfile.gettempdir()) / "wil_scratch" / "g01"
 FIGHTS = [("Concise", "Expert", 3), ("Pirate", "Step-by-step", 2)]    # (fighter A, fighter B, battles)
 TRIM = {"empty": 8.5, "setup1": 6.5, "setup2": 6.5, "res1": 6.5, "res2": 6.5, "board1": 8.5, "board2": 8.5}
 TRIM.update({f"f{k}b{j}": 8.5 for k in (1, 2) for j in (1, 2, 3)})  # the recorder moves on after ~9 s
