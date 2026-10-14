@@ -10,3 +10,7 @@ content/**/out/
 *.webm
 photo/
 content/_assets/
+
+# unlisted YouTube links (do not publish until the shorts are live)
+content/links.json
+content/PUBLISH_SHEET_LINKED.md
