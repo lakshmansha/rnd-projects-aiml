@@ -121,3 +121,10 @@ Also: `hub/app.py` (landing page linking everything), `run_all.py`, `README.md`.
 - **App fixes made for the videos:** 04 (no per-frame key, short sleep), 15 (passed result stays visible after auto-advance).
 - **Honest-note reminders:** 14's in-app caption says errors are mostly Space/Medicine, but the largest real error cells are posts labelled Cars; 03's embeddings are character hashes, not semantic; 05 and 08 were played by the author who knows the answer lists; 01's Elo values from different fights are not comparable.
 - **Nothing is uploaded.** Next: user reviews the 10 new videos (watch at least the first minute and a few random points of each), then upload/schedule as in `content/ROUTINE_PLAN.md`; the 10 are not yet in the staged batches or `content/UPLOAD_PLAN.md`.
+
+---
+# Session 5 (2026-10-14): YouTube publishing
+- Channel: https://www.youtube.com/@watchitlearn. Repo public: https://github.com/lakshmansha/rnd-projects-aiml (MIT, topics, README).
+- 18 long videos uploaded with metadata + thumbnails (content/_thumbs), now SCHEDULED public at 7:00 PM IST, one per day, Oct 15 to Nov 1 2026, same day as the matching short (order in content/INSTAGRAM_QUEUE.md). 18 shorts scheduled the same way (7:00 PM IST). Each short links its long video.
+- Not done: pinned comments (post after each goes public); Instagram Reels (manual or Meta Business Suite, see content/INSTAGRAM_QUEUE.md); delete the duplicate draft "18 attention xray" (id 7KUk3_B3sGQ) in Studio.
+- Chrome upload tool limit ~10 MB per file; the videos were uploaded by the user by hand, metadata set by script through Studio. content/links.json and PUBLISH_SHEET_LINKED.md hold the real links and are git-ignored.
