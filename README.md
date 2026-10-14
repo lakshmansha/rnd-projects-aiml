@@ -1,8 +1,19 @@
-# AI/ML Showcase - 3 demo projects for YouTube
+# Watch It Learn: 18 small AI/ML demos
 
-Chat uses the Azure OpenAI deployment from `.env` (see `.env.example`). No Docker needed.
-Calls are kept tiny (<=90 tokens) and capped per process by `MAX_LLM_CALLS` (default 150).
-Embeddings are computed locally with hashing n-grams (no embedding deployment required).
+Eighteen small, self-contained Streamlit apps that show how AI and machine-learning ideas work: neural nets from scratch, reinforcement learning, evolution, a tiny GPT, RAG, Grad-CAM, attention maps and LLM games. This is the source code for the **Watch It Learn** YouTube series (a short and a full walkthrough per project). Built with Claude Code; the narration in the videos is AI-generated.
+
+**Quick start**
+
+```
+pip install -r requirements.txt
+pip install torch --index-url https://download.pytorch.org/whl/cpu   # only for projects 07, 16, 18
+python run_all.py        # every app on ports 8501-8518, hub at http://localhost:8500
+python run_all.py 4 6    # only projects 04 and 06
+```
+
+Projects marked "no API calls" run fully offline. The LLM projects (01, 02, 03, 05, 08, 12, 15) use an Azure OpenAI chat deployment: copy `.env.example` to `.env` and fill it in. No Docker needed. Calls are kept tiny (<=90 tokens) and capped per process by `MAX_LLM_CALLS` (default 150). Embeddings are computed locally with hashing n-grams (no embedding deployment required), so project 03's map groups by wording rather than true meaning.
+
+Video scripts, chapters and captions for every project are in `content/<project>/`; paste-ready upload text is in `content/PUBLISH_SHEET.md`.
 
 | # | Project | Hook for the video |
 |---|---------|--------------------|
