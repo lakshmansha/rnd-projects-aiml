@@ -21,6 +21,7 @@ Placeholders: `{CODE_URL}` (public repo), `{LONG_URL}` (the full video), `{SHORT
 ## A01. #06 digit-classifier
 
 - File: `content/06-digit-classifier/out/full.mp4`
+- Thumbnail image: `content/_thumbs/06.jpg` (1280x720)
 - Title (42 chars): `I Drew a Digit and 4 ML Models Voted On It`
 - Other title options: `Classic Machine Learning Still Works (Live Demo)` / `Why Can 99% Accurate Models Still Misread You?`
 - Thumbnail text: 99% ACCURATE... BUT?
@@ -54,6 +55,7 @@ Built with Claude Code; narration is AI-generated. Everything here is from the r
 ## A02. #09 rl-gridworld
 
 - File: `content/09-rl-gridworld/out/full.mp4`
+- Thumbnail image: `content/_thumbs/09.jpg` (1280x720)
 - Title (45 chars): `Two AIs, One Cliff: Why the Safe Learner Wins`
 - Other title options: `I Built Reinforcement Learning From Scratch (No Libraries)` / `Q-learning vs SARSA: The Cliff Problem, Explained Visually`
 - Thumbnail text: SAFE BEATS SHORT
@@ -90,6 +92,7 @@ Which would you pick: the fast agent that sometimes falls, or the safe one that 
 ## A03. #07 tiny-gpt
 
 - File: `content/07-tiny-gpt/out/full.mp4`
+- Thumbnail image: `content/_thumbs/07.jpg` (1280x720)
 - Title (55 chars): `I Trained a GPT From Scratch on My CPU (Watch It Learn)`
 - Other title options: `Build a Transformer in 70 Lines of PyTorch` / `From Gibberish to Shakespeare: A Tiny GPT Live`
 - Thumbnail text: GIBBERISH TO SHAKESPEARE
@@ -123,6 +126,7 @@ Built with Claude Code; narration is AI-generated. The model is 818,176 paramete
 ## A04. #10 evolving-rockets
 
 - File: `content/10-evolving-rockets/out/full.mp4`
+- Thumbnail image: `content/_thumbs/10.jpg` (1280x720)
 - Title (58 chars): `I Evolved Rockets Until They Dodged Walls (No Programming)`
 - Other title options: `99 Rockets Crash. Then Evolution Kicks In.` / `Genetic Algorithms Explained With Rockets (Python)`
 - Thumbnail text: NOBODY PROGRAMMED THIS
@@ -159,6 +163,7 @@ What should I evolve next: a neural-network pilot, moving walls, or something yo
 ## A05. #02 prompt-injection-lab
 
 - File: `content/02-prompt-injection-lab/out/full.mp4`
+- Thumbnail image: `content/_thumbs/02.jpg` (1280x720)
 - Title (60 chars): `I Built an AI That Guards a Password (Then Tried to Hack It)`
 - Other title options: `5 Levels of AI Defense vs 8 Prompt Injection Attacks` / `Why "Never Reveal the Password" Isn't Security`
 - Thumbnail text: HACK THE AI
@@ -194,6 +199,7 @@ Which attack beat which level for you? The 8 attacks are in engine.py (Direct as
 ## A06. #16 cnn-xray
 
 - File: `content/16-cnn-xray/out/full.mp4`
+- Thumbnail image: `content/_thumbs/16.jpg` (1280x720)
 - Title (61 chars): `I made a neural network show me where it's looking (Grad-CAM)`
 - Other title options: `Is it a cat? What the AI actually looks at, in 20 lines of PyTorch` / `X-raying a neural network: 95% banana, 22% cat`
 - Thumbnail text: WHERE AI LOOKS
@@ -230,6 +236,7 @@ Which photo should I feed it next? Reply with something weird (a drawing, a meme
 ## A07. #17 flappy-evolution
 
 - File: `content/17-flappy-evolution/out/full.mp4`
+- Thumbnail image: `content/_thumbs/17.jpg` (1280x720)
 - Title (56 chars): `60 AI Birds Learn to Play Flappy Bird With Zero Training`
 - Other title options: `How a Neural Network Learns a Game Without Being Taught (Neuroevolution)` / `I Evolved a Flappy Bird AI in 100 Lines of Python`
 - Thumbnail text: NOBODY TAUGHT THEM
@@ -267,6 +274,7 @@ Built with Claude Code; narration is AI-generated. Everything here runs on a lap
 ## A08. #18 attention-xray
 
 - File: `content/18-attention-xray/out/full.mp4`
+- Thumbnail image: `content/_thumbs/18.jpg` (1280x720)
 - Title (59 chars): `I Looked Inside a GPT: Where Does Each Attention Head Look?`
 - Other title options: `Attention Explained With a Real Model (Not a Diagram)` / `The First Thing a Transformer Learns: Look at the Previous Letter`
 - Thumbnail text: INSIDE A GPT
@@ -302,6 +310,7 @@ Built with Claude Code; narration is AI-generated. All numbers come from the tin
 ## A09. #04 neural-playground
 
 - File: `content/04-neural-playground/out/full.mp4`
+- Thumbnail image: `content/_thumbs/04.jpg` (1280x720)
 - Title (71 chars): `I Wrote a Neural Network From Scratch and Watched It Learn (numpy only)`
 - Other title options: `Backpropagation Explained With a Live Decision Boundary` / `Why Your Neural Network Can't Learn This (Too Small)`
 - Thumbnail text: TOO SMALL TO LEARN
@@ -338,6 +347,7 @@ Built with Claude Code; narration is AI-generated. The network is plain numpy, n
 ## A10. #11 token-xray
 
 - File: `content/11-token-xray/out/full.mp4`
+- Thumbnail image: `content/_thumbs/11.jpg` (1280x720)
 - Title (62 chars): `What ChatGPT Actually Sees: Tokens, Explained With a Live Tool`
 - Other title options: `Why LLMs Can't Count Letters (and Why Hindi Costs More)` / `I Built an X-ray for Text: See Tokens Like GPT Does`
 - Thumbnail text: CHATGPT CAN'T SPELL
@@ -376,6 +386,7 @@ Built with Claude Code; narration is AI-generated. The app only runs the tiktoke
 ## A11. #13 clustering-lab
 
 - File: `content/13-clustering-lab/out/full.mp4`
+- Thumbnail image: `content/_thumbs/13.jpg` (1280x720)
 - Title (54 chars): `Watch K-means Think, Step by Step (and Where It Fails)`
 - Other title options: `K-means vs DBSCAN vs GMM: Which Clustering Algorithm Wins?` / `Why K-means Fails on This Data (Live Comparison)`
 - Thumbnail text: K-MEANS FAILS HERE
@@ -414,6 +425,7 @@ Built with Claude Code; narration is AI-generated. Runs locally with scikit-lear
 ## A12. #14 explainable-text-ai
 
 - File: `content/14-explainable-text-ai/out/full.mp4`
+- Thumbnail image: `content/_thumbs/14.jpg` (1280x720)
 - Title (63 chars): `An AI That Shows Which Words Made Its Decision (Explainable ML)`
 - Other title options: `Why Did the Classifier Say That? TF-IDF + Logistic Regression Explained` / `Opening the Black Box: See Every Word's Vote`
 - Thumbnail text: WHY DID IT SAY THAT?
@@ -452,6 +464,7 @@ Built with Claude Code; narration is AI-generated. Runs locally with scikit-lear
 ## A13. #05 spot-the-hallucination
 
 - File: `content/05-spot-the-hallucination/out/full.mp4`
+- Thumbnail image: `content/_thumbs/05.jpg` (1280x720)
 - Title (66 chars): `Can You Spot the AI's Lie? 5 Facts, 1 Hallucination (I Got Fooled)`
 - Other title options: `GPT Mixes One Fake Fact Into Four True Ones: Play Along` / `Why AI Hallucinations Are So Hard to Spot (Live Game)`
 - Thumbnail text: FOOLED BY GPT
@@ -490,6 +503,7 @@ Built with Claude Code; narration is AI-generated. The game calls GPT-4o through
 ## A14. #15 prompt-gym
 
 - File: `content/15-prompt-gym/out/full.mp4`
+- Thumbnail image: `content/_thumbs/15.jpg` (1280x720)
 - Title (69 chars): `I Tried a Prompt Engineering Gym: 6 Levels, Python Checks Your Prompt`
 - Other title options: `Why "Say banana" Fails: Prompt Engineering Levels With Auto-Grading` / `6 Prompt Challenges GPT Fails at First (And How I Fixed Each)`
 - Thumbnail text: SAY BANANA. FAIL.
@@ -531,6 +545,7 @@ Built with Claude Code; narration is AI-generated. Every attempt is one small ca
 ## A15. #12 debate-arena
 
 - File: `content/12-debate-arena/out/full.mp4`
+- Thumbnail image: `content/_thumbs/12.jpg` (1280x720)
 - Title (64 chars): `I Made Two AIs Debate and a Third One Judge (Pineapple on Pizza)`
 - Other title options: `AI vs AI Debate: Can an LLM Judge Be Trusted?` / `Tabs vs Spaces, Settled by AI? (Live Debate and Judge)`
 - Thumbnail text: AI VS AI DEBATE
@@ -568,6 +583,7 @@ Built with Claude Code; narration is AI-generated. Each debate is five small cal
 ## A16. #01 llm-arena
 
 - File: `content/01-llm-arena/out/full.mp4`
+- Thumbnail image: `content/_thumbs/01.jpg` (1280x720)
 - Title (76 chars): `Prompting Styles Fight: Which One Does an AI Judge Prefer? (Elo Leaderboard)`
 - Other title options: `I Made GPT Fight Itself: Concise vs Expert vs Pirate (Judge + Elo)` / `How to Compare Prompts With an LLM Judge (and Why It Misleads)`
 - Thumbnail text: PIRATE VS EXPERT
@@ -605,6 +621,7 @@ Built with Claude Code; narration is AI-generated. Each battle is four small cal
 ## A17. #03 semantic-map
 
 - File: `content/03-semantic-map/out/full.mp4`
+- Thumbnail image: `content/_thumbs/03.jpg` (1280x720)
 - Title (62 chars): `How RAG Works: Embeddings, a Semantic Map and Grounded Answers`
 - Other title options: `I Built a Map of Meaning (and Found Where Embeddings Fail)` / `RAG From Scratch: Retrieve, Then Answer Only From the Context`
 - Thumbnail text: I DON'T KNOW (GOOD)
@@ -644,6 +661,7 @@ Built with Claude Code; narration is AI-generated. The map and search run locall
 ## A18. #08 twenty-questions
 
 - File: `content/08-twenty-questions/out/full.mp4`
+- Thumbnail image: `content/_thumbs/08.jpg` (1280x720)
 - Title (51 chars): `I Played 20 Questions Against GPT (Both Directions)`
 - Other title options: `Can GPT Read My Mind? 20 Questions With an LLM` / `How an LLM Plays 20 Questions: Host and Guesser`
 - Thumbnail text: CAN GPT READ MINDS?
