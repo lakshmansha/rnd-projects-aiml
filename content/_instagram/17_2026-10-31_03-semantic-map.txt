@@ -1,0 +1,9 @@
+I turned 60 sentences into a map of meaning
+
+Sentences become points on a map, and a question retrieves the closest ones for a RAG answer.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#RAG #Embeddings #LLM #Python #AI

@@ -1,0 +1,9 @@
+I trained a tiny GPT from scratch on my CPU
+
+A character-level transformer (818,176 parameters) goes from gibberish to Shakespeare-like text while training on a CPU.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#GPT #Transformer #PyTorch #DeepLearning #AI

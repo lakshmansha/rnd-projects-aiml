@@ -1,0 +1,9 @@
+I made two AIs debate pineapple on pizza
+
+A pro bot and a con bot debate, a judge scores them, and I see whether they changed my mind.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#AI #GPT4o #Debate #Streamlit #Python

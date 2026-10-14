@@ -1,0 +1,9 @@
+Two AI prompts fight. A judge picks the winner.
+
+Pirate-style vs expert-style prompts battle. A judge scores both answer orders and Elo updates the ranking.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#PromptEngineering #LLM #GPT #Elo #AI

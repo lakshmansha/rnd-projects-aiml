@@ -1,0 +1,9 @@
+K-means cuts this in half. This one doesn't.
+
+Same data, four clustering algorithms. Each one assumes a shape, so each wins on different data.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#MachineLearning #Clustering #KMeans #DBSCAN #Python

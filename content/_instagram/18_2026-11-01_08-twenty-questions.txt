@@ -1,0 +1,9 @@
+Can GPT read my mind in 20 questions?
+
+GPT asks yes/no questions to narrow down what I am thinking of while the counter drops.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#AI #GPT #20Questions #Streamlit #Python

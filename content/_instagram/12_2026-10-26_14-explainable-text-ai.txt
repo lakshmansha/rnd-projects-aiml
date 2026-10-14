@@ -1,0 +1,9 @@
+Which words made the AI decide? It shows me.
+
+A text classifier highlights the words behind each decision, including a tricky sentence that it gets torn on.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#ExplainableAI #MachineLearning #NLP #Python #AI

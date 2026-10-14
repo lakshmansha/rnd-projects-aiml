@@ -1,0 +1,9 @@
+What ChatGPT actually reads (it isn't letters)
+
+Text is split into tokens, not letters. The same greeting costs 21 tokens in one vocabulary and 41 in another.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#LLM #Tokenization #ChatGPT #AI #Python

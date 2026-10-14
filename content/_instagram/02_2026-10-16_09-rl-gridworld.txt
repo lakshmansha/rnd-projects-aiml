@@ -1,0 +1,9 @@
+Two AIs, one cliff: only one plays it safe
+
+Q-learning and SARSA learn to cross a cliff by trial and error. One takes the risky edge, the other the safe route.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#ReinforcementLearning #MachineLearning #Python #AI #QLearning

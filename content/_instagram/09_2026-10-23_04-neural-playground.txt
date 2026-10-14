@@ -1,0 +1,9 @@
+Watch a neural net learn a spiral, live
+
+A numpy neural net learns the spiral dataset while the decision boundary bends. Capacity decides what it can learn.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#NeuralNetworks #MachineLearning #Python #Backprop #AI

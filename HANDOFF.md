@@ -128,3 +128,5 @@ Also: `hub/app.py` (landing page linking everything), `run_all.py`, `README.md`.
 - 18 long videos uploaded with metadata + thumbnails (content/_thumbs), now SCHEDULED public at 7:00 PM IST, one per day, Oct 15 to Nov 1 2026, same day as the matching short (order in content/INSTAGRAM_QUEUE.md). 18 shorts scheduled the same way (7:00 PM IST). Each short links its long video.
 - Not done: pinned comments (post after each goes public); Instagram Reels (manual or Meta Business Suite, see content/INSTAGRAM_QUEUE.md); delete the duplicate draft "18 attention xray" (id 7KUk3_B3sGQ) in Studio.
 - Chrome upload tool limit ~10 MB per file; the videos were uploaded by the user by hand, metadata set by script through Studio. content/links.json and PUBLISH_SHEET_LINKED.md hold the real links and are git-ignored.
+
+- **Full, current handoff: see `HANDOFF_NEXT.md` (written 2026-10-15).** It supersedes the short Session 5 notes above: all 36 YouTube videos are scheduled (7 PM IST daily, Oct 15 to Nov 1); the Instagram Reels still need to be scheduled by the user.

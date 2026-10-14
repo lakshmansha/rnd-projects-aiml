@@ -1,0 +1,9 @@
+Can YOU spot the AI lie? 1 of 5 facts is fake
+
+GPT writes five facts and one is false. Can you find it? LLMs state falsehoods as confidently as facts.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#AI #LLM #Hallucination #Streamlit #Python

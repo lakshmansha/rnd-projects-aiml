@@ -1,0 +1,9 @@
+Can you make GPT write exactly 10 words?
+
+Prompt Gym grades prompts with strict Python checks. A lazy prompt fails, a specific one passes.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#PromptEngineering #GPT #LLM #Python #AI

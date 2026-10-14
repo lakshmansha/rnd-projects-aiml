@@ -1,0 +1,9 @@
+What does an AI actually look at? Grad-CAM X-ray
+
+A real MobileNetV2 guesses the photo and Grad-CAM paints the pixels that drove its decision.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#DeepLearning #ComputerVision #GradCAM #PyTorch #AI

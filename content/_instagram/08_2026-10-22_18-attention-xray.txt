@@ -1,0 +1,9 @@
+I looked inside a GPT: where does each head look?
+
+A tiny GPT reads Shakespeare and every attention head is plotted: in layer 1 one head looks exactly one character back, another exactly two.
+
+Follow @watchitlearn for a new AI build every day.
+
+Full video on YouTube: Watch It Learn (link in bio).
+
+#Transformer #Attention #GPT #MachineLearning #Python
