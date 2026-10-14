@@ -1,6 +1,6 @@
 # Watch It Learn: 18 small AI/ML demos
 
-Eighteen small, self-contained Streamlit apps that show how AI and machine-learning ideas work: neural nets from scratch, reinforcement learning, evolution, a tiny GPT, RAG, Grad-CAM, attention maps and LLM games. This is the source code for the **Watch It Learn** YouTube series (a short and a full walkthrough per project). Built with Claude Code; the narration in the videos is AI-generated.
+Eighteen small, self-contained Streamlit apps that show how AI and machine-learning ideas work: neural nets from scratch, reinforcement learning, evolution, a tiny GPT, RAG, Grad-CAM, attention maps and LLM games. This is the source code for the **[Watch It Learn](https://www.youtube.com/@watchitlearn)** YouTube series (a short and a full walkthrough per project). Built with Claude Code; the narration in the videos is AI-generated.
 
 **Quick start**
 
