@@ -109,8 +109,9 @@ def main():
                   "**YouTube title:**", "", f"`{p['title']}`", "", "**YouTube description:**", "", "```", yt, "```", "",
                   "**Instagram caption:**", "", "```", ig, "```", "",
                   "**Pinned comment (YouTube):** `Which project should I build next? The full walkthrough is linked in the description.`", ""]
-    (C / "PUBLISH_SHEET.md").write_text("\n".join(lines), encoding="utf-8")
-    print("wrote", C / "PUBLISH_SHEET.md", len(nums), "projects")
+    out = C / (sys.argv[sys.argv.index("--out") + 1] if "--out" in sys.argv else "PUBLISH_SHEET.md")
+    out.write_text("\n".join(lines), encoding="utf-8", newline="\n")
+    print("wrote", out, len(nums), "projects")
 
 
 if __name__ == "__main__":
